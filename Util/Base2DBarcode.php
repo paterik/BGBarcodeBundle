@@ -11,11 +11,11 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle;
+namespace BG\BarcodeBundle\Util;
 
-use BG\BarcodeBundle\Modules\pdf417 as PDF417,
-    BG\BarcodeBundle\Modules\datamatrix as Datamatrix,
-    BG\BarcodeBundle\Modules\qrcode as QRcode;
+use BG\BarcodeBundle\Util\Modules\pdf417 as PDF417,
+    BG\BarcodeBundle\Util\Modules\datamatrix as Datamatrix,
+    BG\BarcodeBundle\Util\Modules\qrcode as QRcode;
 
 /**
  * class Base2DBarcode 1.0.0

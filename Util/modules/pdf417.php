@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle\Modules;
+namespace BG\BarcodeBundle\Util\Modules;
 
 /**
  * class pdf417 1.0.0

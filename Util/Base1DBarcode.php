@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle;
+namespace BG\BarcodeBundle\Util;
 
 /**
  * class Base1DBarcode 1.0.0
