@@ -83,7 +83,7 @@ Installation
       {
           return array(
               // ...
-              new BG\BarcodeBundle\BGBarcodeBundle(),
+              new BG\BarcodeBundle\BarcodeBundle(),
               // ...
           );
       }
