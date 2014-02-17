@@ -4,21 +4,21 @@
  * This file is part of the bitgrave barcode library based on forked version of Dinesh Rabara 2D-3D Barcode
  * Generator class/lib (https://github.com/dineshrabara/2D-3D-Barcodes-Generator)
  *
- * BGBarcodeGenerator-1.0.0
+ * BGBarcodeGenerator-1.0.1
  * master/dev branch: https://github.com/paterik/BGBarcodeGenerator
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle\Util\Modules;
+namespace BG\BarcodeBundle\Util\Plugins;
 
 /**
- * class QRcode 1.0.0
+ * class QRcode 1.0.1
  * Quick Response Code - matrix bar code (requires PHP bcmath extension)
  *
- * @author Dinesh Rabara, https://github.com/dineshrabara
- * @author Patrick Paechnatz, https://github.com/paterik
+ * @author Dinesh Rabara <dinesh.rabara@gmail.com>
+ * @author Patrick Paechnatz <patrick.paechnatz@gmail.com>
  */
 class QRcode
 {

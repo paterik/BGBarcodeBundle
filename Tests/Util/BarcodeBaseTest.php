@@ -1,4 +1,16 @@
 <?php
+
+/*
+ * This file is part of the bitgrave barcode library based on forked version of Dinesh Rabara 2D-3D Barcode
+ * Generator class/lib (https://github.com/dineshrabara/2D-3D-Barcodes-Generator)
+ *
+ * BGBarcodeGenerator-1.0.1
+ * master/dev branch: https://github.com/paterik/BGBarcodeGenerator
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace BG\BarcodeBundle;
 
 use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
@@ -8,6 +20,7 @@ use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
  * Class BarcodeBaseTest
  *
  * @package BG\BarcodeBundle
+ * @author  Patrick Paechnatz <patrick.paechnatz@gmail.com>
  */
 class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 {
