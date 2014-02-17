@@ -15,10 +15,15 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * @author Patrick Paechnatz, https://github.com/paterik
+ * {@inheritdoc}
+ *
+ * @author Patrick Paechnatz <https://github.com/paterik>
  */
 class BarcodeBundle extends Bundle
 {
+    /**
+     * @param ContainerBuilder $container
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
