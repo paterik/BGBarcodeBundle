@@ -1,12 +1,12 @@
 Changelog
 =========
 
-### 1.0.1 (2014-02-16
+### 1.0.0 (2014-02-17)
 
+* unit tests
 * structural changes in 2d modules
-* updates in unit tests
 * phpdoc updates
 
-### 1.0.0 (2014-02-16)
+### 0.9.9 (2014-02-16)
 
 * Initial release
