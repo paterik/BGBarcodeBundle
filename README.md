@@ -62,11 +62,9 @@ Installation
   1 - Add the following lines in your composer.json:
 
 ```
-{
     "require": {
         "bitgrave/barcode-bundle": "dev-master"
     }
-}
 ```
 
   2 - Run the composer to download the bundle
