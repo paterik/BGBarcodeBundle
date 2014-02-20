@@ -21,6 +21,12 @@ namespace BG\BarcodeBundle\Util;
  */
 class Base1DBarcode
 {
+
+    /**
+     * @const C_DEFAULT_ROTATION_DEG default value for barcode rotation
+     */
+    const C_DEFAULT_ROTATION_DEG = 90;
+
     /**
      * Array representation of barcode.
      * @protected
@@ -28,7 +34,7 @@ class Base1DBarcode
     protected $barcodeArray;
 
     /**
-     *path to save png in getBarcodePNGPath
+     * path to save png in getBarcodePNGPath
      * @var <type>
      */
     public $savePath;
@@ -163,10 +169,11 @@ class Base1DBarcode
      * @param int    $w
      * @param int    $h
      * @param array  $color
+     * @param bool   $vertical
      *
      * @return bool
      */
-    public function getBarcodePNG($code, $type,$w=2, $h=30, $color=array(0,0,0))
+    public function getBarcodePNG($code, $type,$w=2, $h=30, $color=array(0,0,0), $vertical = false)
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -214,6 +221,11 @@ class Base1DBarcode
             $x += $bw;
         }
 
+        if ($vertical)
+        {
+            $png = $this->rotateImage($png, self::C_DEFAULT_ROTATION_DEG);
+        }
+
         // send headers
         header('Content-Type: image/png');
         header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
@@ -248,6 +260,26 @@ class Base1DBarcode
     }
 
     /**
+     * Return a rotated version of source image
+     *
+     * @param resource $image
+     * @param int      $angel
+     *
+     * @return resource
+     */
+    public function rotateImage($image, $angel)
+    {
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
+
+        $imageRotate = imagerotate($image, $angel, imageColorAllocateAlpha($image, 0, 0, 0, 127));
+        imagealphablending($imageRotate, false);
+        imagesavealpha($imageRotate, true);
+
+        return $imageRotate;
+    }
+
+    /**
      * Return a .png file path which create in server
      *
      * @param string $code
@@ -255,12 +287,13 @@ class Base1DBarcode
      * @param int    $w
      * @param int    $h
      * @param array  $color
+     * @param bool   $vertical
      *
      * @return bool
      *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0))
+    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0), $vertical=false)
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -316,6 +349,11 @@ class Base1DBarcode
 
         }
 
+        if ($vertical)
+        {
+            $png = $this->rotateImage($png, self::C_DEFAULT_ROTATION_DEG);
+        }
+
         $nType = str_replace('+', 'PLUS', $type);
 
         $this->setTempPath($this->savePath);
@@ -326,12 +364,15 @@ class Base1DBarcode
         }
 
         if (imagepng($png, $saveFile)) {
+
             imagedestroy($png);
 
             return $saveFile;
 
         } else {
+
             imagedestroy($png);
+
             throw new \Exception('It not possible to write barcode cache file to path '.$this->savePath);
         }
     }

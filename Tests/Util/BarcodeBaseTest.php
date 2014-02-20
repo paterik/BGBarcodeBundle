@@ -166,8 +166,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'C39+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===51);
     }
 
@@ -189,8 +187,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
 
-        // print_r(filesize($bcPathAbs));
-
         unlink($bcPathAbs);
 
         $this->assertTrue($checkCondition);
@@ -208,8 +204,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'C93', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
-
-        // print_r(count($bcCheckArray));
 
         $this->assertTrue(count($bcCheckArray)===35);
     }
@@ -265,8 +259,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'I25', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
         } else {
@@ -291,8 +283,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'I25', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===25);
     }
 
@@ -307,8 +297,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'I25+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
@@ -334,8 +322,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'I25+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===25);
     }
 
@@ -350,8 +336,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C128', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 128);
@@ -377,8 +361,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'C128', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===28);
     }
 
@@ -393,7 +375,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C128A', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 135);
@@ -419,8 +400,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'C128', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===28);
     }
 
@@ -435,7 +414,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C128B', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 135);
@@ -461,8 +439,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'C128B', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===34);
     }
 
@@ -477,7 +453,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_C128C, 'C128B', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 160);
@@ -503,8 +478,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_C128C, 'C128C', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===34);
     }
 
@@ -519,8 +492,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN2, 'EAN2', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 106);
@@ -546,8 +517,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_EAN2, 'EAN2', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===8);
     }
 
@@ -562,8 +531,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN5', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 115);
@@ -589,8 +556,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_EAN2, 'EAN5', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===17);
     }
 
@@ -605,8 +570,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN13', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
@@ -632,8 +595,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_EAN2, 'EAN13', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===31);
     }
 
@@ -648,8 +609,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN8', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
@@ -675,8 +634,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_EAN2, 'EAN13', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===31);
     }
 
@@ -691,8 +648,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_UPCA, 'UPCA', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
@@ -718,8 +673,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_UPCA, 'UPCA', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===31);
     }
 
@@ -734,8 +687,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_UPCE, 'UPCE', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 116);
@@ -761,8 +712,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_UPCE, 'UPCE', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===18);
     }
 
@@ -777,8 +726,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'MSI', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 128);
@@ -804,8 +751,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'MSI', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===32);
     }
 
@@ -820,8 +765,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'MSI+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 133);
@@ -847,8 +790,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'MSI+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===36);
     }
 
@@ -863,8 +804,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'POSTNET', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 136);
@@ -890,8 +829,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'POSTNET', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===43);
     }
 
@@ -906,8 +843,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'PLANET', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 136);
@@ -933,8 +868,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'PLANET', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===43);
     }
 
@@ -949,8 +882,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'RMS4CC', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 146);
@@ -976,8 +907,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'RMS4CC', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===35);
     }
 
@@ -992,8 +921,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'KIX', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 141);
@@ -1019,8 +946,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'KIX', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===29);
     }
 
@@ -1035,8 +960,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'IMB', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 180);
@@ -1062,8 +985,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'IMB', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===66);
     }
 
@@ -1078,8 +999,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'CODABAR', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
@@ -1105,8 +1024,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'CODABAR', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===37);
     }
 
@@ -1121,8 +1038,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'CODE11', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 125);
@@ -1148,8 +1063,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'CODE11', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===31);
     }
 
@@ -1164,8 +1077,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'PHARMA', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 124);
@@ -1191,8 +1102,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'PHARMA', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===21);
     }
 
@@ -1207,8 +1116,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'PHARMA2T', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 118);
@@ -1234,8 +1141,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcHTMLRaw = $d1->getBarcodeHTML(self::C_BC_DEFAULT, 'PHARMA2T', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
         $bcCheckArray = explode('background-color:black', $bcHTMLRaw);
 
-        // print_r(count($bcCheckArray));
-
         $this->assertTrue(count($bcCheckArray)===14);
     }
 
@@ -1250,8 +1155,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d2->savePath = '/tmp/';
 
         $bcPathAbs = $d2->getBarcodePNGPath(self::C_MC_DEFAULT, 'datamatrix', self::C_MC_2D_WIDTH, self::C_MC_2D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 227);
@@ -1275,8 +1178,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d2->savePath = '/tmp/';
 
         $bcPathAbs = $d2->getBarcodePNGPath(self::C_MC_DEFAULT, 'pdf417', self::C_MC_2D_WIDTH, self::C_MC_2D_HEIGHT);
-
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 317);
@@ -1303,6 +1204,29 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 225 && filesize($bcPathAbs) < 255);
+        } else {
+            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+        }
+
+        unlink($bcPathAbs);
+
+        $this->assertTrue($checkCondition);
+    }
+
+    /**
+     * I25 Barcode PNG rendering test (rotation
+     *
+     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
+     */
+    public function testI25GetBarcodePNGPathVertical()
+    {
+        $d1 = new barCode();
+        $d1->savePath = '/tmp/';
+
+        $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'I25', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT, array(0,0,0), true);
+
+        if (function_exists('imagecreate')) {
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 265);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }

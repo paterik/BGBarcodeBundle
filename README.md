@@ -13,7 +13,7 @@ supports ImageMagick/GDLib based image rendering, svg and html table drawn outpu
 * C93 : CODE 93 - USS-93
 * S25 : Standard 2 of 5
 * S25+ : Standard 2 of 5 + CHECKSUM
-* I25 : Interleaved 2 of 5
+* I25 : Interleaved 2 of 5 (aka ITF Barcode)
 * I25+ : Interleaved 2 of 5 + CHECKSUM
 * C128 : CODE 128
 * C128A : CODE 128 A
@@ -59,7 +59,7 @@ This version requires Symfony 2.1
 Installation
 ============
 
-  1 - Add the following lines in your composer.json:
+  1 - Add the following lines in your composer.json to use the latest master branch version (you can also use version '1.0.*' take a look into github releases section ):
 
 ```
     "require": {
@@ -97,7 +97,7 @@ use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
 use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
 ```
 
-  2 - set the cache path (for image based barcode rendering) call the image- or html renderer including your code and barcode type :
+  2 - set the cache path (for image based barcode rendering) call the image- or html renderer including your code, barcode type, width multiplier and bar height :
 
 ```
  $myBarcode = new barCode();
