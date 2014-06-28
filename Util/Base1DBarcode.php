@@ -11,16 +11,22 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle;
+namespace BG\Barcode;
 
 /**
- * class Base1DBarcode 1.0.0
+ * class Base1DBarcode 1.0.1
+ * 1D barcode base class
  *
  * @author Dinesh Rabara, https://github.com/dineshrabara
  * @author Patrick Paechnatz, https://github.com/paterik
  */
 class Base1DBarcode
 {
+    /**
+     * @const C_DEFAULT_ROTATION_DEG default value for barcode rotation
+     */
+    const C_DEFAULT_ROTATION_DEG = 90;
+
     /**
      * Array representation of barcode.
      * @protected
@@ -163,10 +169,11 @@ class Base1DBarcode
      * @param int    $w
      * @param int    $h
      * @param array  $color
+     * @param bool   $vertical
      *
      * @return bool
      */
-    public function getBarcodePNG($code, $type,$w=2, $h=30, $color=array(0,0,0))
+    public function getBarcodePNG($code, $type,$w=2, $h=30, $color=array(0,0,0), $vertical = false)
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -214,6 +221,11 @@ class Base1DBarcode
             $x += $bw;
         }
 
+        if ($vertical)
+        {
+            $png = $this->rotateImage($png, self::C_DEFAULT_ROTATION_DEG);
+        }
+
         // send headers
         header('Content-Type: image/png');
         header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
@@ -247,6 +259,26 @@ class Base1DBarcode
     }
 
     /**
+     * Return a rotated version of source image
+     *
+     * @param resource $image
+     * @param int      $angel
+     *
+     * @return resource
+     */
+    public function rotateImage($image, $angel)
+    {
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
+
+        $imageRotate = imagerotate($image, $angel, imageColorAllocateAlpha($image, 0, 0, 0, 127));
+        imagealphablending($imageRotate, false);
+        imagesavealpha($imageRotate, true);
+
+        return $imageRotate;
+    }
+
+    /**
      * Return a .png file path which create in server
      *
      * @param string $code
@@ -254,12 +286,13 @@ class Base1DBarcode
      * @param int    $w
      * @param int    $h
      * @param array  $color
+     * @param bool   $vertical
      *
      * @return bool
      *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0))
+    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0), $vertical=false)
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -315,6 +348,11 @@ class Base1DBarcode
 
         }
 
+        if ($vertical)
+        {
+            $png = $this->rotateImage($png, self::C_DEFAULT_ROTATION_DEG);
+        }
+
         $nType = str_replace('+', 'PLUS', $type);
 
         $this->setTempPath($this->savePath);
@@ -325,12 +363,15 @@ class Base1DBarcode
         }
 
         if (imagepng($png, $saveFile)) {
+
             imagedestroy($png);
 
             return $saveFile;
 
         } else {
+
             imagedestroy($png);
+
             throw new \Exception('It not possible to write barcode cache file to path '.$this->savePath);
         }
     }
@@ -1257,118 +1298,118 @@ class Base1DBarcode
                 break;
 
             default: // MODE AUTO
-            // split code into sequences
-            $sequence = array();
-            // get numeric sequences (if any)
-            $numseq = array();
-            preg_match_all('/([0-9]{4,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
-            if (isset($numseq[1]) && !empty($numseq[1])) {
-                $endOffset = 0;
-                foreach ($numseq[1] as $val) {
-                    $offset = $val[1];
-                    if ($offset > $endOffset) {
-                        // non numeric sequence
-                        $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset, ($offset - $endOffset))));
-                    }
-                    // numeric sequence
-                    $slen = strlen($val[0]);
-                    if (($slen % 2) != 0) {
-                        // the length must be even
-                        --$slen;
-                    }
-                    $sequence[] = array('C', substr($code, $offset, $slen), $slen);
-                    $endOffset = $offset + $slen;
-                }
-                if ($endOffset < $len) {
-                    $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset)));
-                }
-            } else {
-                // text code (non C mode)
-                $sequence = array_merge($sequence, $this->get128ABsequence($code));
-            }
-            // process the sequence
-            foreach ($sequence as $key => $seq) {
-                switch($seq[0]) {
-                    case 'A':
-                        if ($key == 0) {
-                            $startid = 103;
-                        } elseif ($sequence[($key - 1)][0] != 'A') {
-                            if (($seq[2] == 1) && ($key > 0) && ($sequence[($key - 1)][0] == 'B') && (!isset($sequence[($key - 1)][3]))) {
-                                // single character shift
-                                $codeData[] = 98;
-                                // mark shift
-                                $sequence[$key][3] = true;
-                            } elseif (!isset($sequence[($key - 1)][3])) {
-                                $codeData[] = 101;
-                            }
+                // split code into sequences
+                $sequence = array();
+                // get numeric sequences (if any)
+                $numseq = array();
+                preg_match_all('/([0-9]{4,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
+                if (isset($numseq[1]) && !empty($numseq[1])) {
+                    $endOffset = 0;
+                    foreach ($numseq[1] as $val) {
+                        $offset = $val[1];
+                        if ($offset > $endOffset) {
+                            // non numeric sequence
+                            $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset, ($offset - $endOffset))));
                         }
-                        for ($i = 0; $i < $seq[2]; ++$i) {
-                            $char = $seq[1]{$i};
-                            $charId = ord($char);
-                            if (($charId >= 241) && ($charId <= 244)) {
-                                $codeData[] = $fncA[$charId];
-                            } else {
-                                $codeData[] = strpos($keysA, $char);
-                            }
+                        // numeric sequence
+                        $slen = strlen($val[0]);
+                        if (($slen % 2) != 0) {
+                            // the length must be even
+                            --$slen;
                         }
-                        break;
-
-                    case 'B':
-                        if ($key == 0) {
-                            $tmpchr = ord($seq[1]{0});
-                            if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[($key + 1)]) && ($sequence[($key + 1)][0] != 'B')) {
-                                switch ($sequence[($key + 1)][0]) {
-                                    case 'A':
-                                        $startid = 103;
-                                        $sequence[$key][0] = 'A';
-                                        $codeData[] = $fncA[$tmpchr];
-                                        break;
-
-                                    case 'C':
-                                        $startid = 105;
-                                        $sequence[$key][0] = 'C';
-                                        $codeData[] = $fncA[$tmpchr];
-                                        break;
-
+                        $sequence[] = array('C', substr($code, $offset, $slen), $slen);
+                        $endOffset = $offset + $slen;
+                    }
+                    if ($endOffset < $len) {
+                        $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset)));
+                    }
+                } else {
+                    // text code (non C mode)
+                    $sequence = array_merge($sequence, $this->get128ABsequence($code));
+                }
+                // process the sequence
+                foreach ($sequence as $key => $seq) {
+                    switch($seq[0]) {
+                        case 'A':
+                            if ($key == 0) {
+                                $startid = 103;
+                            } elseif ($sequence[($key - 1)][0] != 'A') {
+                                if (($seq[2] == 1) && ($key > 0) && ($sequence[($key - 1)][0] == 'B') && (!isset($sequence[($key - 1)][3]))) {
+                                    // single character shift
+                                    $codeData[] = 98;
+                                    // mark shift
+                                    $sequence[$key][3] = true;
+                                } elseif (!isset($sequence[($key - 1)][3])) {
+                                    $codeData[] = 101;
                                 }
-                                break;
-                            } else {
-                                $startid = 104;
                             }
-                        } elseif ($sequence[($key - 1)][0] != 'B') {
-                            if (($seq[2] == 1) && ($key > 0) && ($sequence[($key - 1)][0] == 'A') && (!isset($sequence[($key - 1)][3]))) {
-                                // single character shift
-                                $codeData[] = 98;
-                                // mark shift
-                                $sequence[$key][3] = true;
-                            } elseif (!isset($sequence[($key - 1)][3])) {
-                                $codeData[] = 100;
+                            for ($i = 0; $i < $seq[2]; ++$i) {
+                                $char = $seq[1]{$i};
+                                $charId = ord($char);
+                                if (($charId >= 241) && ($charId <= 244)) {
+                                    $codeData[] = $fncA[$charId];
+                                } else {
+                                    $codeData[] = strpos($keysA, $char);
+                                }
                             }
-                        }
-                        for ($i = 0; $i < $seq[2]; ++$i) {
-                            $char = $seq[1]{$i};
-                            $charId = ord($char);
-                            if (($charId >= 241) && ($charId <= 244)) {
-                                $codeData[] = $fncB[$charId];
-                            } else {
-                                $codeData[] = strpos($keysB, $char);
-                            }
-                        }
-                        break;
+                            break;
 
-                    case 'C':
-                        if ($key == 0) {
-                            $startid = 105;
-                        } elseif ($sequence[($key - 1)][0] != 'C') {
-                            $codeData[] = 99;
-                        }
-                        for ($i = 0; $i < $seq[2]; $i+=2) {
-                            $chrnum = $seq[1]{$i}.$seq[1]{$i+1};
-                            $codeData[] = intval($chrnum);
-                        }
-                        break;
+                        case 'B':
+                            if ($key == 0) {
+                                $tmpchr = ord($seq[1]{0});
+                                if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[($key + 1)]) && ($sequence[($key + 1)][0] != 'B')) {
+                                    switch ($sequence[($key + 1)][0]) {
+                                        case 'A':
+                                            $startid = 103;
+                                            $sequence[$key][0] = 'A';
+                                            $codeData[] = $fncA[$tmpchr];
+                                            break;
+
+                                        case 'C':
+                                            $startid = 105;
+                                            $sequence[$key][0] = 'C';
+                                            $codeData[] = $fncA[$tmpchr];
+                                            break;
+
+                                    }
+                                    break;
+                                } else {
+                                    $startid = 104;
+                                }
+                            } elseif ($sequence[($key - 1)][0] != 'B') {
+                                if (($seq[2] == 1) && ($key > 0) && ($sequence[($key - 1)][0] == 'A') && (!isset($sequence[($key - 1)][3]))) {
+                                    // single character shift
+                                    $codeData[] = 98;
+                                    // mark shift
+                                    $sequence[$key][3] = true;
+                                } elseif (!isset($sequence[($key - 1)][3])) {
+                                    $codeData[] = 100;
+                                }
+                            }
+                            for ($i = 0; $i < $seq[2]; ++$i) {
+                                $char = $seq[1]{$i};
+                                $charId = ord($char);
+                                if (($charId >= 241) && ($charId <= 244)) {
+                                    $codeData[] = $fncB[$charId];
+                                } else {
+                                    $codeData[] = strpos($keysB, $char);
+                                }
+                            }
+                            break;
+
+                        case 'C':
+                            if ($key == 0) {
+                                $startid = 105;
+                            } elseif ($sequence[($key - 1)][0] != 'C') {
+                                $codeData[] = 99;
+                            }
+                            for ($i = 0; $i < $seq[2]; $i+=2) {
+                                $chrnum = $seq[1]{$i}.$seq[1]{$i+1};
+                                $codeData[] = intval($chrnum);
+                            }
+                            break;
+                    }
                 }
-            }
         }
         // calculate check character
         $sum = $startid;
