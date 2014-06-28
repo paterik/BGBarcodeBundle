@@ -1,15 +1,15 @@
 {
     "name": "bitgrave/barcode-bundle",
     "type": "symfony-bundle",
-    "description": "provide barcode rendering service into your Symfony2 application.",
-    "keywords": ["barcodes","barcode","qrcode","pdf417","datamatrix","ean"],
+    "description": "provide barcode rendering service for your Symfony2 application.",
+    "keywords": ["barcode", "datamatrix", "qrcode", "pdf417", "generator"],
     "homepage": "https://github.com/paterik/BGBarcodeBundle",
     "license": "MIT",
     "authors": [
         {
             "name":"Patrick Paechnatz",
             "email":"patrick.paechnatz@gmail.com",
-            "homepage":"http://www.bitgrave.net/"
+            "role": "developer"
         },
         {
             "name": "BGBarcodeBundle Community",
@@ -21,12 +21,14 @@
         "php": ">=5.3.2",
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
         "symfony/security-bundle": ">=2.1,<2.3-dev",
-        "symfony/twig-bundle": ">=2.1,<2.3-dev"
+        "symfony/twig-bundle": ">=2.1,<2.3-dev",
+        "ext-gd": "*"
     },
-
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
     "autoload": {
         "psr-0": { "BG\\PersonaBundle": "" }
     },
-
-    "target-dir": "BG/PersonaBundle"
+    "target-dir": "BG/BarcodeBundle"
 }
