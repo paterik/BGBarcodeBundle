@@ -11,14 +11,19 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\BarcodeBundle;
+namespace BG\Barcode;
 
-use BG\BarcodeBundle\Modules\pdf417 as PDF417,
-    BG\BarcodeBundle\Modules\datamatrix as Datamatrix,
-    BG\BarcodeBundle\Modules\qrcode as QRcode;
+include_once('Modules/Datamatrix.php');
+include_once('Modules/PDF417.php');
+include_once('Modules/QRcode.php');
+
+use BG\Barcode\Modules\PDF417,
+    BG\Barcode\Modules\Datamatrix,
+    BG\Barcode\Modules\QRcode;
 
 /**
- * class Base2DBarcode 1.0.0
+ * class Base2DBarcode 1.0.1
+ * 2D matrix barcode base class
  *
  * @author Dinesh Rabara, https://github.com/dineshrabara
  * @author Patrick Paechnatz, https://github.com/paterik
