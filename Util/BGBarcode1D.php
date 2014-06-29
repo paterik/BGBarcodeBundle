@@ -20,4 +20,5 @@ namespace BG\Barcode;
  */
 class BGBarcode1D extends Base1DBarcode
 {
+
 }
