@@ -1,3 +1,0 @@
-[submodule "Lib"]
-	path = Lib
-	url = https://github.com/paterik/BGBarcodeGenerator

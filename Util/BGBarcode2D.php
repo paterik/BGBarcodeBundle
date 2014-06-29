@@ -20,5 +20,5 @@ namespace BG\Barcode;
  */
 class BGBarcode2D extends Base2DBarcode
 {
-    
+
 }
