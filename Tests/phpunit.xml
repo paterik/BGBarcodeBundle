@@ -8,11 +8,11 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="true"
-         bootstrap="./bootstrap.php"
+         bootstrap="../Lib/tests/bootstrap.php"
 >
     <testsuites>
         <testsuite name="BGBarcodeGeneratorBundle_UnitTests">
-            <file>./BGBarcodeGeneratorUnitTests.php</file>
+            <file>../Lib/tests/BGBarcodeGeneratorUnitTests.php</file>
         </testsuite>
     </testsuites>
 
