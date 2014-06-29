@@ -10,7 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace BG\Barcode;
+namespace BG\BarcodeBundle;
+
+use BG\Barcode\Base2DBarcode;
 
 /**
  * class BGBarcode2D 1.0.0
