@@ -62,11 +62,9 @@ Installation
   1 - Add the following lines in your composer.json:
 
 ```
-{
     "require": {
         "bitgrave/barcode-bundle": "dev-master"
     }
-}
 ```
 
   2 - Run the composer to download the bundle
@@ -89,6 +87,63 @@ Installation
       }
 ```
 
+Usage
+=====
+
+  1 - Add the following lines in your controller if you want to use both code types (1d/2d) :
+
+```
+use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
+use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
+```
+
+  2 - set the cache path (for image based barcode rendering) call the image- or html renderer including your code and barcode type :
+
+```
+ $myBarcode = new barCode();
+ $myBarcode->savePath = '/my/temp/media/path';
+ $bcPathAbs = $myBarcode->getBarcodePNGPath('501234567890', 'EAN13', 1.75, 45);
+ $bcHTMLRaw = $myBarcode->getBarcodeHTML('501234567890', 'EAN13', 1.75, 45);
+```
+
+ 3 - fetch image by parse $bcPathAbs (absolute path to rendered barcode image) or using this a simple helper method
+
+```
+ /**
+  * simple cache path returning method (sample cache path: "upload/barcode/cache" )
+  *
+  * @param bool $public
+  *
+  * @return string
+  *
+  */
+ protected function getBarcodeCachePath($public = false)
+ {
+
+     return (!$public) ? $this->get('kernel')->getRootDir(). '/../web/upload/barcode/cache' : '/upload/barcode/cache';
+ }
+```
+
+ 4 - send public path to your symfony view and put result into your image src path or just render out the alternative table based barcode html structure
+
+```
+ $this->render('AcmeDemoBundle:Demo:barcode.html.twig', array(
+     'barcodePathAndFile' => $this->getBarcodeCachePath($bcPathAbs),
+     'barcodeHTML' => $bcHTMLRaw,
+ ));
+
+ // AcmeDemoBundle:Demo:barcode.html.twig
+ // ...
+ <!-- barcode as image -->
+ <img src="{{ barcodePathAndFile }}" alt="barcode" title="my barcode image">
+ // ...
+ <!-- barcode as table -->
+ {{ barcodeHTML|raw }}
+ // ...
+
+```
+
+
 How To Contribute
 =================
 
@@ -100,4 +155,3 @@ License
 =======
 
 See: resources/meta/LICENSE.md
-
