@@ -28,7 +28,7 @@
         "phpunit/phpunit": "4.1.*"
     },
     "autoload": {
-        "psr-0": { "BG\\PersonaBundle": "" }
+        "psr-0": { "BG\\BarcodeBundle": "" }
     },
     "target-dir": "BG/BarcodeBundle"
 }
