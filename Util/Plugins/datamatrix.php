@@ -20,7 +20,7 @@ namespace BG\BarcodeBundle\Util\Plugins;
  * @author Dinesh Rabara <dinesh.rabara@gmail.com>
  * @author Patrick Paechnatz <patrick.paechnatz@gmail.com>
  */
-class Datamatrix
+class datamatrix
 {
     const
 
