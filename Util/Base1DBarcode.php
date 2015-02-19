@@ -306,9 +306,9 @@ class Base1DBarcode
                 if ($imagick) {
                     $bar = new \imagickdraw();
                     $bar->setfillcolor($fgcol);
-                    $bar->rectangle($x, $y, ($x + $bw), ($y + $bh));
+                    $bar->rectangle($x, $y, ($x + $bw - 1), ($y + $bh - 1));
                 } else {
-                    imagefilledrectangle($png, $x, $y, ($x + $bw), ($y + $bh), $fgcol);
+                    imagefilledrectangle($png, $x, $y, ($x + $bw - 1), ($y + $bh - 1), $fgcol);
                 }
             }
 
