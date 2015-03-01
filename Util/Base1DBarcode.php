@@ -260,8 +260,12 @@ class Base1DBarcode
      *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0))
+    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0),$filename=null)
     {
+        if($filename){
+            $filename = $type.'_'.$code;
+        }
+        
         $this->setBarcode($code, $type);
         $bar = null;
 
@@ -319,7 +323,7 @@ class Base1DBarcode
         $nType = str_replace('+', 'PLUS', $type);
 
         $this->setTempPath($this->savePath);
-        $saveFile = $this->checkfile($this->savePath . $nType . '_' . $code . '.png', true);
+        $saveFile = $this->checkfile($this->savePath . $filename. '.png', true);
 
         if ($imagick) {
             $png->drawimage($bar);
