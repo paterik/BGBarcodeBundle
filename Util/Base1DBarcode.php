@@ -263,8 +263,9 @@ class Base1DBarcode
     public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0),$filename=null)
     {
         if($filename){
-            $filename = $code.'_'.$code;
+            $filename = $type.'_'.$code;
         }
+        
         $this->setBarcode($code, $type);
         $bar = null;
 
