@@ -271,9 +271,9 @@ class Base2DBarcode
      *
      * @return bool
      */
-    public function getBarcodePNGPath($code, $type, $w=3, $h=3, $color=array(0, 0, 0),$filename)
+    public function getBarcodePNGPath($code, $type, $w=3, $h=3, $color=array(0, 0, 0),$filename=null)
     {
-        if($filename){
+        if(is_null($filename)){
             $filename = $type.'_'.$code;
         }
         
