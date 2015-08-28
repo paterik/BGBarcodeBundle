@@ -154,4 +154,4 @@ projects README file (also update projects CHANGELOG file!)
 License
 =======
 
-See: resources/meta/LICENSE.md
+See: resources/meta/LICENSE
