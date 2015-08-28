@@ -1,21 +1,44 @@
 <?php
 
-/*
- * This file is part of the bitgrave barcode library based on forked version of Dinesh Rabara 2D-3D Barcode
- * Generator class/lib (https://github.com/dineshrabara/2D-3D-Barcodes-Generator)
- *
- * BGBarcodeGenerator-1.0.1
- * master/dev branch: https://github.com/paterik/BGBarcodeGenerator
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+//============================================================+
+// File name   : barcodes.php
+// Version     : 1.0.023
+// Begin       : 2008-06-09
+// Last Update : 2012-01-14
+// Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
+// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
+// -------------------------------------------------------------------
+// Copyright (C) 2008-2012  Nicola Asuni - Tecnick.com LTD
+//
+// This file is part of TCPDF software library.
+//
+// TCPDF is free software: you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+//
+// TCPDF is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
+//
+// See LICENSE.TXT file for more information.
+// -------------------------------------------------------------------
+//
+// Description : PHP class to creates array representations for
+//               common 1D barcodes to be used with TCPDF.
+//
+//============================================================+
 
 namespace BG\BarcodeBundle\Util;
 
 /**
- * class Base1DBarcode 1.0.1
+ * class Base1DBarcode 1.0.1, based on barcodes.php v1.0.023 (Nicola Asuni)
  *
+ * @author Nicola Asuni
  * @author Dinesh Rabara <dinesh.rabara@gmail.com>
  * @author Patrick Paechnatz <patrick.paechnatz@gmail.com>
  */

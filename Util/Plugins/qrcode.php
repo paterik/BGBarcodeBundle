@@ -1,28 +1,82 @@
 <?php
 
-/*
- * This file is part of the bitgrave barcode library based on forked version of Dinesh Rabara 2D-3D Barcode
- * Generator class/lib (https://github.com/dineshrabara/2D-3D-Barcodes-Generator)
- *
- * BGBarcodeGenerator-1.0.1
- * master/dev branch: https://github.com/paterik/BGBarcodeGenerator
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+//============================================================+
+// File name   : qrcode.php
+// Version     : 1.0.009
+// Begin       : 2010-03-22
+// Last Update : 2010-12-16
+// Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
+// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
+// -------------------------------------------------------------------
+// Copyright (C) 2010-2012 Nicola Asuni - Tecnick.com LTD
+//
+// This file is part of TCPDF software library.
+//
+// TCPDF is free software: you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+//
+// TCPDF is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
+//
+// See LICENSE.TXT file for more information.
+// -------------------------------------------------------------------
+//
+// DESCRIPTION :
+//
+// Class to create QR-code arrays for TCPDF class.
+// QR Code symbol is a 2D barcode that can be scanned by
+// handy terminals such as a mobile phone with CCD.
+// The capacity of QR Code is up to 7000 digits or 4000
+// characters, and has high robustness.
+// This class supports QR Code model 2, described in
+// JIS (Japanese Industrial Standards) X0510:2004
+// or ISO/IEC 18004.
+// Currently the following features are not supported:
+// ECI and FNC1 mode, Micro QR Code, QR Code model 1,
+// Structured mode.
+//
+// This class is derived from the following projects:
+// ---------------------------------------------------------
+// "PHP QR Code encoder"
+// License: GNU-LGPLv3
+// Copyright (C) 2010 by Dominik Dzienia <deltalab at poczta dot fm>
+// http://phpqrcode.sourceforge.net/
+// https://sourceforge.net/projects/phpqrcode/
+//
+// The "PHP QR Code encoder" is based on
+// "C libqrencode library" (ver. 3.1.1)
+// License: GNU-LGPL 2.1
+// Copyright (C) 2006-2010 by Kentaro Fukuchi
+// http://megaui.net/fukuchi/works/qrencode/index.en.html
+//
+// Reed-Solomon code encoder is written by Phil Karn, KA9Q.
+// Copyright (C) 2002-2006 Phil Karn, KA9Q
+//
+// QR Code is registered trademark of DENSO WAVE INCORPORATED
+// http://www.denso-wave.com/qrcode/index-e.html
+// ---------------------------------------------------------
+//============================================================+
 
 namespace BG\BarcodeBundle\Util\Plugins;
 
 /**
- * class QRcode 1.0.1
+ * class QRcode 1.0.1, based on qrcode.php v1.0.009 (Nicola Asuni)
+ *
  * Quick Response Code - matrix bar code (requires PHP bcmath extension)
  *
+ * @author Nicola Asuni
  * @author Dinesh Rabara <dinesh.rabara@gmail.com>
  * @author Patrick Paechnatz <patrick.paechnatz@gmail.com>
  */
 class qrcode
 {
-
     const
 
         QRCODEDEFS = true, // Indicate that definitions for this class are set
