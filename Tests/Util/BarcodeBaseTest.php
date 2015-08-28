@@ -268,7 +268,7 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) >= 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
