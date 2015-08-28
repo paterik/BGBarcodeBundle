@@ -4,7 +4,7 @@
     "description": "provide barcode rendering service into your Symfony2 application.",
     "keywords": ["barcodes","barcode","qrcode","pdf417","datamatrix","ean"],
     "homepage": "https://github.com/paterik/BGBarcodeBundle",
-    "license": "MIT",
+    "license": "GNU-LGPLv3",
     "authors": [
         {
             "name":"Patrick Paechnatz",
