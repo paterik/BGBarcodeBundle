@@ -191,6 +191,66 @@ class Base2DBarcode
     }
 
     /**
+     * Return an HTML representation of the barcode as a table, optimised as
+     * much as possible for use in an email client (i.e. using legacy HTML
+     * attributes and omitting any superfluous tags).
+     *
+     * @todo Only suitable for QR codes due to aggresive optimisation.
+     *
+     * @param string $code
+     * @param string $type
+     * @param int    $w
+     * @param int    $h
+     * @param string $color
+     *
+     * @return string
+     */
+    public function getBarcodeHTMLTable($code, $type, $w=10, $h=10)
+    {
+        $this->setBarcode($code, $type);
+
+        // Reprocess the barcode data to allow the use of colspan when
+        // generating the HTML table
+        $grid = [];
+        for ($row = 0; $row < $this->barcodeArray['num_rows']; $row++) {
+            $grid[$row] = [];
+
+            $i = 0;
+            for ($col = 0; $col < $this->barcodeArray['num_cols']; $col++) {
+                if (isset($grid[$row][$i])) {
+                    if ($this->barcodeArray['bcode'][$row][$col] === $this->barcodeArray['bcode'][$row][$col - 1]) {
+                        $grid[$row][$i]['span']++;
+                    } else {
+                        $i++;
+                    }
+                }
+
+                if (!isset($grid[$row][$i])) {
+                    $grid[$row][$i] = [
+                        'color' => $this->barcodeArray['bcode'][$row][$col] ? 'black' : 'white',
+                        'span' => 1,
+                    ];
+                }
+            }
+        }
+
+        $html = '<table cellspacing="0" cellpadding="0">';
+        foreach ($grid as $i => $row) {
+            $html .= '<tr>';
+            foreach ($row as $j => $col) {
+                $html .= '<td ' . ( $col['color'] === 'black' ? ' bgcolor="#000" ' : '' )
+                    . ( $col['span'] > 1 ? 'colspan="' . $col['span'] . '" ' : '' )
+                    . ( $i === 0 ? 'width="' . $w * $col['span'] .'" ' : '')
+                    . ( $j === 0 ? 'height="' . $h . '"' : '' )
+                    . '>';
+            }
+        }
+        $html .= '</table>' . "\n";
+
+        return $html;
+    }
+
+    /**
      * Return a PNG image representation of barcode (requires GD or Imagick library).
      *
      * @param string $code
