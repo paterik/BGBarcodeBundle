@@ -234,18 +234,18 @@ class Base2DBarcode
             }
         }
 
-        $html = '<table cellspacing="0" cellpadding="0">';
+        $html = '<table cellspacing="0" cellpadding="0" border="0">';
         foreach ($grid as $i => $row) {
             $html .= '<tr>';
             foreach ($row as $j => $col) {
-                $html .= '<td ' . ( $col['color'] === 'black' ? ' bgcolor="#000" ' : '' )
-                    . ( $col['span'] > 1 ? 'colspan="' . $col['span'] . '" ' : '' )
-                    . ( $i === 0 ? 'width="' . $w * $col['span'] .'" ' : '')
-                    . ( $j === 0 ? 'height="' . $h . '"' : '' )
+                $html .= '<td' . ( $col['color'] === 'black' ? ' bgcolor="#000"' : '' )
+                    . ( $col['span'] > 1 ? ' colspan="' . $col['span'] . '"' : '' )
+                    . ( $i === 0 ? ' width="' . $w * $col['span'] .'"' : '')
+                    . ( $j === 0 ? ' height="' . $h . '"' : '' )
                     . '>';
             }
         }
-        $html .= '</table>' . "\n";
+        $html .= '</table>';
 
         return $html;
     }
