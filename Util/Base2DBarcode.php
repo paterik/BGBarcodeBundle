@@ -193,15 +193,13 @@ class Base2DBarcode
     /**
      * Return an HTML representation of the barcode as a table, optimised as
      * much as possible for use in an email client (i.e. using legacy HTML
-     * attributes and omitting any superfluous tags).
-     *
-     * @todo Only suitable for QR codes due to aggresive optimisation.
+     * attributes and omitting any optional tags). Not XHTML compatible.
+     * Only suitable for black & white barcodes due to aggresive optimisation.
      *
      * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
-     * @param string $color
      *
      * @return string
      */
@@ -234,18 +232,26 @@ class Base2DBarcode
             }
         }
 
-        $html = '<table cellspacing="0" cellpadding="0" border="0">';
+        $html = '<table cellspacing=0 cellpadding=0 border=0>';
+        for ($i = 0; $i < $this->barcodeArray['num_cols']; $i++) {
+            $html .= '<col width='.$w.'>';
+        }
         foreach ($grid as $i => $row) {
             $html .= '<tr>';
             foreach ($row as $j => $col) {
-                $html .= '<td' . ( $col['color'] === 'black' ? ' bgcolor="#000"' : '' )
-                    . ( $col['span'] > 1 ? ' colspan="' . $col['span'] . '"' : '' )
-                    . ( $i === 0 ? ' width="' . $w * $col['span'] .'"' : '')
-                    . ( $j === 0 ? ' height="' . $h . '"' : '' )
-                    . '>';
+                $html .= '<td' . ($col['color'] === 'black' ? ' bgcolor=#000' : '')
+                    .($col['span'] > 1 ? ' colspan='.$col['span'] : '')
+                    .($j === 0 ? ' height='.$h : '')
+                    .'>';
             }
         }
         $html .= '</table>';
+
+        // colspan only saves bytes when spanning more than 3 white columns
+        $html = str_replace('<td colspan=2>', '<td><td>', $html);
+        $html = str_replace('<td colspan=3>', '<td><td><td>', $html);
+        $html = str_replace('<td colspan=2 height='.$h.'>', '<td height='.$h.'><td>', $html);
+        $html = str_replace('<td colspan=3 height='.$h.'>', '<td height='.$h.'><td><td>', $html);
 
         return $html;
     }
@@ -359,7 +365,7 @@ class Base2DBarcode
         if(is_null($filename)){
             $filename = $type.'_'.$code;
         }
-        
+
         //set barcode code and type
         $this->setBarcode($code, $type);
         $bar = null;
