@@ -225,7 +225,7 @@ class Base2DBarcode
 
                 if (!isset($grid[$row][$i])) {
                     $grid[$row][$i] = [
-                        'color' => $this->barcodeArray['bcode'][$row][$col] ? 'black' : 'white',
+                        'color' => $this->barcodeArray['bcode'][$row][$col] ? '#000' : '#fff',
                         'span' => 1,
                     ];
                 }
@@ -237,11 +237,11 @@ class Base2DBarcode
             $html .= '<col width='.$w.'>';
         }
         foreach ($grid as $i => $row) {
-            $html .= '<tr>';
+            $html .= '<tr'.(count($row) === 1 && $row[0]['color'] === '#fff' ? ' height='.$h : '').'>';
             foreach ($row as $j => $col) {
-                $html .= '<td' . ($col['color'] === 'black' ? ' bgcolor=#000' : '')
+                $html .= '<td'
                     .($col['span'] > 1 ? ' colspan='.$col['span'] : '')
-                    .($j === 0 ? ' height='.$h : '')
+                    .($col['color'] !== '#fff' ? ' style="border-top:'.$h.'px solid '.$col['color'].'"' : '')
                     .'>';
             }
         }
