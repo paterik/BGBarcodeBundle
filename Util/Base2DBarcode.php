@@ -250,8 +250,6 @@ class Base2DBarcode
         // colspan only saves bytes when spanning more than 3 white columns
         $html = str_replace('<td colspan=2>', '<td><td>', $html);
         $html = str_replace('<td colspan=3>', '<td><td><td>', $html);
-        $html = str_replace('<td colspan=2 height='.$h.'>', '<td height='.$h.'><td>', $html);
-        $html = str_replace('<td colspan=3 height='.$h.'>', '<td height='.$h.'><td><td>', $html);
 
         return $html;
     }
