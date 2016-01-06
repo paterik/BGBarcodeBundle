@@ -194,62 +194,87 @@ class Base2DBarcode
      * Return an HTML representation of the barcode as a table, optimised as
      * much as possible for use in an email client (i.e. using legacy HTML
      * attributes and omitting any optional tags). Not XHTML compatible.
-     * Only suitable for black & white barcodes due to aggresive optimisation.
+     * Only suitable for bi-color barcodes due to aggresive optimisation.
      *
      * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
+     * @param string $color The CSS color used to represent 'black' bars/cells in the barcode
+     * @param bool   $useColspan Use colspan to consolidate consecutive identical cells
+     * @param bool   $emptyCells Non-empty cells are required for various versions of Outlook on Windows
      *
      * @return string
      */
-    public function getBarcodeHTMLTable($code, $type, $w=10, $h=10)
+    public function getBarcodeHTMLTable($code, $type, $w=10, $h=10, $color='#000', $useColspan=true, $emptyCells=false)
     {
         $this->setBarcode($code, $type);
 
-        // Reprocess the barcode data to allow the use of colspan when
-        // generating the HTML table
+        // reprocess the barcode data to allow the use of colspan when generating the HTML table
         $grid = [];
         for ($row = 0; $row < $this->barcodeArray['num_rows']; $row++) {
             $grid[$row] = [];
 
             $i = 0;
             for ($col = 0; $col < $this->barcodeArray['num_cols']; $col++) {
-                if (isset($grid[$row][$i])) {
-                    if ($this->barcodeArray['bcode'][$row][$col] === $this->barcodeArray['bcode'][$row][$col - 1]) {
-                        $grid[$row][$i]['span']++;
-                    } else {
-                        $i++;
+                if ($useColspan) {
+                    if (isset($grid[$row][$i])) {
+                        if ($this->barcodeArray['bcode'][$row][$col] == $this->barcodeArray['bcode'][$row][$col - 1]) {
+                            $grid[$row][$i]['span']++;
+                        } else {
+                            $i++;
+                        }
                     }
+                } else {
+                    $i = $col;
                 }
 
                 if (!isset($grid[$row][$i])) {
                     $grid[$row][$i] = [
-                        'color' => $this->barcodeArray['bcode'][$row][$col] ? '#000' : '#fff',
+                        'color' => $this->barcodeArray['bcode'][$row][$col] ? $color : '#fff',
                         'span' => 1,
                     ];
                 }
             }
         }
 
-        $html = '<table cellspacing=0 cellpadding=0 border=0>';
-        for ($i = 0; $i < $this->barcodeArray['num_cols']; $i++) {
-            $html .= '<col width='.$w.'>';
+        $html = '<table cellspacing=0 cellpadding=0 border=0';
+        $html .= ' width='.($w * $this->barcodeArray['num_cols']);
+        $html .= ' height='.($h * $this->barcodeArray['num_rows']);
+        $html .= ' class=barcode';
+        // font-size:1px is required for Outlook 2013, even if emptyCells is true
+        $html .= ' style="font-size:1px;font-size:0;line-height:0;overflow:hidden"';
+        $html .= '>';
+
+        if ($useColspan) {
+            // a row of empty TDs mitigates the case where every cell in a column
+            // is part of a colspan (otherwise the column collapses away)
+            // COL elements would be ineffective, as Outlook ignores the width specified on them
+            $html .= '<tr>';
+            for ($i = 0; $i < $this->barcodeArray['num_cols']; $i++) {
+                $html .= '<td width='.$w.' height=0>'.($emptyCells ? '' : '&#8203;');
+            }
+            $html .= '<tbody>';
         }
+
         foreach ($grid as $i => $row) {
-            $html .= '<tr'.(count($row) === 1 && $row[0]['color'] === '#fff' ? ' height='.$h : '').'>';
+            $html .= '<tr>';
             foreach ($row as $j => $col) {
-                $html .= '<td'
-                    .($col['span'] > 1 ? ' colspan='.$col['span'] : '')
-                    .($col['color'] !== '#fff' ? ' style="border-top:'.$h.'px solid '.$col['color'].'"' : '')
-                    .'>';
+                $html .= '<td';
+                $html .= ($useColspan && $col['span'] > 1) ? ' colspan='.$col['span'] : '';
+                // uses border-top rather than bgcolor so that the barcode prints when backgrounds are turned off
+                $html .= ($col['color'] != '#fff' || ($j == 0 && count($row) == 1)) ?
+                    ' style="border-top:'.$h.'px solid '.$col['color'].'"' : '';
+                $html .= '>'.($emptyCells ? '' : '&#8203;'); // U+200B zwsp rather than nbsp to improve rendering
             }
         }
         $html .= '</table>';
 
-        // colspan only saves bytes when spanning more than 3 white columns
-        $html = str_replace('<td colspan=2>', '<td><td>', $html);
-        $html = str_replace('<td colspan=3>', '<td><td><td>', $html);
+        if ($useColspan && $emptyCells) {
+            // colspan only saves bytes when spanning more than 3 empty white columns
+            $html = str_replace('<td colspan=2>', '<td><td>', $html);
+            $html = str_replace('<td colspan=3>', '<td><td><td>', $html);
+        }
 
         return $html;
     }
