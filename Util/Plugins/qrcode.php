@@ -1014,7 +1014,7 @@ class qrcode
      *
      * @return int
      */
-    protected function mask1($y)
+    protected function mask1($x,$y)
     {
         return ($y & 1);
     }
