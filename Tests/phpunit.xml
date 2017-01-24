@@ -12,7 +12,7 @@
 >
     <testsuites>
         <testsuite name="BGBarcodeBundle test suite">
-            <directory suffix="Test.php">./Tests</directory>
+            <directory>./Util</directory>
         </testsuite>
     </testsuites>
 
