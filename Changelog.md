@@ -7,6 +7,7 @@ Changelog
 - unit tests
 - minor doc issue
 - phpunit definition file
+- (re)set compatibility for php 5.5.n 
 
 
 ### 1.0.0 (24.01.2017)
