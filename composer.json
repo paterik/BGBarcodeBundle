@@ -8,22 +8,19 @@
     "authors": [
         {
             "name":"Patrick Paechnatz",
-            "email":"patrick.paechnatz@gmail.com",
-            "homepage":"http://www.bitgrave.net/"
+            "email":"patrick.paechnatz@gmail.com"
         },
         {
             "name": "BGBarcodeBundle Community",
             "homepage": "https://github.com/paterik/BGBarcodeBundle/contributors"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "php": ">=5.3.3",
-        "symfony/framework-bundle": "~2.1",
-        "symfony/security-bundle": "~2.1",
-        "symfony/twig-bundle": "~2.1"
+        "php": "^5.6 || ^7.0",
+        "symfony/framework-bundle": "~2.1|~2.3|~2.7|~2.8|~3.0",
+        "symfony/twig-bundle": "~2.1|~2.3|~2.7|~2.8|~3.0"
     },
-
     "autoload": {
         "psr-4": { "BG\\BarcodeBundle\\": "" }
     }
