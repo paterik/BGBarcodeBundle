@@ -64,7 +64,7 @@ Installation
   _for latest symfony 3.n kernel / framework environment:_
 ```
     "require": {
-        "bitgrave/barcode-bundle": "1.0.0"
+        "bitgrave/barcode-bundle": "^1.0"
     }
 ```
   _legacy symfony 2.1.n kernel? user version prior 1.0.0:
