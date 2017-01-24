@@ -1,12 +1,24 @@
 Changelog
 =========
 
-### 1.0.0 (2014-02-17)
+### 1.0.0 (24.01.2017)
 
-* unit tests
-* structural changes in 2d modules
-* phpdoc updates
+#### Changes
+- add support for latest symfony core
 
-### 0.9.9 (2014-02-16)
 
-* Initial release
+### 0.9.9 (31.08.2017)
+
+#### Fixes
+- merge pull request #19 from zittix/patch-1
+
+
+### 0.9.8 (28.08.2017)
+
+#### Fixes
+- unit tests
+
+#### Changes
+- add/change copyright/licence model
+
+...
