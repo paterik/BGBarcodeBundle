@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 1.0.1 (24.01.2017)
+
+#### Fixes
+- unit tests
+- minor doc issue
+- phpunit definition file
+
+
 ### 1.0.0 (24.01.2017)
 
 #### Changes
