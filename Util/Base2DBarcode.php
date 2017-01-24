@@ -52,7 +52,8 @@ class Base2DBarcode
      * Array representation of barcode.
      * @protected
      */
-    protected $barcodeArray = false;
+    protected $barcodeArray = [];
+
     /**
      * path to save png in getBarcodePNGPath
      * @var <type>
@@ -349,16 +350,13 @@ class Base2DBarcode
             $y += $h;
         }
 
-        $nType = str_replace('+', 'PLUS', $type);
-
         $this->setTempPath($this->savePath);
         $saveFile = $this->checkfile($this->savePath . $filename . '.png', true);
 
         if ($imagick) {
             $png->drawimage($bar);
-            //echo $png;
         }
-        // ImagePng : weazL
+
         if (imagepng($png, $saveFile)) {
             imagedestroy($png);
 
