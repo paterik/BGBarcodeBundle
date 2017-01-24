@@ -61,9 +61,16 @@ Installation
 
   1 - Add the following lines in your composer.json:
 
+  _for latest symfony 3.n kernel / framework environment:_
 ```
     "require": {
-        "bitgrave/barcode-bundle": "dev-master"
+        "bitgrave/barcode-bundle": "1.0.0"
+    }
+```
+  _legacy symfony 2.1.n kernel? user version prior 1.0.0:
+```
+    "require": {
+        "bitgrave/barcode-bundle": "0.0.9"
     }
 ```
 
