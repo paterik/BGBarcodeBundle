@@ -51,7 +51,7 @@ class Base1DBarcode
     protected $barcodeArray;
 
     /**
-     *path to save png in getBarcodePNGPath
+     * path to save png in getBarcodePNGPath
      * @var <type>
      */
     public $savePath;
@@ -283,9 +283,9 @@ class Base1DBarcode
      *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0),$filename=null)
+    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0), $filename=null)
     {
-        if(is_null($filename)){
+        if (is_null($filename)){
             $filename = $type.'_'.$code;
         }
         
@@ -806,7 +806,6 @@ class Base1DBarcode
         }
         $bararray['bcode'][$k] = array('t' => true, 'w' => 1, 'h' => 1, 'p' => 0);
         $bararray['maxw'] += 1;
-        ++$k;
 
         return $bararray;
     }
@@ -1938,6 +1937,10 @@ class Base1DBarcode
             $bararray['bcode'][$k++] = array('t' => 0, 'w' => 1, 'h' => 2, 'p' => 0);
             $bararray['maxw'] += 2;
         }
+
+        $h = 0;
+        $p = 0;
+
         for ($i = 0; $i < $len; ++$i) {
             for ($j = 0; $j < 4; ++$j) {
                 switch ($barmode[$code{$i}][$j]) {
