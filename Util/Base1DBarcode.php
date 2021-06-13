@@ -288,7 +288,7 @@ class Base1DBarcode
         if (is_null($filename)){
             $filename = $type.'_'.$code;
         }
-        
+
         $this->setBarcode($code, $type);
         $bar = null;
 
@@ -573,7 +573,7 @@ class Base1DBarcode
         $k = 0;
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            $char = $code{$i};
+            $char = $code[$i];
             if (!isset($chr[$char])) {
                 // invalid character
                 return false;
@@ -584,7 +584,7 @@ class Base1DBarcode
                 } else {
                     $t = false; // space
                 }
-                $w = $chr[$char]{$j};
+                $w = $chr[$char][$j];
                 $bararray['bcode'][$k] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
                 ++$k;
@@ -643,10 +643,10 @@ class Base1DBarcode
         $codeExt = '';
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            if (ord($code{$i}) > 127) {
+            if (ord($code[$i]) > 127) {
                 return false;
             }
-            $codeExt .= $encode[$code{$i}];
+            $codeExt .= $encode[$code[$i]];
         }
 
         return $codeExt;
@@ -669,7 +669,7 @@ class Base1DBarcode
         $sum = 0;
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            $k = array_keys($chars, $code{$i});
+            $k = array_keys($chars, $code[$i]);
             $sum += $k[0];
         }
         $j = ($sum % 43);
@@ -773,10 +773,10 @@ class Base1DBarcode
         $clen = strlen($code);
 
         for ($i = 0; $i < $clen; ++$i) {
-            if (ord($code{$i}) > 127) {
+            if (ord($code[$i]) > 127) {
                 return false;
             }
-            $codeExt .= $encode[$code{$i}];
+            $codeExt .= $encode[$code[$i]];
         }
 
         // checksum
@@ -787,7 +787,7 @@ class Base1DBarcode
         $k = 0;
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            $char = ord($code{$i});
+            $char = ord($code[$i]);
             if (!isset($chr[$char])) {
                 // invalid character
                 return false;
@@ -798,7 +798,7 @@ class Base1DBarcode
                 } else {
                     $t = false; // space
                 }
-                $w = $chr[$char]{$j};
+                $w = $chr[$char][$j];
                 $bararray['bcode'][$k] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
                 ++$k;
@@ -832,7 +832,7 @@ class Base1DBarcode
         $p = 1;
         $check = 0;
         for ($i = ($len - 1); $i >= 0; --$i) {
-            $k = array_keys($chars, $code{$i});
+            $k = array_keys($chars, $code[$i]);
             $check += ($k[0] * $p);
             ++$p;
             if ($p > 20) {
@@ -846,7 +846,7 @@ class Base1DBarcode
         $p = 1;
         $check = 0;
         for ($i = $len; $i >= 0; --$i) {
-            $k = array_keys($chars, $code{$i});
+            $k = array_keys($chars, $code[$i]);
             $check += ($k[0] * $p);
             ++$p;
             if ($p > 15) {
@@ -874,11 +874,11 @@ class Base1DBarcode
         $len = strlen($code);
         $sum = 0;
         for ($i = 0; $i < $len; $i+=2) {
-            $sum += $code{$i};
+            $sum += $code[$i];
         }
         $sum *= 3;
         for ($i = 1; $i < $len; $i+=2) {
-            $sum += ($code{$i});
+            $sum += ($code[$i]);
         }
         $r = $sum % 10;
         if ($r > 0) {
@@ -921,7 +921,7 @@ class Base1DBarcode
             $p = 2;
             $check = 0;
             for ($i = ($clen - 1); $i >= 0; --$i) {
-                $check += (hexdec($code{$i}) * $p);
+                $check += (hexdec($code[$i]) * $p);
                 ++$p;
                 if ($p > 7) {
                     $p = 2;
@@ -936,7 +936,7 @@ class Base1DBarcode
         $seq = '110'; // left guard
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            $digit = $code{$i};
+            $digit = $code[$i];
             if (!isset($chr[$digit])) {
                 // invalid character
                 return false;
@@ -982,7 +982,7 @@ class Base1DBarcode
         $seq = '11011010';
         $clen = strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
-            $digit = $code{$i};
+            $digit = $code[$i];
             if (!isset($chr[$digit])) {
                 // invalid character
                 return false;
@@ -1010,8 +1010,8 @@ class Base1DBarcode
         $k = 0;
         for ($i = 0; $i < $len; ++$i) {
             $w += 1;
-            if (($i == ($len - 1)) || (($i < ($len - 1)) && ($seq{$i} != $seq{($i+1)}))) {
-                if ($seq{$i} == '1') {
+            if (($i == ($len - 1)) || (($i < ($len - 1)) && ($seq[$i] != $seq[($i + 1)]))) {
+                if ($seq[$i] == '1') {
                     $t = true; // bar
                 } else {
                     $t = false; // space
@@ -1065,8 +1065,8 @@ class Base1DBarcode
         $k = 0;
         $clen = strlen($code);
         for ($i = 0; $i < $clen; $i = ($i + 2)) {
-            $charBar = $code{$i};
-            $charSpace = $code{$i+1};
+            $charBar = $code[$i];
+            $charSpace = $code[$i + 1];
             if ((!isset($chr[$charBar])) || (!isset($chr[$charSpace]))) {
                 // invalid character
                 return false;
@@ -1075,7 +1075,7 @@ class Base1DBarcode
             $seq = '';
             $chrlen = strlen($chr[$charBar]);
             for ($s = 0; $s < $chrlen; $s++) {
-                $seq .= $chr[$charBar]{$s} . $chr[$charSpace]{$s};
+                $seq .= $chr[$charBar][$s] . $chr[$charSpace][$s];
             }
             $seqlen = strlen($seq);
             for ($j = 0; $j < $seqlen; ++$j) {
@@ -1084,7 +1084,7 @@ class Base1DBarcode
                 } else {
                     $t = false; // space
                 }
-                $w = $seq{$j};
+                $w = $seq[$j];
                 $bararray['bcode'][$k] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
                 ++$k;
@@ -1235,7 +1235,7 @@ class Base1DBarcode
             case 'A': // MODE A
                 $startid = 103;
                 for ($i = 0; $i < $len; ++$i) {
-                    $char = $code{$i};
+                    $char = $code[$i];
                     $charId = ord($char);
                     if (($charId >= 241) && ($charId <= 244)) {
                         $codeData[] = $fncA[$charId];
@@ -1250,7 +1250,7 @@ class Base1DBarcode
             case 'B': // MODE B
                 $startid = 104;
                 for ($i = 0; $i < $len; ++$i) {
-                    $char = $code{$i};
+                    $char = $code[$i];
                     $charId = ord($char);
                     if (($charId >= 241) && ($charId <= 244)) {
                         $codeData[] = $fncB[$charId];
@@ -1264,7 +1264,7 @@ class Base1DBarcode
 
             case 'C': // MODE C
                 $startid = 105;
-                if (ord($code{0}) == 241) {
+                if (ord($code[0]) == 241) {
                     $codeData[] = 102;
                     $code = substr($code, 1);
                     --$len;
@@ -1274,7 +1274,7 @@ class Base1DBarcode
                     return false;
                 }
                 for ($i = 0; $i < $len; $i+=2) {
-                    $chrnum = $code{$i}.$code{$i+1};
+                    $chrnum = $code[$i] . $code[$i + 1];
                     if (preg_match('/([0-9]{2})/', $chrnum) > 0) {
                         $codeData[] = intval($chrnum);
                     } else {
@@ -1330,7 +1330,7 @@ class Base1DBarcode
                             }
                         }
                         for ($i = 0; $i < $seq[2]; ++$i) {
-                            $char = $seq[1]{$i};
+                            $char = $seq[1][$i];
                             $charId = ord($char);
                             if (($charId >= 241) && ($charId <= 244)) {
                                 $codeData[] = $fncA[$charId];
@@ -1342,7 +1342,7 @@ class Base1DBarcode
 
                     case 'B':
                         if ($key == 0) {
-                            $tmpchr = ord($seq[1]{0});
+                            $tmpchr = ord($seq[1][0]);
                             if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[($key + 1)]) && ($sequence[($key + 1)][0] != 'B')) {
                                 switch ($sequence[($key + 1)][0]) {
                                     case 'A':
@@ -1373,7 +1373,7 @@ class Base1DBarcode
                             }
                         }
                         for ($i = 0; $i < $seq[2]; ++$i) {
-                            $char = $seq[1]{$i};
+                            $char = $seq[1][$i];
                             $charId = ord($char);
                             if (($charId >= 241) && ($charId <= 244)) {
                                 $codeData[] = $fncB[$charId];
@@ -1390,7 +1390,7 @@ class Base1DBarcode
                             $codeData[] = 99;
                         }
                         for ($i = 0; $i < $seq[2]; $i+=2) {
-                            $chrnum = $seq[1]{$i}.$seq[1]{$i+1};
+                            $chrnum = $seq[1][$i] . $seq[1][$i + 1];
                             $codeData[] = intval($chrnum);
                         }
                         break;
@@ -1419,7 +1419,7 @@ class Base1DBarcode
                 } else {
                     $t = false; // space
                 }
-                $w = $seq{$j};
+                $w = $seq[$j];
                 $bararray['bcode'][] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
             }
@@ -1493,14 +1493,14 @@ class Base1DBarcode
         // calculate check digit
         $sumA = 0;
         for ($i = 1; $i < $dataLen; $i+=2) {
-            $sumA += $code{$i};
+            $sumA += $code[$i];
         }
         if ($len > 12) {
             $sumA *= 3;
         }
         $sumB = 0;
         for ($i = 0; $i < $dataLen; $i+=2) {
-            $sumB += ($code{$i});
+            $sumB += ($code[$i]);
         }
         if ($len < 13) {
             $sumB *= 3;
@@ -1512,7 +1512,7 @@ class Base1DBarcode
         if ($codeLen == $dataLen) {
             // add check digit
             $code .= $r;
-        } elseif ($r !== intval($code{$dataLen})) {
+        } elseif ($r !== intval($code[$dataLen])) {
             // wrong checkdigit
             return false;
         }
@@ -1621,9 +1621,9 @@ class Base1DBarcode
         $seq = '101'; // left guard bar
         if ($upce) {
             $bararray = array('code' => $upceCode, 'maxw' => 0, 'maxh' => 1, 'bcode' => array());
-            $p = $upceParities[$code{1}][$r];
+            $p = $upceParities[$code[1]][$r];
             for ($i = 0; $i < 6; ++$i) {
-                $seq .= $codes[$p[$i]][$upceCode{$i}];
+                $seq .= $codes[$p[$i]][$upceCode[$i]];
             }
             $seq .= '010101'; // right guard bar
         } else {
@@ -1631,17 +1631,17 @@ class Base1DBarcode
             $halfLen = ceil($len / 2);
             if ($len == 8) {
                 for ($i = 0; $i < $halfLen; ++$i) {
-                    $seq .= $codes['A'][$code{$i}];
+                    $seq .= $codes['A'][$code[$i]];
                 }
             } else {
-                $p = $parities[$code{0}];
+                $p = $parities[$code[0]];
                 for ($i = 1; $i < $halfLen; ++$i) {
-                    $seq .= $codes[$p[$i-1]][$code{$i}];
+                    $seq .= $codes[$p[$i-1]][$code[$i]];
                 }
             }
             $seq .= '01010'; // center guard bar
             for ($i = $halfLen; $i < $len; ++$i) {
-                $seq .= $codes['C'][$code{intval($i)}];
+                $seq .= $codes['C'][$code[intval($i)]];
             }
             $seq .= '101'; // right guard bar
         }
@@ -1649,8 +1649,8 @@ class Base1DBarcode
         $w = 0;
         for ($i = 0; $i < $clen; ++$i) {
             $w += 1;
-            if (($i == ($clen - 1)) || (($i < ($clen - 1)) && ($seq{$i} != $seq{($i+1)}))) {
-                if ($seq{$i} == '1') {
+            if (($i == ($clen - 1)) || (($i < ($clen - 1)) && ($seq[$i] != $seq[($i + 1)]))) {
+                if ($seq[$i] == '1') {
                     $t = true; // bar
                 } else {
                     $t = false; // space
@@ -1683,7 +1683,7 @@ class Base1DBarcode
         if ($len == 2) {
             $r = $code % 4;
         } elseif ($len == 5) {
-            $r = (3 * ($code{0} + $code{2} + $code{4})) + (9 * ($code{1} + $code{3}));
+            $r = (3 * ($code[0] + $code[2] + $code[4])) + (9 * ($code[1] + $code[3]));
             $r %= 10;
         } else {
             return false;
@@ -1734,10 +1734,10 @@ class Base1DBarcode
         );
         $p = $parities[$len][$r];
         $seq = '1011'; // left guard bar
-        $seq .= $codes[$p[0]][$code{0}];
+        $seq .= $codes[$p[0]][$code[0]];
         for ($i = 1; $i < $len; ++$i) {
             $seq .= '01'; // separator
-            $seq .= $codes[$p[$i]][$code{$i}];
+            $seq .= $codes[$p[$i]][$code[$i]];
         }
         $bararray = array('code' => $code, 'maxw' => 0, 'maxh' => 1, 'bcode' => array());
 
@@ -1791,7 +1791,7 @@ class Base1DBarcode
         // calculate checksum
         $sum = 0;
         for ($i = 0; $i < $len; ++$i) {
-            $sum += intval($code{$i});
+            $sum += intval($code[$i]);
         }
         $chkd = ($sum % 10);
         if ($chkd > 0) {
@@ -1805,7 +1805,7 @@ class Base1DBarcode
         $bararray['maxw'] += 2;
         for ($i = 0; $i < $len; ++$i) {
             for ($j = 0; $j < 5; ++$j) {
-                $h = $barlen[$code{$i}][$j];
+                $h = $barlen[$code[$i]][$j];
                 $p = floor(1 / $h);
                 $bararray['bcode'][$k++] = array('t' => 1, 'w' => 1, 'h' => $h, 'p' => $p);
                 $bararray['bcode'][$k++] = array('t' => 0, 'w' => 1, 'h' => 2, 'p' => 0);
@@ -1921,8 +1921,8 @@ class Base1DBarcode
             $row = 0;
             $col = 0;
             for ($i = 0; $i < $len; ++$i) {
-                $row += $checktable[$code{$i}][0];
-                $col += $checktable[$code{$i}][1];
+                $row += $checktable[$code[$i]][0];
+                $col += $checktable[$code[$i]][1];
             }
             $row %= 6;
             $col %= 6;
@@ -1943,7 +1943,7 @@ class Base1DBarcode
 
         for ($i = 0; $i < $len; ++$i) {
             for ($j = 0; $j < 4; ++$j) {
-                switch ($barmode[$code{$i}][$j]) {
+                switch ($barmode[$code[$i]][$j]) {
                     case 1:
                         $p = 0;
                         $h = 2;
@@ -2017,17 +2017,17 @@ class Base1DBarcode
         $code = 'A'.strtoupper($code).'A';
         $len = strlen($code);
         for ($i = 0; $i < $len; ++$i) {
-            if (!isset($chr[$code{$i}])) {
+            if (!isset($chr[$code[$i]])) {
                 return false;
             }
-            $seq = $chr[$code{$i}];
+            $seq = $chr[$code[$i]];
             for ($j = 0; $j < 8; ++$j) {
                 if (($j % 2) == 0) {
                     $t = true; // bar
                 } else {
                     $t = false; // space
                 }
-                $w = $seq{$j};
+                $w = $seq[$j];
                 $bararray['bcode'][$k] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
                 ++$k;
@@ -2070,7 +2070,7 @@ class Base1DBarcode
         $p = 1;
         $check = 0;
         for ($i = ($len - 1); $i >= 0; --$i) {
-            $digit = $code{$i};
+            $digit = $code[$i];
             if ($digit == '-') {
                 $dval = 10;
             } else {
@@ -2092,7 +2092,7 @@ class Base1DBarcode
             $p = 1;
             $check = 0;
             for ($i = $len; $i >= 0; --$i) {
-                $digit = $code{$i};
+                $digit = $code[$i];
                 if ($digit == '-') {
                     $dval = 10;
                 } else {
@@ -2111,17 +2111,17 @@ class Base1DBarcode
         $code = 'S'.$code.'S';
         $len += 3;
         for ($i = 0; $i < $len; ++$i) {
-            if (!isset($chr[$code{$i}])) {
+            if (!isset($chr[$code[$i]])) {
                 return false;
             }
-            $seq = $chr[$code{$i}];
+            $seq = $chr[$code[$i]];
             for ($j = 0; $j < 6; ++$j) {
                 if (($j % 2) == 0) {
                     $t = true; // bar
                 } else {
                     $t = false; // space
                 }
-                $w = $seq{$j};
+                $w = $seq[$j];
                 $bararray['bcode'][$k] = array('t' => $t, 'w' => $w, 'h' => 1, 'p' => 0);
                 $bararray['maxw'] += $w;
                 ++$k;
@@ -2198,7 +2198,7 @@ class Base1DBarcode
         $bararray = array('code' => $code, 'maxw' => 0, 'maxh' => 2, 'bcode' => array());
         $len = strlen($seq);
         for ($i = 0; $i < $len; ++$i) {
-            switch ($seq{$i}) {
+            switch ($seq[$i]) {
                 case '1':
                     $p = 1;
                     $h = 1;
@@ -2271,9 +2271,9 @@ class Base1DBarcode
 
         }
         $binaryCode = bcmul($binaryCode, 10);
-        $binaryCode = bcadd($binaryCode, $trackingNumber{0});
+        $binaryCode = bcadd($binaryCode, $trackingNumber[0]);
         $binaryCode = bcmul($binaryCode, 5);
-        $binaryCode = bcadd($binaryCode, $trackingNumber{1});
+        $binaryCode = bcadd($binaryCode, $trackingNumber[1]);
         $binaryCode .= substr($trackingNumber, 2, 18);
         // convert to hexadecimal
         $binaryCode = $this->dec_to_hex($binaryCode);
@@ -2393,7 +2393,7 @@ class Base1DBarcode
         $bitval = 1;
         $len = strlen($hex);
         for ($pos = ($len - 1); $pos >= 0; --$pos) {
-            $dec = bcadd($dec, bcmul(hexdec($hex{$pos}), $bitval));
+            $dec = bcadd($dec, bcmul(hexdec($hex[$pos]), $bitval));
             $bitval = bcmul($bitval, 16);
         }
 

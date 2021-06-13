@@ -479,7 +479,7 @@ class datamatrix
                 return self::ENC_C40;
             }
             // get char
-            $chr = ord($data{($pos + $charscount)});
+            $chr = ord($data[($pos + $charscount)]);
             $charscount++;
             // STEP L
             if ($this->isCharMode($chr, self::ENC_ASCII_NUM)) {
@@ -554,7 +554,7 @@ class datamatrix
                     if ($numch[self::ENC_C40] == $numch[self::ENC_X12]) {
                         $k = ($pos + $charscount + 1);
                         while ($k < $dataLength) {
-                            $tmpchr = ord($data{$k});
+                            $tmpchr = ord($data[$k]);
                             if ($this->isCharMode($tmpchr, self::ENC_X12)) {
                                 return self::ENC_X12;
                             } elseif (!($this->isCharMode($tmpchr, self::ENC_X12) || $this->isCharMode($tmpchr, self::ENC_C40))) {
@@ -650,7 +650,7 @@ class datamatrix
         while ($pos < $dataLenght) {
             switch ($enc) {
                 case self::ENC_ASCII : // STEP B. While in ASCII encodation
-                    if (($dataLenght > 1) && ($pos < ($dataLenght - 1)) && ($this->isCharMode(ord($data{($pos)}), self::ENC_ASCII_NUM) && $this->isCharMode(ord($data{($pos + 1)}), self::ENC_ASCII_NUM))) {
+                    if (($dataLenght > 1) && ($pos < ($dataLenght - 1)) && ($this->isCharMode(ord($data[($pos)]), self::ENC_ASCII_NUM) && $this->isCharMode(ord($data[($pos + 1)]), self::ENC_ASCII_NUM))) {
                         // 1. If the next data sequence is at least 2 consecutive digits, encode the next two digits as a double digit in ASCII mode.
                         $cw[] = (intval(substr($data, $pos, 2)) + 130);
                         ++$cwNum;
@@ -665,7 +665,7 @@ class datamatrix
                             ++$cwNum;
                         } else {
                             // get new byte
-                            $chr = ord($data{($pos)});
+                            $chr = ord($data[($pos)]);
                             ++$pos;
                             if ($this->isCharMode($chr, self::ENC_ASCII_EXT)) {
                                 // 3. If the next data character is extended ASCII (greater than 127) encode it in ASCII mode first using the Upper Shift (value 235) character.
@@ -692,7 +692,7 @@ class datamatrix
                     $charset = $this->chset[$setId];
                     do {
                     // 2. process the next character in C40 encodation.
-                    $chr = ord($data{($epos)});
+                    $chr = ord($data[($epos)]);
                     ++$epos;
                     // check for extended character
                     if ($chr & 0x80) {
@@ -787,7 +787,7 @@ class datamatrix
                     $fieldLenght = 0;
                     while ($epos < $dataLenght) {
                         // 2. process the next character in EDIFACT encodation.
-                        $chr = ord($data{($epos)});
+                        $chr = ord($data[($epos)]);
                         ++$epos;
                         $tempCw[] = $chr;
                         ++$fieldLenght;
@@ -846,7 +846,7 @@ class datamatrix
                             break; // exit from B256 mode
                         } else {
                             // 2. Otherwise, process the next character in Base 256 encodation.
-                            $chr = ord($data{($pos)});
+                            $chr = ord($data[($pos)]);
                             ++$pos;
                             $tempCw[] = $chr;
                             ++$fieldLenght;
