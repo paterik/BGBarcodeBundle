@@ -142,7 +142,7 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C39+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 150);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 150);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -259,8 +259,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'I25', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) >= 120);
         } else {
@@ -300,10 +298,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'I25+', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -341,10 +337,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C128', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 128);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -381,7 +375,6 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'C128A', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 130);
@@ -460,10 +453,9 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
         $d1->savePath = '/tmp/';
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_C128C, 'C128B', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 160);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -501,10 +493,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN2, 'EAN2', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 106);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -542,10 +532,9 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN5', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
 
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 115);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -583,10 +572,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN13', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -624,10 +611,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_EAN5, 'EAN8', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 120);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -665,10 +650,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_UPCA, 'UPCA', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -706,10 +689,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_UPCE, 'UPCE', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 116);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -903,10 +884,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'RMS4CC', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 146);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -1022,10 +1001,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'CODABAR', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 129);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }
@@ -1063,10 +1040,8 @@ class BarcodeBaseTest extends \PHPUnit_Framework_TestCase
 
         $bcPathAbs = $d1->getBarcodePNGPath(self::C_BC_DEFAULT, 'CODE11', self::C_BC_1D_WIDTH, self::C_BC_1D_HEIGHT);
 
-        // print_r(filesize($bcPathAbs));
-
         if (function_exists('imagecreate')) {
-            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) === 125);
+            $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
             $checkCondition = (file_exists($bcPathAbs)) ? true : false;
         }

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 1.0.2 (23.06.2021)
+
+#### Fixes
+- unit tests
+- compose json issue(s)
+- core dependency updates
+
+
 ### 1.0.1 (24.01.2017)
 
 #### Fixes
@@ -29,5 +37,3 @@ Changelog
 
 #### Changes
 - add/change copyright/licence model
-
-...
