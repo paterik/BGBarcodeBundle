@@ -336,14 +336,13 @@ final class Base2DBarcode
 
     /**
      * Set the barcode.
-     *
-     * @param string $code
      * @param string $type
      */
-    public function setBarcode($code, $type)
+    public function setBarcode(string $code, $type)
     {
         $mode = explode(',', $type);
         $qrtype = strtoupper($mode[0]);
+
         switch ($qrtype) {
             case 'DATAMATRIX': // DATAMATRIX (ISO/IEC 16022)
                 $qrcode = new Datamatrix($code);

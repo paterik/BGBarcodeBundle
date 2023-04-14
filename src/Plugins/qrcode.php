@@ -1009,24 +1009,14 @@ final class qrcode
         return $bitMask;
     }
 
-    /**
-     * makeMaskNo
-     *
-     * @param int   $maskNo
-     * @param int   $width
-     * @param array $s
-     * @param array &$d
-     * @param bool  $maskGenOnly
-     *
-     * @return int
-     */
-    private function makeMaskNo($maskNo, $width, $s, &$d, $maskGenOnly = false)
+    private function makeMaskNo(int $maskNo, int $width, array $s, array &$d, bool $maskGenOnly = false): ?int
     {
         $b = 0;
         $bitMask = $this->generateMaskNo($maskNo, $width, $s);
         if ($maskGenOnly) {
             return null;
         }
+
         $d = $s;
         for ($y = 0; $y < $width; ++$y) {
             for ($x = 0; $x < $width; ++$x) {
@@ -1731,52 +1721,6 @@ final class qrcode
         }
 
         return $items;
-    }
-
-    /**
-     * insertStructuredAppendHeader
-     *
-     * @param array $items
-     * @param int   $size
-     * @param int   $index
-     * @param int   $parity
-     *
-     * @return int
-     */
-    private function insertStructuredAppendHeader($items, $size, $index, $parity)
-    {
-        if ($size > self::MAX_STRUCTURED_SYMBOLS) {
-            return -1;
-        }
-        if (($index <= 0) || ($index > self::MAX_STRUCTURED_SYMBOLS)) {
-            return -1;
-        }
-        $buf = [$size, $index, $parity];
-        $entry = $this->newInputItem(self::QR_MODE_ST, 3, $buf);
-        array_unshift($items, $entry);
-
-        return $items;
-    }
-
-    /**
-     * calcParity
-     *
-     * @param array $items
-     *
-     * @return int
-     */
-    private function calcParity($items)
-    {
-        $parity = 0;
-        foreach ($items as $item) {
-            if ($item['mode'] != self::QR_MODE_ST) {
-                for ($i = $item['size'] - 1; $i >= 0; --$i) {
-                    $parity ^= $item['data'][$i];
-                }
-            }
-        }
-
-        return $parity;
     }
 
     /**

@@ -329,15 +329,12 @@ final class datamatrix
         ], //
     ];
 
-    /**
-     * @param string $code
-     */
-    public function __construct($code)
+    public function __construct(string $code)
     {
         $params = [];
 
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
-            return false;
+            return;
         }
         // get data codewords
         $cw = $this->getHighLevelEncoding($code);
@@ -345,7 +342,7 @@ final class datamatrix
         $nd = count($cw);
         // check size
         if ($nd > 1558) {
-            return false;
+            return;
         }
         // get minimum required matrix size.
         foreach ($this->symbattr as $params) {
@@ -355,7 +352,7 @@ final class datamatrix
         }
         if ($params[11] < $nd) {
             // too much data
-            return false;
+            return;
         } elseif ($params[11] > $nd) {
             // add padding
             if ($this->lastEnc == self::ENC_EDF) {
@@ -436,11 +433,10 @@ final class datamatrix
                 }
             }
         }
+
         $this->barcodeArray['num_rows'] = $params[0];
         $this->barcodeArray['num_cols'] = $params[1];
         $this->barcodeArray['bcode'] = $grid;
-
-        return false;
     }
 
     /**

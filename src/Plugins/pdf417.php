@@ -14,7 +14,7 @@ final class pdf417
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
      */
-    private $barcodeArray = [];
+    private array $barcodeArray = [];
 
     private string $startPattern = '11111111010101000';
 
@@ -4051,7 +4051,7 @@ final class pdf417
         $barcodeArray = [];
 
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
-            return false;
+            return;
         }
         // get the input sequence array
         $sequence = $this->getInputSequences($code);
@@ -4068,7 +4068,7 @@ final class pdf417
         $numcw = count($codewords);
         if ($numcw > 925) {
             // reached maximum data codeword capacity
-            return false;
+            return;
         }
         // build macro control block codewords
         if (! empty($macro)) {
@@ -4239,14 +4239,12 @@ final class pdf417
             }
         }
         $this->barcodeArray = $barcodeArray;
-
-        return false;
     }
 
     /**
      * Returns a barcode array which is readable
      */
-    public function getBarcodeArray()
+    public function getBarcodeArray(): array
     {
         return $this->barcodeArray;
     }
