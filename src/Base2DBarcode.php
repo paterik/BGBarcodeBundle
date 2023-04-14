@@ -310,7 +310,7 @@ final class Base2DBarcode
                         $bar->setfillcolor($fgcol);
                         $bar->rectangle($x, $y, ($x + $w - 1), ($y + $h - 1));
                     } else {
-                        imagefilledrectangle($png, $x, $y, ($x + $w - 1), ($y + $h - 1), $fgcol);
+                        imagefilledrectangle($png, (int) $x, (int) $y, (int) ($x + $w - 1), (int) ($y + $h - 1), $fgcol);
                     }
                 }
                 $x += $w;
