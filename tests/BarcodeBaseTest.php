@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BG\BarcodeBundle\Tests;
 
-use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
-use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
+use BG\BarcodeBundle\Base1DBarcode as barCode;
+use BG\BarcodeBundle\Base2DBarcode as matrixCode;
 use PHPUnit\Framework\TestCase;
 
 final class BarcodeBaseTest extends TestCase
@@ -22,7 +22,7 @@ final class BarcodeBaseTest extends TestCase
     const C_MC_DEFAULT = 'BGBarcodeBundle';
 
     const C_BC_1D_HEIGHT = 45;
-    const C_BC_1D_WIDTH = 1.75;
+    const C_BC_1D_WIDTH = 2;
 
     const C_MC_2D_HEIGHT = 2;
     const C_MC_2D_WIDTH = 2;

@@ -34,7 +34,7 @@
 // DataMatrix (ISO/IEC 16022:2006) is a 2-dimensional bar code.
 //============================================================+
 
-namespace BG\BarcodeBundle\Util\Plugins;
+namespace BG\BarcodeBundle\Plugins;
 
 /**
  * class Datamatrix 1.0.1, based on datamatrix.php v1.0.001 (Nicola Asuni)

@@ -44,7 +44,7 @@
 //
 //============================================================+
 
-namespace BG\BarcodeBundle\Util\Plugins;
+namespace BG\BarcodeBundle\Plugins;
 
 /**
  * class pdf417 1.0.1, based on pdf417.php v1.0.003 (Nicola Asuni)

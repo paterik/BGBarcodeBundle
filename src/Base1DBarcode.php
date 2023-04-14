@@ -1,48 +1,8 @@
 <?php
 
-//============================================================+
-// File name   : barcodes.php
-// Version     : 1.0.023
-// Begin       : 2008-06-09
-// Last Update : 2012-01-14
-// Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
-// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
-// -------------------------------------------------------------------
-// Copyright (C) 2008-2012  Nicola Asuni - Tecnick.com LTD
-//
-// This file is part of TCPDF software library.
-//
-// TCPDF is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation, either version 3 of the
-// License, or (at your option) any later version.
-//
-// TCPDF is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
-//
-// See LICENSE.TXT file for more information.
-// -------------------------------------------------------------------
-//
-// Description : PHP class to creates array representations for
-//               common 1D barcodes to be used with TCPDF.
-//
-//============================================================+
+namespace BG\BarcodeBundle;
 
-namespace BG\BarcodeBundle\Util;
-
-/**
- * class Base1DBarcode 1.0.1, based on barcodes.php v1.0.023 (Nicola Asuni)
- *
- * @author Nicola Asuni
- * @author Dinesh Rabara <dinesh.rabara@gmail.com>
- * @author Patrick Paechnatz <patrick.paechnatz@gmail.com>
- */
-class Base1DBarcode
+final class Base1DBarcode
 {
     /**
      * Array representation of barcode.
@@ -283,7 +243,7 @@ class Base1DBarcode
      *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, $w=2, $h=30, $color=array(0,0,0), $filename=null)
+    public function getBarcodePNGPath($code, $type, int $w=2, int $h=30, $color=array(0,0,0), $filename=null)
     {
         if (is_null($filename)){
             $filename = $type.'_'.$code;
@@ -326,9 +286,16 @@ class Base1DBarcode
         foreach ($this->barcodeArray['bcode'] as $v) {
 
             $bw = round(round(($v['w'] * $w), $sharp) * $bwPerc / 100, $sharp);
+            $bw = (int) $bw;
+
             $bh = round(($v['h'] * $h / $this->barcodeArray['maxh']), $sharp);
+            $bh = (int) $bh;
+
             if ($v['t']) {
                 $y = round(($v['p'] * $h / $this->barcodeArray['maxh']), $sharp);
+
+                $y = (int) $y;
+
                 // draw a vertical bar
                 if ($imagick) {
                     $bar = new \imagickdraw();
@@ -2270,9 +2237,9 @@ class Base1DBarcode
                 break;
 
         }
-        $binaryCode = bcmul($binaryCode, 10);
+        $binaryCode = bcmul((string) $binaryCode, (string)10);
         $binaryCode = bcadd($binaryCode, $trackingNumber[0]);
-        $binaryCode = bcmul($binaryCode, 5);
+        $binaryCode = bcmul($binaryCode, (string) 5);
         $binaryCode = bcadd($binaryCode, $trackingNumber[1]);
         $binaryCode .= substr($trackingNumber, 2, 18);
         // convert to hexadecimal

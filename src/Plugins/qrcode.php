@@ -64,7 +64,7 @@
 // ---------------------------------------------------------
 //============================================================+
 
-namespace BG\BarcodeBundle\Util\Plugins;
+namespace BG\BarcodeBundle\Plugins;
 
 /**
  * class QRcode 1.0.1, based on qrcode.php v1.0.009 (Nicola Asuni)
