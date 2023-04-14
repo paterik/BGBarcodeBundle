@@ -521,29 +521,30 @@ final class qrcode
      * This is the class constructor - creates a QRcode object
      *
      * @param string $code
-     * @param string $eclevel
      */
-    public function __construct($code, $eclevel = 'L')
+    public function __construct($code, string $eclevel = 'L')
     {
         $barcodeArray = [];
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
-            return false;
+            return;
         }
+
         // set error correction level
-        $this->level = array_search($eclevel, ['L', 'M', 'Q', 'H']);
-        if ($this->level === false) {
-            $this->level = self::QR_ECLEVEL_L;
+        $levelKey = array_search($eclevel, ['L', 'M', 'Q', 'H']);
+        if (is_string($levelKey)) {
+            $this->level = $levelKey;
         }
+
         if (($this->hint != self::QR_MODE_8B) && ($this->hint != self::QR_MODE_KJ)) {
-            return false;
+            return;
         }
         if (($this->version < 0) || ($this->version > self::QRSPEC_VERSION_MAX)) {
-            return false;
+            return;
         }
         $this->items = [];
         $this->encodeString($code);
         if (is_null($this->data)) {
-            return false;
+            return;
         }
         $qrTab = $this->binarize($this->data);
         $size = count($qrTab);
@@ -558,8 +559,6 @@ final class qrcode
             $barcodeArray['bcode'][] = $arrAdd;
         }
         $this->barcodeArray = $barcodeArray;
-
-        return false;
     }
 
     /**
