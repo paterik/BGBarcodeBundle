@@ -1,6 +1,6 @@
 <?php
 
-namespace BG\BarcodeBundle;
+namespace TomasVotruba\BarcodeBundle;
 
 final class Base1DBarcode
 {

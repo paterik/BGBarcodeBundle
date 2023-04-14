@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BG\BarcodeBundle;
+namespace TomasVotruba\BarcodeBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

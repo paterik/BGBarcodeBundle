@@ -17,12 +17,12 @@
     },
     "autoload": {
         "psr-4": {
-            "BG\\BarcodeBundle\\": "src"
+            "TomasVotruba\\BarcodeBundle\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BG\\BarcodeBundle\\Tests\\": "tests"
+            "TomasVotruba\\BarcodeBundle\\Tests\\": "tests"
         }
     },
     "scripts": {

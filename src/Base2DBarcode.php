@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BG\BarcodeBundle;
+namespace TomasVotruba\BarcodeBundle;
 
-use BG\BarcodeBundle\Plugins\datamatrix as Datamatrix,
-BG\BarcodeBundle\Plugins\pdf417 as PDF417,
-BG\BarcodeBundle\Plugins\qrcode as QRcode;
+use TomasVotruba\BarcodeBundle\Plugins\datamatrix as Datamatrix,
+TomasVotruba\BarcodeBundle\Plugins\pdf417 as PDF417,
+TomasVotruba\BarcodeBundle\Plugins\qrcode as QRcode;
 
 final class Base2DBarcode
 {

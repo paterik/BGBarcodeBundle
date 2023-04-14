@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BG\BarcodeBundle\Tests;
+namespace TomasVotruba\BarcodeBundle\Tests;
 
-use BG\BarcodeBundle\Base1DBarcode as barCode;
-use BG\BarcodeBundle\Base2DBarcode as matrixCode;
+use TomasVotruba\BarcodeBundle\Base1DBarcode as barCode;
+use TomasVotruba\BarcodeBundle\Base2DBarcode as matrixCode;
 use PHPUnit\Framework\TestCase;
 
 final class BarcodeBaseTest extends TestCase

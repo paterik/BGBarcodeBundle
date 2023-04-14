@@ -1,6 +1,6 @@
 <?php
 
-namespace BG\BarcodeBundle\Plugins;
+namespace TomasVotruba\BarcodeBundle\Plugins;
 
 final class pdf417
 {
