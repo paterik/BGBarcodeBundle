@@ -17,7 +17,7 @@ final class Base2DBarcode
 
     /**
      * path to save png in getBarcodePNGPath
-     * @var <type>
+     * @var string
      */
     public $savePath;
 

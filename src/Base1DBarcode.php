@@ -8,7 +8,7 @@ final class Base1DBarcode
 
     /**
      * path to save png in getBarcodePNGPath
-     * @var <type>
+     * @var string
      */
     public $savePath;
 
@@ -1917,12 +1917,9 @@ final class Base1DBarcode
      * 2-Digit Ext.: Used to indicate magazines and newspaper issue numbers
      * 5-Digit Ext.: Used to mark suggested retail price of books
      *
-     * @param string $code
-     * @param int    $len
-     *
      * @return bool|mixed
      */
-    protected function barcode_eanext($code, $len = 5)
+    private function barcode_eanext(string $code, int $len = 5)
     {
         //Padding
         $code = str_pad($code, $len, '0', STR_PAD_LEFT);
