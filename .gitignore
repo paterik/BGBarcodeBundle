@@ -1,3 +1,6 @@
+# PHPUnit
+.phpunit.result.cache
+
 # Bootstrap
 app/bootstrap*
 
