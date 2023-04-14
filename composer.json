@@ -17,5 +17,10 @@
         "psr-4": {
             "BG\\BarcodeBundle\\": ""
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BG\\BarcodeBundle\\Tests\\": "tests"
+        }
     }
 }

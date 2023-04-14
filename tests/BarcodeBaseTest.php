@@ -1,6 +1,8 @@
 <?php
 
-namespace BG\BarcodeBundle;
+declare(strict_types=1);
+
+namespace BG\BarcodeBundle\Tests;
 
 use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
 use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
@@ -38,7 +40,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC39GetBarcodePNGPath()
     {
@@ -60,7 +61,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC39GetBarcodeHTMLRaw()
     {
@@ -77,7 +77,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39E Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC39EGetBarcodePNGPath()
     {
@@ -100,7 +99,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39E Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC39EGetBarcodeHTMLRaw()
     {
@@ -116,7 +114,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC39PlusGetBarcodePNGPath()
     {
@@ -139,7 +136,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC39PlusGetBarcodeHTMLRaw()
     {
@@ -156,7 +152,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C93 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC93PlusGetBarcodePNGPath()
     {
@@ -179,7 +174,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC93PlusGetBarcodeHTMLRaw()
     {
@@ -195,7 +189,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * S25 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testS25GetBarcodePNGPath()
     {
@@ -218,7 +211,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testS25GetBarcodeHTMLRaw()
     {
@@ -234,7 +226,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testI25GetBarcodePNGPath()
     {
@@ -257,7 +248,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testI25GetBarcodeHTMLRaw()
     {
@@ -273,7 +263,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25+ Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testI25PlusGetBarcodePNGPath()
     {
@@ -296,7 +285,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testI25PlusGetBarcodeHTMLRaw()
     {
@@ -312,7 +300,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (native) Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC128GetBarcodePNGPath()
     {
@@ -335,7 +322,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (native) Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC128GetBarcodeHTMLRaw()
     {
@@ -351,7 +337,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (A) Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC128AGetBarcodePNGPath()
     {
@@ -374,7 +359,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (A) Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC128AGetBarcodeHTMLRaw()
     {
@@ -390,7 +374,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (B) Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC128BGetBarcodePNGPath()
     {
@@ -413,7 +396,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (B) Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC128BGetBarcodeHTMLRaw()
     {
@@ -429,7 +411,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (C) Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testC128CGetBarcodePNGPath()
     {
@@ -452,7 +433,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (C) Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testC128CGetBarcodeHTMLRaw()
     {
@@ -468,7 +448,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN2 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testEAN2GetBarcodePNGPath()
     {
@@ -491,7 +470,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN2 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testEAN2GetBarcodeHTMLRaw()
     {
@@ -507,7 +485,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN5 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testEAN5GetBarcodePNGPath()
     {
@@ -531,7 +508,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN5 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testEAN5GetBarcodeHTMLRaw()
     {
@@ -547,7 +523,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN13 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testEAN13GetBarcodePNGPath()
     {
@@ -570,7 +545,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN13 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testEAN13GetBarcodeHTMLRaw()
     {
@@ -586,7 +560,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN8 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testEAN8GetBarcodePNGPath()
     {
@@ -609,7 +582,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN8 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testEAN8GetBarcodeHTMLRaw()
     {
@@ -625,7 +597,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCA Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testUPCAGetBarcodePNGPath()
     {
@@ -648,7 +619,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCA Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testUPCAGetBarcodeHTMLRaw()
     {
@@ -664,7 +634,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testUPCEGetBarcodePNGPath()
     {
@@ -687,7 +656,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testUPCEGetBarcodeHTMLRaw()
     {
@@ -703,7 +671,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testMSIGetBarcodePNGPath()
     {
@@ -726,7 +693,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testMSIGetBarcodeHTMLRaw()
     {
@@ -742,7 +708,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI+ Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testMSIPlusGetBarcodePNGPath()
     {
@@ -765,7 +730,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI+ Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testMSIPlusGetBarcodeHTMLRaw()
     {
@@ -781,7 +745,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * POSTNET Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testPOSTNETGetBarcodePNGPath()
     {
@@ -804,7 +767,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * POSTNET Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testPOSTNETGetBarcodeHTMLRaw()
     {
@@ -820,7 +782,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PLANET Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testPLANETGetBarcodePNGPath()
     {
@@ -843,7 +804,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PLANET Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testPLANETGetBarcodeHTMLRaw()
     {
@@ -859,7 +819,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * RMS4CC Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testRMS4CCGetBarcodePNGPath()
     {
@@ -882,7 +841,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * RMS4CC Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testRMS4CCGetBarcodeHTMLRaw()
     {
@@ -898,7 +856,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * KIX Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testKIXGetBarcodePNGPath()
     {
@@ -921,7 +878,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * KIX Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testKIXGetBarcodeHTMLRaw()
     {
@@ -937,7 +893,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * IMB Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testIMBGetBarcodePNGPath()
     {
@@ -960,7 +915,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * IMB Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testIMBGetBarcodeHTMLRaw()
     {
@@ -976,7 +930,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODABAR Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testCODABARGetBarcodePNGPath()
     {
@@ -999,7 +952,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODABAR Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testCODABARGetBarcodeHTMLRaw()
     {
@@ -1015,7 +967,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODE11 Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testCODE11GetBarcodePNGPath()
     {
@@ -1038,7 +989,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODE11 Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testCODE11GetBarcodeHTMLRaw()
     {
@@ -1054,7 +1004,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testPHARMAGetBarcodePNGPath()
     {
@@ -1077,7 +1026,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testPHARMAGetBarcodeHTMLRaw()
     {
@@ -1093,7 +1041,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA2T Barcode PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodePNGPath();
      */
     public function testPHARMA2TGetBarcodePNGPath()
     {
@@ -1116,7 +1063,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA2T Barcode HTML table rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base1DBarcode::getBarcodeHTML();
      */
     public function testPHARMA2TGetBarcodeHTMLRaw()
     {
@@ -1132,7 +1078,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * DATAMATRIX 2D Matrix-Code PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base2DBarcode::getBarcodePNGPath();
      */
     public function testDATAMATRIXGetBarcodePNGPath()
     {
@@ -1155,7 +1100,6 @@ final class BarcodeBaseTest extends TestCase
     /**
      * QRCode 2D Matrix-Code PNG rendering test
      *
-     * @covers BG\BarcodeBundle\Util\Base2DBarcode::getBarcodePNGPath();
      */
     public function testQRCODEGetBarcodePNGPath()
     {
