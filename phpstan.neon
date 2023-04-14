@@ -9,3 +9,13 @@ parameters:
         -
             message: '#Variable \$chr in isset\(\) always exists and is not nullable#'
             path: src/Plugins/datamatrix.php
+
+        -
+            message: '#Comparison operation (.*?) between int<0, max> and \(array\|float\|int\) results in an error#'
+            path: src/Plugins/qrcode.php
+
+        -
+            message: '#Binary operation \"\+\" between string and string results in an error#'
+            path: src/Base1DBarcode.php
+
+        - '#Unary operation "~" on mixed results in an error#'
