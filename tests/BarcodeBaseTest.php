@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TomasVotruba\BarcodeBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use TomasVotruba\BarcodeBundle\Base1DBarcode as barCode;
 use TomasVotruba\BarcodeBundle\Base2DBarcode as matrixCode;
-use PHPUnit\Framework\TestCase;
 
 final class BarcodeBaseTest extends TestCase
 {

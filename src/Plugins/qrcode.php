@@ -150,11 +150,7 @@ final class qrcode
      */
     protected $count;
 
-    /**
-     * Data length.
-     * @protected
-     */
-    protected $dataLength;
+    private int $dataLength;
 
     /**
      * Error correction length.
@@ -599,10 +595,8 @@ final class qrcode
 
     /**
      * Returns a barcode array which is readable by Dinesh Rabara
-     * @return array barcode array readable by Dinesh Rabara;
-     * @public
      */
-    public function getBarcodeArray()
+    public function getBarcodeArray(): array
     {
         return $this->barcodeArray;
     }

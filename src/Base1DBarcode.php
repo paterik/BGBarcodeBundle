@@ -4,11 +4,7 @@ namespace TomasVotruba\BarcodeBundle;
 
 final class Base1DBarcode
 {
-    /**
-     * Array representation of barcode.
-     * @protected
-     */
-    protected $barcodeArray;
+    private $barcodeArray;
 
     /**
      * path to save png in getBarcodePNGPath
@@ -19,7 +15,6 @@ final class Base1DBarcode
     /**
      * Return an array representations of barcode.
      * @return array
-     * @public
      */
     public function getBarcodeArray()
     {

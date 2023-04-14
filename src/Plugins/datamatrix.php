@@ -444,11 +444,9 @@ final class datamatrix
     }
 
     /**
-     * Returns a barcode array which is readable by Dinesh Rabara
-     * @return array barcode array readable by Dinesh Rabara;
-     * @public
+     * Returns a barcode array which is readable
      */
-    public function getBarcodeArray()
+    public function getBarcodeArray(): array
     {
         return $this->barcodeArray;
     }
