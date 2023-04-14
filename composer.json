@@ -23,5 +23,10 @@
         "psr-4": {
             "BG\\BarcodeBundle\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse --ansi",
+        "check-cs": "vendor/bin/ecs check --ansi",
+        "fix-cs": "vendor/bin/ecs check --fix --ansi"
     }
 }

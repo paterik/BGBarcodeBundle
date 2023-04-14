@@ -4,18 +4,18 @@ namespace BG\BarcodeBundle\Plugins;
 
 final class pdf417
 {
-    const
+    public const
 
         PDF417DEFS = true,
-        ROWHEIGHT = 4,
-        QUIETH = 2,
-        QUIETV = 4;
+    ROWHEIGHT = 4,
+    QUIETH = 2,
+    QUIETV = 4;
 
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
      * @protected
      */
-    protected $barcodeArray = array();
+    protected $barcodeArray = [];
 
     /**
      * Start pattern.
@@ -33,8 +33,8 @@ final class pdf417
      * Array of text Compaction Sub-Modes (values 0xFB - 0xFF are used for submode changers).
      * @protected
      */
-    protected $textsubmodes = array(
-        array(
+    protected $textsubmodes = [
+        [
             0x41,
             0x42,
             0x43,
@@ -64,9 +64,9 @@ final class pdf417
             0x20,
             0xFD,
             0xFE,
-            0xFF
-        ), // Alpha
-        array(
+            0xFF,
+        ], // Alpha
+        [
             0x61,
             0x62,
             0x63,
@@ -96,9 +96,9 @@ final class pdf417
             0x20,
             0xFD,
             0xFE,
-            0xFF
-        ), // Lower
-        array(
+            0xFF,
+        ], // Lower
+        [
             0x30,
             0x31,
             0x32,
@@ -128,9 +128,9 @@ final class pdf417
             0x20,
             0xFD,
             0xFE,
-            0xFF
-        ), // Mixed
-        array(
+            0xFF,
+        ], // Mixed
+        [
             0x3b,
             0x3c,
             0x3e,
@@ -160,28 +160,28 @@ final class pdf417
             0x7b,
             0x7d,
             0x27,
-            0xFF
-        ) // Puntuaction
-    );
+            0xFF,
+        ], // Puntuaction
+    ];
 
     /**
      * Array of switching codes for Text Compaction Sub-Modes.
      * @protected
      */
-    protected $textlatch = array(
-        '01' => array(27),
-        '02' => array(28),
-        '03' => array(28, 25), //
-        '10' => array(28, 28),
-        '12' => array(28),
-        '13' => array(28, 25), //
-        '20' => array(28),
-        '21' => array(27),
-        '23' => array(25), //
-        '30' => array(29),
-        '31' => array(29, 27),
-        '32' => array(29, 28) //
-    );
+    protected $textlatch = [
+        '01' => [27],
+        '02' => [28],
+        '03' => [28, 25], //
+        '10' => [28, 28],
+        '12' => [28],
+        '13' => [28, 25], //
+        '20' => [28],
+        '21' => [27],
+        '23' => [25], //
+        '30' => [29],
+        '31' => [29, 27],
+        '32' => [29, 28], //
+    ];
 
     /**
      * Clusters of codewords (0, 3, 6)<br/>
@@ -204,8 +204,8 @@ final class pdf417
      * </ul>
      * @protected
      */
-    protected $clusters = array(
-        array( // cluster 0
+    protected $clusters = [
+        [ // cluster 0
             0x1d5c0,
             0x1eaf0,
             0x1f57c,
@@ -1134,9 +1134,9 @@ final class pdf417
             0x18612,
             0x19e74,
             0x18e32,
-            0x1bef4
-        ), // 929
-        array( // cluster 3 -----------------------------------------------------------------------
+            0x1bef4,
+        ], // 929
+        [ // cluster 3 -----------------------------------------------------------------------
             0x1f560,
             0x1fab8,
             0x1ea40,
@@ -2065,9 +2065,9 @@ final class pdf417
             0x11f2e,
             0x13f6e,
             0x13f2c,
-            0x13f26
-        ), // 929
-        array( // cluster 6 -----------------------------------------------------------------------
+            0x13f26,
+        ], // 929
+        [ // cluster 6 -----------------------------------------------------------------------
             0x1abe0,
             0x1d5f8,
             0x153c0,
@@ -2996,26 +2996,26 @@ final class pdf417
             0x10fb4,
             0x10792,
             0x10fb2,
-            0x1c7ea
-        ) // 929
-    ); // end of $clusters array
+            0x1c7ea,
+        ], // 929
+    ]; // end of $clusters array
 
     /**
      * Array of factors of the Reed-Solomon polynomial equations used for error correction; one sub array for each correction level (0-8).
      * @protected
      */
-    protected $rsfactors = array(
-        array( // ECL 0 (2 factors) -------------------------------------------------------------------------------
+    protected $rsfactors = [
+        [ // ECL 0 (2 factors) -------------------------------------------------------------------------------
             0x01b,
-            0x395
-        ), //   2
-        array( // ECL 1 (4 factors) -------------------------------------------------------------------------------
+            0x395,
+        ], //   2
+        [ // ECL 1 (4 factors) -------------------------------------------------------------------------------
             0x20a,
             0x238,
             0x2d3,
-            0x329
-        ), //   4
-        array( // ECL 2 (8 factors) -------------------------------------------------------------------------------
+            0x329,
+        ], //   4
+        [ // ECL 2 (8 factors) -------------------------------------------------------------------------------
             0x0ed,
             0x134,
             0x1b4,
@@ -3023,9 +3023,9 @@ final class pdf417
             0x286,
             0x28d,
             0x1ac,
-            0x17b
-        ), //   8
-        array( // ECL 3 (16 factors) ------------------------------------------------------------------------------
+            0x17b,
+        ], //   8
+        [ // ECL 3 (16 factors) ------------------------------------------------------------------------------
             0x112,
             0x232,
             0x0e8,
@@ -3041,9 +3041,9 @@ final class pdf417
             0x127,
             0x02a,
             0x0b0,
-            0x041
-        ), //  16
-        array( // ECL 4 (32 factors) ------------------------------------------------------------------------------
+            0x041,
+        ], //  16
+        [ // ECL 4 (32 factors) ------------------------------------------------------------------------------
             0x169,
             0x23f,
             0x39a,
@@ -3075,9 +3075,9 @@ final class pdf417
             0x2ad,
             0x14a,
             0x03f,
-            0x19a
-        ), //  32
-        array( // ECL 5 (64 factors) ------------------------------------------------------------------------------
+            0x19a,
+        ], //  32
+        [ // ECL 5 (64 factors) ------------------------------------------------------------------------------
             0x21b,
             0x1a6,
             0x006,
@@ -3141,9 +3141,9 @@ final class pdf417
             0x34b,
             0x26f,
             0x108,
-            0x21f
-        ), //  64
-        array( // ECL 6 (128 factors) -----------------------------------------------------------------------------
+            0x21f,
+        ], //  64
+        [ // ECL 6 (128 factors) -----------------------------------------------------------------------------
             0x209,
             0x136,
             0x360,
@@ -3271,9 +3271,9 @@ final class pdf417
             0x321,
             0x004,
             0x06c,
-            0x21b
-        ), // 128
-        array( // ECL 7 (256 factors) -----------------------------------------------------------------------------
+            0x21b,
+        ], // 128
+        [ // ECL 7 (256 factors) -----------------------------------------------------------------------------
             0x20c,
             0x37e,
             0x04b,
@@ -3529,9 +3529,9 @@ final class pdf417
             0x288,
             0x037,
             0x1f1,
-            0x00a
-        ), // 256
-        array( // ECL 8 (512 factors) -----------------------------------------------------------------------------
+            0x00a,
+        ], // 256
+        [ // ECL 8 (512 factors) -----------------------------------------------------------------------------
             0x160,
             0x04d,
             0x175,
@@ -4043,9 +4043,9 @@ final class pdf417
             0x01f,
             0x079,
             0x12f,
-            0x107
-        ) // 512
-    );
+            0x107,
+        ], // 512
+    ];
 
     /**
      * This is the class constructor - Creates a PDF417 object
@@ -4056,19 +4056,19 @@ final class pdf417
      *
      * @param array  $macro
      */
-    public function __construct($code, $ecl = -1, $aspectratio = 2, $macro = array())
+    public function __construct($code, $ecl = -1, $aspectratio = 2, $macro = [])
     {
         $cL = null;
         $emptyRow = null;
-        $macrocw = array();
-        $barcodeArray = array();
+        $macrocw = [];
+        $barcodeArray = [];
 
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
             return false;
         }
         // get the input sequence array
         $sequence = $this->getInputSequences($code);
-        $codewords = array(); // array of code-words
+        $codewords = []; // array of code-words
         foreach ($sequence as $seq) {
             $cw = $this->getCompaction($seq[0], $seq[1], true);
             $codewords = array_merge($codewords, $cw);
@@ -4084,8 +4084,7 @@ final class pdf417
             return false;
         }
         // build macro control block codewords
-        if (!empty($macro)) {
-
+        if (! empty($macro)) {
             // beginning of macro control block
             $macrocw[] = 928;
             // segment index
@@ -4095,8 +4094,8 @@ final class pdf417
             $cw = $this->getCompaction(900, $macro['file_id'], false);
             $macrocw = array_merge($macrocw, $cw);
             // optional fields
-            $optmodes = array(900, 902, 902, 900, 900, 902, 902);
-            $optsize = array(-1, 2, 4, -1, -1, -1, 2);
+            $optmodes = [900, 902, 902, 900, 900, 902, 902];
+            $optsize = [-1, 2, 4, -1, -1, -1, 2];
             foreach ($optmodes as $k => $omode) {
                 if (isset($macro['option_' . $k])) {
                     $macrocw[] = 923;
@@ -4164,7 +4163,7 @@ final class pdf417
                 $codewords = array_merge($codewords, array_fill(0, $pad, 900));
             }
         }
-        if (!empty($macro)) {
+        if (! empty($macro)) {
             // add macro section
             $codewords = array_merge($codewords, $macrocw);
         }
@@ -4181,7 +4180,7 @@ final class pdf417
         $pstop = $this->stopPattern . str_repeat('0', self::QUIETH);
         $barcodeArray['num_rows'] = ($rows * self::ROWHEIGHT) + (2 * self::QUIETV);
         $barcodeArray['num_cols'] = (($cols + 2) * 17) + 35 + (2 * self::QUIETH);
-        $barcodeArray['bcode'] = array();
+        $barcodeArray['bcode'] = [];
         // build rows for vertical quiet zone
         if (self::QUIETV > 0) {
             $emptyRow = array_fill(0, $barcodeArray['num_cols'], 0);
@@ -4208,7 +4207,6 @@ final class pdf417
                 case 2:
                     $cL = ((30 * intval($r / 3)) + ($cols - 1));
                     break;
-
             }
 
             // left row indicator
@@ -4231,7 +4229,6 @@ final class pdf417
                 case 2:
                     $cL = ((30 * intval($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
                     break;
-
             }
             // right row indicator
             $row .= sprintf('%17b', $this->clusters[$cid][$cL]);
@@ -4359,21 +4356,21 @@ final class pdf417
      */
     protected function getInputSequences($code)
     {
-        $sequenceArray = array(); // array to be returned
-        $numseq = array();
+        $sequenceArray = []; // array to be returned
+        $numseq = [];
         // get numeric sequences
         preg_match_all('/([0-9]{13,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
-        $numseq[1][] = array('', strlen($code));
+        $numseq[1][] = ['', strlen($code)];
         $offset = 0;
         foreach ($numseq[1] as $seq) {
             $seqlen = strlen($seq[0]);
             if ($seq[1] > 0) {
                 // extract text sequence before the number sequence
                 $prevseq = substr($code, $offset, ($seq[1] - $offset));
-                $textseq = array();
+                $textseq = [];
                 // get text sequences
                 preg_match_all('/([\x09\x0a\x0d\x20-\x7e]{5,})/', $prevseq, $textseq, PREG_OFFSET_CAPTURE);
-                $textseq[1][] = array('', strlen($prevseq));
+                $textseq[1][] = ['', strlen($prevseq)];
                 $txtoffset = 0;
                 foreach ($textseq[1] as $txtseq) {
                     $txtseqlen = strlen($txtseq[0]);
@@ -4383,24 +4380,24 @@ final class pdf417
                         if (strlen($prevtxtseq) > 0) {
                             // add BYTE sequence
                             if ((strlen($prevtxtseq) == 1) && ((count($sequenceArray) > 0) && ($sequenceArray[(count($sequenceArray) - 1)][0] == 900))) {
-                                $sequenceArray[] = array(913, $prevtxtseq);
+                                $sequenceArray[] = [913, $prevtxtseq];
                             } elseif ((strlen($prevtxtseq) % 6) == 0) {
-                                $sequenceArray[] = array(924, $prevtxtseq);
+                                $sequenceArray[] = [924, $prevtxtseq];
                             } else {
-                                $sequenceArray[] = array(901, $prevtxtseq);
+                                $sequenceArray[] = [901, $prevtxtseq];
                             }
                         }
                     }
                     if ($txtseqlen > 0) {
                         // add numeric sequence
-                        $sequenceArray[] = array(900, $txtseq[0]);
+                        $sequenceArray[] = [900, $txtseq[0]];
                     }
                     $txtoffset = $txtseq[1] + $txtseqlen;
                 }
             }
             if ($seqlen > 0) {
                 // add numeric sequence
-                $sequenceArray[] = array(902, $seq[0]);
+                $sequenceArray[] = [902, $seq[0]];
             }
             $offset = $seq[1] + $seqlen;
         }
@@ -4417,11 +4414,11 @@ final class pdf417
      */
     protected function getCompaction($mode, $code, $addmode = true)
     {
-        $cw = array(); // array of codewords to return
+        $cw = []; // array of codewords to return
         switch ($mode) {
             case 900: // Text Compaction mode latch
                 $submode = 0; // default Alpha sub-mode
-                $txtarr = array(); // array of characters and sub-mode switching characters
+                $txtarr = []; // array of characters and sub-mode switching characters
                 $codelen = strlen($code);
                 for ($i = 0; $i < $codelen; ++$i) {
                     $chval = ord($code[$i]);

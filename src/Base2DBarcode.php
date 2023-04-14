@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BG\BarcodeBundle;
 
-use BG\BarcodeBundle\Plugins\pdf417 as PDF417,
-    BG\BarcodeBundle\Plugins\datamatrix as Datamatrix,
-    BG\BarcodeBundle\Plugins\qrcode as QRcode;
+use BG\BarcodeBundle\Plugins\datamatrix as Datamatrix,
+BG\BarcodeBundle\Plugins\pdf417 as PDF417,
+BG\BarcodeBundle\Plugins\qrcode as QRcode;
 
 final class Base2DBarcode
 {
@@ -41,7 +41,7 @@ final class Base2DBarcode
     public function setTempPath($serverPath)
     {
         try {
-            if (!file_exists($serverPath)) {
+            if (! file_exists($serverPath)) {
                 mkdir($serverPath, 0770, true);
             }
         } catch (\Exception $e) {
@@ -58,7 +58,7 @@ final class Base2DBarcode
      * @param int    $h
      * @param string $color
      */
-    public function getBarcodeSVG($code, $type, $w=3, $h=3, $color='black')
+    public function getBarcodeSVG($code, $type, $w = 3, $h = 3, $color = 'black')
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -85,12 +85,17 @@ final class Base2DBarcode
      *
      * @return string
      */
-    public function getBarcodeSVGcode($code, $type, $w=3, $h=3, $color='black')
+    public function getBarcodeSVGcode($code, $type, $w = 3, $h = 3, $color = 'black')
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
         // replace table for special characters
-        $repstr = array("\0" => '', '&' => '&amp;', '<' => '&lt;', '>' => '&gt;');
+        $repstr = [
+            "\0" => '',
+            '&' => '&amp;',
+            '<' => '&lt;',
+            '>' => '&gt;',
+        ];
         $svg = '<' . '?' . 'xml version="1.0" standalone="no"' . '?' . '>' . "\n";
         $svg .= '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' . "\n";
         $svg .= '<svg width="' . round(($this->barcodeArray['num_cols'] * $w), 3) . '" height="' . round(($this->barcodeArray['num_rows'] * $h), 3) . '" version="1.1" xmlns="http://www.w3.org/2000/svg">' . "\n";
@@ -128,7 +133,7 @@ final class Base2DBarcode
      *
      * @return string
      */
-    public function getBarcodeHTML($code, $type, $w=10, $h=10, $color='black')
+    public function getBarcodeHTML($code, $type, $w = 10, $h = 10, $color = 'black')
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -164,7 +169,7 @@ final class Base2DBarcode
      *
      * @return bool
      */
-    public function getBarcodePNG($code, $type, $w=3, $h=3, $color=array(0, 0, 0))
+    public function getBarcodePNG($code, $type, $w = 3, $h = 3, $color = [0, 0, 0])
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -185,9 +190,7 @@ final class Base2DBarcode
             $fgcol = new \imagickpixel('rgb(' . $color[0] . ',' . $color[1] . ',' . $color[2] . ')');
             $png = new \Imagick();
             $png->newImage($width, $height, 'none', 'png');
-
         } else {
-
             return false;
         }
         // print barcode elements
@@ -241,7 +244,7 @@ final class Base2DBarcode
     {
         $bcPathArr = explode('/', $path);
 
-        return $bcPathArr[count($bcPathArr)-1];
+        return $bcPathArr[count($bcPathArr) - 1];
     }
 
     /**
@@ -257,18 +260,18 @@ final class Base2DBarcode
      *
      * @return bool
      */
-    public function getBarcodePNGPath($code, $type, $w=3, $h=3, $color=array(0, 0, 0),$filename = null)
+    public function getBarcodePNGPath($code, $type, $w = 3, $h = 3, $color = [0, 0, 0], $filename = null)
     {
-        if(is_null($filename)){
-            $filename = $type.'_'.$code;
+        if (is_null($filename)) {
+            $filename = $type . '_' . $code;
         }
 
         //set barcode code and type
         $this->setBarcode($code, $type);
         $bar = null;
 
-        if (empty($this->barcodeArray) || (!$this->barcodeArray)) {
-            throw new \Exception('It not possible to generate barcode of type: '.$type.' for number/code: '.$code.'! May be this is an invalid code pattern!');
+        if (empty($this->barcodeArray) || (! $this->barcodeArray)) {
+            throw new \Exception('It not possible to generate barcode of type: ' . $type . ' for number/code: ' . $code . '! May be this is an invalid code pattern!');
         }
 
         // calculate image size
@@ -287,7 +290,6 @@ final class Base2DBarcode
             $png = new \Imagick();
             $png->newImage($width, $height, 'none', 'png');
         } else {
-
             return false;
         }
         // print barcode elements
@@ -325,7 +327,7 @@ final class Base2DBarcode
             return $saveFile;
         } else {
             imagedestroy($png);
-            throw new \Exception('It not possible to write barcode cache file to path '.$this->savePath);
+            throw new \Exception('It not possible to write barcode cache file to path ' . $this->savePath);
         }
     }
 
@@ -347,18 +349,18 @@ final class Base2DBarcode
                 break;
 
             case 'PDF417': // PDF417 (ISO/IEC 15438:2006)
-                if (!isset($mode[1]) || ($mode[1] === '')) {
+                if (! isset($mode[1]) || ($mode[1] === '')) {
                     $aspectratio = 2; // default aspect ratio (width / height)
                 } else {
                     $aspectratio = floatval($mode[1]);
                 }
-                if (!isset($mode[2]) || ($mode[2] === '')) {
+                if (! isset($mode[2]) || ($mode[2] === '')) {
                     $ecl = -1; // default error correction level (auto)
                 } else {
                     $ecl = intval($mode[2]);
                 }
                 // set macro block
-                $macro = array();
+                $macro = [];
                 if (isset($mode[3]) && ($mode[3] !== '') && isset($mode[4]) && ($mode[4] !== '') && isset($mode[5]) && ($mode[5] !== '')) {
                     $macro['segment_total'] = intval($mode[3]);
                     $macro['segment_index'] = intval($mode[4]);
@@ -377,7 +379,7 @@ final class Base2DBarcode
                 break;
 
             case 'QRCODE': // QR-CODE
-                if (!isset($mode[1]) || (!in_array($mode[1], array('L', 'M', 'Q', 'H')))) {
+                if (! isset($mode[1]) || (! in_array($mode[1], ['L', 'M', 'Q', 'H']))) {
                     $mode[1] = 'L'; // Ddefault: Low error correction
                 }
                 $qrcode = new QRcode($code, strtoupper($mode[1]));
@@ -402,7 +404,7 @@ final class Base2DBarcode
                 }
                 $this->barcodeArray['num_rows'] = count($rows);
                 $this->barcodeArray['num_cols'] = strlen($rows[0]);
-                $this->barcodeArray['bcode'] = array();
+                $this->barcodeArray['bcode'] = [];
                 foreach ($rows as $r) {
                     $this->barcodeArray['bcode'][] = str_split($r, 1);
                 }
@@ -426,16 +428,12 @@ final class Base2DBarcode
     public function checkfile($path, $overwrite)
     {
         if (file_exists($path)) {
-
-            if (!$overwrite) {
+            if (! $overwrite) {
                 $baseName = pathinfo($path, PATHINFO_BASENAME);
 
                 return $this->checkfile(str_replace($baseName, rand(0, 9999) . $baseName, $path), $overwrite);
-
             } else {
-
                 unlink($path);
-
             }
         }
 
