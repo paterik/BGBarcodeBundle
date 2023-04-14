@@ -460,7 +460,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function getGFProduct($a, $b, $log, $alog, $gf)
+    private function getGFProduct($a, $b, $log, $alog, $gf)
     {
         if (($a == 0) || ($b == 0)) {
             return 0;
@@ -481,7 +481,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function getErrorCorrection($wd, $nb, $nd, $nc, $gf = 256, $pp = 301)
+    private function getErrorCorrection($wd, $nb, $nd, $nc, $gf = 256, $pp = 301)
     {
         // generate the log ($log) and antilog ($alog) tables
         $log[0] = 0;
@@ -546,7 +546,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function get253StateCodeword($cwpad, $cwpos)
+    private function get253StateCodeword($cwpad, $cwpos)
     {
         $pad = ($cwpad + (((149 * $cwpos) % 253) + 1));
         if ($pad > 254) {
@@ -564,7 +564,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function get255StateCodeword($cwpad, $cwpos)
+    private function get255StateCodeword($cwpad, $cwpos)
     {
         $pad = ($cwpad + (((149 * $cwpos) % 255) + 1));
         if ($pad > 255) {
@@ -582,7 +582,7 @@ final class datamatrix
      *
      * @return bool
      */
-    protected function isCharMode($chr, $mode)
+    private function isCharMode($chr, $mode)
     {
         $status = false;
         switch ($mode) {
@@ -631,7 +631,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function lookAheadTest($data, $pos, $mode)
+    private function lookAheadTest($data, $pos, $mode)
     {
         $dataLength = strlen($data);
         if ($pos >= $dataLength) {
@@ -767,7 +767,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function getSwitchEncodingCodeword($mode)
+    private function getSwitchEncodingCodeword($mode)
     {
         $cw = 0;
 
@@ -807,7 +807,7 @@ final class datamatrix
      *
      * @return int
      */
-    protected function getMaxDataCodewords($numcw)
+    private function getMaxDataCodewords($numcw)
     {
         foreach ($this->symbattr as $matrix) {
             if ($matrix[11] >= $numcw) {
@@ -825,7 +825,7 @@ final class datamatrix
      *
      * @return array|bool
      */
-    protected function getHighLevelEncoding($data)
+    private function getHighLevelEncoding($data)
     {
         // STEP A. Start in ASCII encodation.
         $enc = self::ENC_ASCII; // current encoding mode
@@ -1076,7 +1076,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeModule($marr, $nrow, $ncol, $row, $col, $chr, $bit)
+    private function placeModule($marr, $nrow, $ncol, $row, $col, $chr, $bit)
     {
         if ($row < 0) {
             $row += $nrow;
@@ -1103,7 +1103,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeUtah($marr, $nrow, $ncol, $row, $col, $chr)
+    private function placeUtah($marr, $nrow, $ncol, $row, $col, $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $row - 2, $col - 2, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $row - 2, $col - 1, $chr, 2);
@@ -1127,7 +1127,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeCornerA($marr, $nrow, $ncol, $chr)
+    private function placeCornerA($marr, $nrow, $ncol, $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 1, $chr, 2);
@@ -1151,7 +1151,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeCornerB($marr, $nrow, $ncol, $chr)
+    private function placeCornerB($marr, $nrow, $ncol, $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 3, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 2, 0, $chr, 2);
@@ -1175,7 +1175,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeCornerC($marr, $nrow, $ncol, $chr)
+    private function placeCornerC($marr, $nrow, $ncol, $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 3, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 2, 0, $chr, 2);
@@ -1199,7 +1199,7 @@ final class datamatrix
      *
      * @return mixed
      */
-    protected function placeCornerD($marr, $nrow, $ncol, $chr)
+    private function placeCornerD($marr, $nrow, $ncol, $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, $ncol - 1, $chr, 2);
@@ -1221,7 +1221,7 @@ final class datamatrix
      *
      * @return array|mixed
      */
-    protected function getPlacemetMap($nrow, $ncol)
+    private function getPlacemetMap($nrow, $ncol)
     {
         // initialize array with zeros
         $marr = array_fill(0, ($nrow * $ncol), 0);

@@ -4259,7 +4259,7 @@ final class pdf417
      *
      * @return int
      */
-    protected function getErrorCorrectionLevel($ecl, $numcw)
+    private function getErrorCorrectionLevel($ecl, $numcw)
     {
         // get maximum correction level
         $maxecl = 8; // starting error level
@@ -4300,7 +4300,7 @@ final class pdf417
      *
      * @return      array
      */
-    protected function getErrorCorrection($cw, $ecl)
+    private function getErrorCorrection($cw, $ecl)
     {
         // get error correction coefficients
         $ecc = $this->rsfactors[$ecl];
@@ -4339,7 +4339,7 @@ final class pdf417
      *
      * @return array
      */
-    protected function getInputSequences($code)
+    private function getInputSequences($code)
     {
         $sequenceArray = []; // array to be returned
         $numseq = [];
@@ -4397,7 +4397,7 @@ final class pdf417
      *
      * @return       array
      */
-    protected function getCompaction($mode, $code, $addmode = true)
+    private function getCompaction($mode, $code, $addmode = true)
     {
         $cw = []; // array of codewords to return
         switch ($mode) {

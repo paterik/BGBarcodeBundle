@@ -461,13 +461,9 @@ final class Base1DBarcode
     /**
      * CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9. General-purpose code in very wide use world-wide
      *
-     * @param string $code
-     * @param bool   $extended
-     * @param bool   $checksum
-     *
      * @return array|bool
      */
-    protected function barcode_code39($code, $extended = false, $checksum = false)
+    private function barcode_code39(string $code, bool $extended = false, bool $checksum = false)
     {
         $chr['0'] = '111331311';
         $chr['1'] = '311311113';
@@ -578,7 +574,7 @@ final class Base1DBarcode
      *
      * @return bool|string
      */
-    protected function encode_code39_ext($code)
+    private function encode_code39_ext($code)
     {
         $encode = [
             chr(0) => '%U',
@@ -729,7 +725,7 @@ final class Base1DBarcode
      *
      * @return mixed
      */
-    protected function checksum_code39($code)
+    private function checksum_code39($code)
     {
         $chars = [
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -754,7 +750,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_code93($code)
+    private function barcode_code93($code)
     {
         $chr[48] = '131112'; // 0
         $chr[49] = '111213'; // 1
@@ -999,7 +995,7 @@ final class Base1DBarcode
      *
      * @return string
      */
-    protected function checksum_code93($code)
+    private function checksum_code93($code)
     {
         $chars = [
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -1051,7 +1047,7 @@ final class Base1DBarcode
      *
      * @return int
      */
-    protected function checksum_s25($code)
+    private function checksum_s25($code)
     {
         $len = strlen($code);
         $sum = 0;
@@ -1079,7 +1075,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_msi($code, $checksum = false)
+    private function barcode_msi($code, $checksum = false)
     {
         $chr['0'] = '100100100100';
         $chr['1'] = '100100100110';
@@ -1146,7 +1142,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_s25($code, $checksum = false)
+    private function barcode_s25($code, $checksum = false)
     {
         $chr['0'] = '10101110111010';
         $chr['1'] = '11101010101110';
@@ -1195,7 +1191,7 @@ final class Base1DBarcode
      *
      * @return mixed
      */
-    protected function binseq_to_array($seq, $bararray)
+    private function binseq_to_array($seq, $bararray)
     {
         $len = strlen($seq);
         $w = 0;
@@ -1233,7 +1229,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_i25($code, $checksum = false)
+    private function barcode_i25($code, $checksum = false)
     {
         $chr['0'] = '11221';
         $chr['1'] = '21112';
@@ -1309,7 +1305,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_c128($code, $type = '')
+    private function barcode_c128($code, $type = '')
     {
         $chr = [
             '212222', /* 00 */
@@ -1661,7 +1657,7 @@ final class Base1DBarcode
      *
      * @return array
      */
-    protected function get128ABsequence($code)
+    private function get128ABsequence($code)
     {
         $len = strlen($code);
         $sequence = [];
@@ -1703,7 +1699,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_eanupc($code, $len = 13)
+    private function barcode_eanupc($code, $len = 13)
     {
         $upce = false;
         $upceCode = null;
@@ -2006,7 +2002,7 @@ final class Base1DBarcode
      *
      * @return array
      */
-    protected function barcode_postnet($code, $planet = false)
+    private function barcode_postnet($code, $planet = false)
     {
         // bar length
         if ($planet) {
@@ -2112,7 +2108,7 @@ final class Base1DBarcode
      *
      * @return array
      */
-    protected function barcode_rms4cc($code, $kix = false)
+    private function barcode_rms4cc($code, $kix = false)
     {
         $notkix = ! $kix;
         // bar mode
@@ -2299,7 +2295,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_codabar($code)
+    private function barcode_codabar($code)
     {
         $chr = [
             '0' => '11111221',
@@ -2368,7 +2364,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_code11($code)
+    private function barcode_code11($code)
     {
         $chr = [
             '0' => '111121',
@@ -2472,7 +2468,7 @@ final class Base1DBarcode
      *
      * @return mixed
      */
-    protected function barcode_pharmacode($code)
+    private function barcode_pharmacode($code)
     {
         $seq = '';
         $code = intval($code);
@@ -2505,7 +2501,7 @@ final class Base1DBarcode
      *
      * @return array
      */
-    protected function barcode_pharmacode2t($code)
+    private function barcode_pharmacode2t($code)
     {
         $seq = '';
         $code = intval($code);
@@ -2585,7 +2581,7 @@ final class Base1DBarcode
      *
      * @return array|bool
      */
-    protected function barcode_imb($code)
+    private function barcode_imb($code)
     {
         $ascChr = [4, 0, 2, 6, 3, 5, 1, 9, 8, 7, 1, 2, 0, 6, 4, 8, 2, 9, 5, 3, 0, 1, 3, 7, 4, 6, 8, 9, 2, 0, 5, 1, 9, 4, 3, 8, 6, 7, 1, 2, 4, 3, 9, 5, 7, 8, 3, 0, 2, 1, 4, 0, 9, 1, 7, 0, 2, 4, 6, 3, 7, 1, 9, 5, 8];
         $dscChr = [7, 1, 9, 5, 8, 0, 2, 4, 6, 3, 5, 8, 9, 7, 3, 0, 6, 1, 7, 4, 6, 8, 9, 2, 5, 1, 7, 5, 4, 3, 8, 7, 6, 0, 2, 5, 4, 9, 3, 0, 1, 6, 8, 2, 0, 4, 5, 9, 6, 7, 5, 2, 6, 3, 8, 5, 1, 9, 8, 7, 4, 0, 2, 6, 3];
@@ -2772,7 +2768,7 @@ final class Base1DBarcode
      *
      * @return int
      */
-    protected function imb_crc11fcs($codeArr)
+    private function imb_crc11fcs($codeArr)
     {
         $genpoly = 0x0F35; // generator polynomial
         $fcs = 0x07FF; // Frame Check Sequence
@@ -2811,7 +2807,7 @@ final class Base1DBarcode
      *
      * @return int
      */
-    protected function imb_reverse_us($num)
+    private function imb_reverse_us($num)
     {
         $rev = 0;
         for ($i = 0; $i < 16; ++$i) {
@@ -2831,7 +2827,7 @@ final class Base1DBarcode
      *
      * @return array
      */
-    protected function imb_tables($n, $size)
+    private function imb_tables($n, $size)
     {
         $table = [];
         $lli = 0; // LUT lower index
