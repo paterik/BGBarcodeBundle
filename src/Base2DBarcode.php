@@ -11,10 +11,9 @@ use TomasVotruba\BarcodeBundle\Plugins\qrcode as QRcode;
 final class Base2DBarcode
 {
     /**
-     * Array representation of barcode.
-     * @protected
+     * Array representation of barcode
      */
-    protected $barcodeArray = [];
+    private $barcodeArray = [];
 
     /**
      * path to save png in getBarcodePNGPath

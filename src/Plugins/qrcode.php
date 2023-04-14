@@ -40,171 +40,146 @@ final class qrcode
 
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
-     * @protected
      */
-    protected $barcodeArray = [];
+    private array $barcodeArray = [];
 
     /**
      * QR code version. Size of QRcode is defined as version. Version is from 1 to 40. Version 1 is 21*21 matrix. And 4 modules increases whenever 1 version increases. So version 40 is 177*177 matrix.
-     * @protected
      */
-    protected $version = 0;
+    private int $version = 0;
 
     /**
      * Levels of error correction. See definitions for possible values.
-     * @protected
      */
-    protected $level = self::QR_ECLEVEL_L;
+    private int $level = self::QR_ECLEVEL_L;
 
     /**
      * Encoding mode.
-     * @protected
      */
-    protected $hint = self::QR_MODE_8B;
+    private int $hint = self::QR_MODE_8B;
 
     /**
      * Boolean flag, if true the input string will be converted to uppercase.
-     * @protected
      */
-    protected $casesensitive = true;
+    private bool $casesensitive = true;
 
     /**
      * Structured QR code (not supported yet).
-     * @protected
-     */
-    protected $structured = 0;
-
     /**
      * Mask data.
-     * @protected
      */
-    protected $data;
+    private $data;
 
     // FrameFiller
 
     /**
      * Width.
-     * @protected
      */
-    protected $width;
+    private $width;
 
     /**
      * Frame.
-     * @protected
      */
-    protected $frame;
+    private $frame;
 
     /**
      * X position of bit.
-     * @protected
      */
-    protected $x;
+    private $x;
 
     /**
      * Y position of bit.
-     * @protected
      */
-    protected $y;
+    private $y;
 
     /**
      * Direction.
-     * @protected
      */
-    protected $dir;
+    private $dir;
 
     /**
      * Single bit value.
-     * @protected
      */
-    protected $bit;
+    private $bit;
 
     // ---- QRrawcode ----
 
     /**
      * Data code.
-     * @protected
      */
-    protected $datacode = [];
+    private $datacode = [];
 
     /**
      * Error correction code.
-     * @protected
      */
-    protected $ecccode = [];
+    private $ecccode = [];
 
     /**
      * Blocks.
-     * @protected
      */
-    protected $blocks;
+    private $blocks;
 
     /**
      * Reed-Solomon blocks.
-     * @protected
      */
-    protected $rsblocks = []; //of RSblock
+    private $rsblocks = []; //of RSblock
 
     /**
      * Counter.
-     * @protected
      */
-    protected $count;
+    private $count;
 
-    private int $dataLength;
+    /**
+     * @var int
+     */
+    private $dataLength;
 
     /**
      * Error correction length.
-     * @protected
+     * @var int
      */
     protected $eccLength;
 
     /**
      * Value b1.
-     * @protected
      */
-    protected $b1;
+    private $b1;
 
     // ---- QRmask ----
 
     /**
      * Run length.
-     * @protected
      */
-    protected $runLength = [];
+    private $runLength = [];
 
     // ---- QRsplit ----
 
     /**
      * Input data string.
-     * @protected
      */
-    protected $dataStr = '';
+    private $dataStr = '';
 
     /**
      * Input items.
-     * @protected
      */
-    protected $items;
+    private $items;
 
     // Reed-Solomon items
 
     /**
      * Reed-Solomon items.
-     * @protected
      */
-    protected $rsitems = [];
+    private $rsitems = [];
 
     /**
      * Array of frames.
-     * @protected
      */
-    protected $frames = [];
+    private $frames = [];
 
     /**
      * Alphabet-numeric convesion table.
-     * @protected
      */
-    protected $anTable = [
+    private $anTable = [
         -1,
         -1,
         -1,
@@ -338,9 +313,8 @@ final class qrcode
     /**
      * Array Table of the capacity of symbols.
      * See Table 1 (pp.13) and Table 12-16 (pp.30-36), JIS X0510:2004.
-     * @protected
      */
-    protected $capacity = [
+    private $capacity = [
         [0, 0, 0, [0, 0, 0, 0]], //
         [21, 26, 0, [7, 10, 13, 17]], //  1
         [25, 44, 7, [10, 16, 22, 28]], //
@@ -386,9 +360,8 @@ final class qrcode
 
     /**
      * Array Length indicator.
-     * @protected
      */
-    protected $lengthTableBits = [
+    private $lengthTableBits = [
         [10, 12, 14],
         [9, 11, 13],
         [8, 16, 16],
@@ -398,9 +371,8 @@ final class qrcode
     /**
      * Array Table of the error correction code (Reed-Solomon block).
      * See Table 12-16 (pp.30-36), JIS X0510:2004.
-     * @protected
      */
-    protected $eccTable = [
+    private $eccTable = [
         [[0, 0], [0, 0], [0, 0], [0, 0]], //
         [[1, 0], [1, 0], [1, 0], [1, 0]], //  1
         [[1, 0], [1, 0], [1, 0], [1, 0]], //
@@ -448,9 +420,8 @@ final class qrcode
      * Array Positions of alignment patterns.
      * This array includes only the second and the third position of the alignment patterns. Rest of them can be calculated from the distance between them.
      * See Table 1 in Appendix E (pp.71) of JIS X0510:2004.
-     * @protected
      */
-    protected $alignmentPattern = [
+    private $alignmentPattern = [
         [0, 0],
         [0, 0],
         [18, 0],
@@ -498,9 +469,8 @@ final class qrcode
      * Array Version information pattern (BCH coded).
      * See Table 1 in Appendix D (pp.68) of JIS X0510:2004.
      * size: [QRSPEC_VERSION_MAX - 6]
-     * @protected
      */
-    protected $versionPattern = [
+    private $versionPattern = [
         0x07c94,
         0x085bc,
         0x09a99,
@@ -539,9 +509,8 @@ final class qrcode
 
     /**
      * Array Format information
-     * @protected
      */
-    protected $formatInfo = [
+    private $formatInfo = [
         [0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976], //
         [0x5412, 0x5125, 0x5e7c, 0x5b4b, 0x45f9, 0x40ce, 0x4f97, 0x4aa0], //
         [0x355f, 0x3068, 0x3f31, 0x3a06, 0x24b4, 0x2183, 0x2eda, 0x2bed], //

@@ -13,27 +13,17 @@ final class pdf417
 
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
-     * @protected
      */
-    protected $barcodeArray = [];
+    private $barcodeArray = [];
 
-    /**
-     * Start pattern.
-     * @protected
-     */
-    protected $startPattern = '11111111010101000';
+    private string $startPattern = '11111111010101000';
 
-    /**
-     * Stop pattern.
-     * @protected
-     */
-    protected $stopPattern = '111111101000101001';
+    private string $stopPattern = '111111101000101001';
 
     /**
      * Array of text Compaction Sub-Modes (values 0xFB - 0xFF are used for submode changers).
-     * @protected
      */
-    protected $textsubmodes = [
+    private array $textsubmodes = [
         [
             0x41,
             0x42,
@@ -166,9 +156,8 @@ final class pdf417
 
     /**
      * Array of switching codes for Text Compaction Sub-Modes.
-     * @protected
      */
-    protected $textlatch = [
+    private array $textlatch = [
         '01' => [27],
         '02' => [28],
         '03' => [28, 25], //
@@ -202,9 +191,8 @@ final class pdf417
      * <li>927 : Identifier for an ECI of a character set or code page</li>
      * <li>928 : Macro marker codeword to indicate the beginning of a Macro PDF Control Block</li>
      * </ul>
-     * @protected
      */
-    protected $clusters = [
+    private array $clusters = [
         [ // cluster 0
             0x1d5c0,
             0x1eaf0,
@@ -3002,9 +2990,8 @@ final class pdf417
 
     /**
      * Array of factors of the Reed-Solomon polynomial equations used for error correction; one sub array for each correction level (0-8).
-     * @protected
      */
-    protected $rsfactors = [
+    private $rsfactors = [
         [ // ECL 0 (2 factors) -------------------------------------------------------------------------------
             0x01b,
             0x395,
