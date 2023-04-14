@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TomasVotruba\BarcodeBundle;
 
-use TomasVotruba\BarcodeBundle\Plugins\datamatrix as Datamatrix,
-TomasVotruba\BarcodeBundle\Plugins\pdf417 as PDF417,
-TomasVotruba\BarcodeBundle\Plugins\qrcode as QRcode;
+use TomasVotruba\BarcodeBundle\Plugins\datamatrix as Datamatrix;
+use TomasVotruba\BarcodeBundle\Plugins\pdf417 as PDF417;
+use TomasVotruba\BarcodeBundle\Plugins\qrcode as QRcode;
 
 final class Base2DBarcode
 {
@@ -277,6 +277,10 @@ final class Base2DBarcode
         // calculate image size
         $width = ($this->barcodeArray['num_cols'] * $w);
         $height = ($this->barcodeArray['num_rows'] * $h);
+
+        $width = (int) $width;
+        $height = (int) $height;
+
         if (function_exists('imagecreate')) {
             // GD library
             $imagick = false;
