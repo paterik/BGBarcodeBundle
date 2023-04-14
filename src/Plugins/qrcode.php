@@ -1061,7 +1061,7 @@ final class qrcode
     protected function makeMaskNo($maskNo, $width, $s, &$d, $maskGenOnly = false)
     {
         $b = 0;
-        $bitMask = $this->generateMaskNo($maskNo, $width, $s, $d);
+        $bitMask = $this->generateMaskNo($maskNo, $width, $s);
         if ($maskGenOnly) {
             return null;
         }
@@ -1506,7 +1506,7 @@ final class qrcode
         $stringLen = strlen($this->dataStr);
         $p = 0;
         while ($p < $stringLen) {
-            $mode = $this->identifyMode(substr($this->dataStr, $p), $this->hint);
+            $mode = $this->identifyMode(substr($this->dataStr, $p));
             if ($mode == self::QR_MODE_KJ) {
                 $p += 2;
             } else {

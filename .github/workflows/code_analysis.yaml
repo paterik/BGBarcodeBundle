@@ -12,13 +12,13 @@ jobs:
             fail-fast: false
             matrix:
                 actions:
-#                    -
-#                        name: 'ECS'
-#                        run: 'composer fix-cs --ansi'
-#
-#                    -
-#                        name: 'PHPStan'
-#                        run: 'composer phpstan --ansi'
+                    -
+                        name: 'ECS'
+                        run: 'composer fix-cs --ansi'
+
+                    -
+                        name: 'PHPStan'
+                        run: 'composer phpstan --ansi'
 
                     -
                         name: 'Tests'

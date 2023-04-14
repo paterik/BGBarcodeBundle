@@ -1,0 +1,11 @@
+parameters:
+    level: 1
+
+    paths:
+        - src
+        - tests
+
+    ignoreErrors:
+        -
+            message: '#Variable \$chr in isset\(\) always exists and is not nullable#'
+            path: src/Plugins/datamatrix.php
