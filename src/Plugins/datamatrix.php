@@ -4,16 +4,32 @@ namespace TomasVotruba\BarcodeBundle\Plugins;
 
 final class datamatrix
 {
-    public const
+    /**
+     * @var bool
+     */
+    public const DATAMATRIXDEFS = true;
 
-        DATAMATRIXDEFS = true,
-    ENC_ASCII = 0, // ASCII encoding: ASCII character 0 to 127 (1 byte per CW)
-    ENC_C40 = 1, // C40 encoding: Upper-case alphanumeric (3/2 bytes per CW)
-    ENC_TXT = 2, // TEXT encoding: Lower-case alphanumeric (3/2 bytes per CW)
-    ENC_X12 = 3, // X12 encoding: ANSI X12 (3/2 byte per CW)
-    ENC_EDF = 4, // EDIFACT encoding: ASCII character 32 to 94 (4/3 bytes per CW)
-    ENC_BASE256 = 5, // BASE 256 encoding: ASCII character 0 to 255 (1 byte per CW)
-    ENC_ASCII_EXT = 6, // ASCII extended encoding: ASCII character 128 to 255 (1/2 byte per CW)
+    public const ENC_ASCII = 0;
+
+    public const // ASCII encoding: ASCII character 0 to 127 (1 byte per CW)
+    ENC_C40 = 1;
+
+    public const // C40 encoding: Upper-case alphanumeric (3/2 bytes per CW)
+    ENC_TXT = 2;
+
+    public const // TEXT encoding: Lower-case alphanumeric (3/2 bytes per CW)
+    ENC_X12 = 3;
+
+    public const // X12 encoding: ANSI X12 (3/2 byte per CW)
+    ENC_EDF = 4;
+
+    public const // EDIFACT encoding: ASCII character 32 to 94 (4/3 bytes per CW)
+    ENC_BASE256 = 5;
+
+    public const // BASE 256 encoding: ASCII character 0 to 255 (1 byte per CW)
+    ENC_ASCII_EXT = 6;
+
+    public const // ASCII extended encoding: ASCII character 128 to 255 (1/2 byte per CW)
     ENC_ASCII_NUM = 7; // ASCII number encoding: ASCII digits (2 bytes per CW)
 
     protected $barcodeArray = [];
@@ -336,20 +352,23 @@ final class datamatrix
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
             return;
         }
+
         // get data codewords
         $cw = $this->getHighLevelEncoding($code);
         // number of data codewords
-        $nd = count($cw);
+        $nd = is_countable($cw) ? count($cw) : 0;
         // check size
         if ($nd > 1558) {
             return;
         }
+
         // get minimum required matrix size.
         foreach ($this->symbattr as $params) {
             if ($params[11] >= $nd) {
                 break;
             }
         }
+
         if ($params[11] < $nd) {
             // too much data
             return;
@@ -364,6 +383,7 @@ final class datamatrix
                 $cw[] = 254;
                 ++$nd;
             }
+
             if ($params[11] > $nd) {
                 // add first pad
                 $cw[] = 129;
@@ -374,6 +394,7 @@ final class datamatrix
                 }
             }
         }
+
         // add error correction codewords
         $cw = $this->getErrorCorrection($cw, $params[13], $params[14], $params[15]);
         // initialize empty arrays
@@ -424,9 +445,10 @@ final class datamatrix
                                 // codeword ID
                                 $cwId = (int) (floor($places[$i] / 10) - 1);
                                 // codeword BIT mask
-                                $cwBit = pow(2, (8 - ($places[$i] % 10)));
+                                $cwBit = 2 ** (8 - ($places[$i] % 10));
                                 $grid[$row][$col] = (($cw[$cwId] & $cwBit) == 0) ? 0 : 1;
                             }
+
                             ++$i;
                         }
                     }
@@ -479,6 +501,8 @@ final class datamatrix
      */
     private function getErrorCorrection($wd, $nb, $nd, $nc, $gf = 256, $pp = 301)
     {
+        $log = [];
+        $alog = [];
         // generate the log ($log) and antilog ($alog) tables
         $log[0] = 0;
         $alog[0] = 1;
@@ -487,8 +511,10 @@ final class datamatrix
             if ($alog[$i] >= $gf) {
                 $alog[$i] ^= $pp;
             }
+
             $log[$alog[$i]] = $i;
         }
+
         ksort($log);
         // generate the polynomial coefficients (c)
         $c = array_fill(0, ($nc + 1), 0);
@@ -498,8 +524,10 @@ final class datamatrix
             for ($j = ($i - 1); $j >= 1; --$j) {
                 $c[$j] = $c[($j - 1)] ^ $this->getGFProduct($c[$j], $alog[$i], $log, $alog, $gf);
             }
+
             $c[0] = $this->getGFProduct($c[0], $alog[$i], $log, $alog, $gf);
         }
+
         ksort($c);
         // total number of data codewords
         $numWd = ($nb * $nd);
@@ -512,6 +540,7 @@ final class datamatrix
             for ($n = $b; $n < $numWd; $n += $nb) {
                 $block[] = $wd[$n];
             }
+
             // initialize error codewords
             $we = array_fill(0, ($nc + 1), 0);
             // calculate error correction codewords for this block
@@ -521,6 +550,7 @@ final class datamatrix
                     $we[$j] = ($we[($j + 1)] ^ $this->getGFProduct($k, $c[($nc - $j - 1)], $log, $alog, $gf));
                 }
             }
+
             // add error codewords at the end of data codewords
             $j = 0;
             for ($i = $b; $i < $numWe; $i += $nb) {
@@ -528,6 +558,7 @@ final class datamatrix
                 ++$j;
             }
         }
+
         // reorder codewords
         ksort($wd);
 
@@ -633,6 +664,7 @@ final class datamatrix
         if ($pos >= $dataLength) {
             return $mode;
         }
+
         $charscount = 0; // count processed chars
         // STEP J
         if ($mode == self::ENC_ASCII) {
@@ -641,21 +673,26 @@ final class datamatrix
             $numch = [1, 2, 2, 2, 2, 2.25];
             $numch[$mode] = 0;
         }
+
         while (true) {
             // STEP K
             if (($pos + $charscount) == $dataLength) {
                 if ($numch[self::ENC_ASCII] <= ceil(min($numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_EDF], $numch[self::ENC_BASE256]))) {
                     return self::ENC_ASCII;
                 }
+
                 if ($numch[self::ENC_BASE256] < ceil(min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_EDF]))) {
                     return self::ENC_BASE256;
                 }
+
                 if ($numch[self::ENC_EDF] < ceil(min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_BASE256]))) {
                     return self::ENC_EDF;
                 }
+
                 if ($numch[self::ENC_TXT] < ceil(min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_X12], $numch[self::ENC_EDF], $numch[self::ENC_BASE256]))) {
                     return self::ENC_TXT;
                 }
+
                 if ($numch[self::ENC_X12] < ceil(min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_EDF], $numch[self::ENC_BASE256]))) {
                     return self::ENC_X12;
                 }
@@ -664,7 +701,7 @@ final class datamatrix
             }
 
             $chr = ord($data[($pos + $charscount)]);
-            $charscount++;
+            ++$charscount;
             // STEP L
             if ($this->isCharMode($chr, self::ENC_ASCII_NUM)) {
                 $numch[self::ENC_ASCII] += (1 / 2);
@@ -673,8 +710,9 @@ final class datamatrix
                 $numch[self::ENC_ASCII] += 2;
             } else {
                 $numch[self::ENC_ASCII] = ceil($numch[self::ENC_ASCII]);
-                $numch[self::ENC_ASCII] += 1;
+                ++$numch[self::ENC_ASCII];
             }
+
             // STEP M
             if ($this->isCharMode($chr, self::ENC_C40)) {
                 $numch[self::ENC_C40] += (2 / 3);
@@ -683,6 +721,7 @@ final class datamatrix
             } else {
                 $numch[self::ENC_C40] += (4 / 3);
             }
+
             // STEP N
             if ($this->isCharMode($chr, self::ENC_TXT)) {
                 $numch[self::ENC_TXT] += (2 / 3);
@@ -691,6 +730,7 @@ final class datamatrix
             } else {
                 $numch[self::ENC_TXT] += (4 / 3);
             }
+
             // STEP O
             if ($this->isCharMode($chr, self::ENC_X12) || $this->isCharMode($chr, self::ENC_C40)) {
                 $numch[self::ENC_X12] += (2 / 3);
@@ -699,6 +739,7 @@ final class datamatrix
             } else {
                 $numch[self::ENC_X12] += (10 / 3);
             }
+
             // STEP P
             if ($this->isCharMode($chr, self::ENC_EDF)) {
                 $numch[self::ENC_EDF] += (3 / 4);
@@ -707,34 +748,42 @@ final class datamatrix
             } else {
                 $numch[self::ENC_EDF] += (13 / 4);
             }
+
             // STEP Q
             if ($this->isCharMode($chr, self::ENC_BASE256)) {
                 $numch[self::ENC_BASE256] += 4;
             } else {
-                $numch[self::ENC_BASE256] += 1;
+                ++$numch[self::ENC_BASE256];
             }
+
             // STEP R
             if ($charscount >= 4) {
                 if (($numch[self::ENC_ASCII] + 1) <= min($numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_EDF], $numch[self::ENC_BASE256])) {
                     return self::ENC_ASCII;
                 }
+
                 if ((($numch[self::ENC_BASE256] + 1) <= $numch[self::ENC_ASCII])
                     || (($numch[self::ENC_BASE256] + 1) < min($numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_EDF]))) {
                     return self::ENC_BASE256;
                 }
+
                 if (($numch[self::ENC_EDF] + 1) < min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_X12], $numch[self::ENC_BASE256])) {
                     return self::ENC_EDF;
                 }
+
                 if (($numch[self::ENC_TXT] + 1) < min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_X12], $numch[self::ENC_EDF], $numch[self::ENC_BASE256])) {
                     return self::ENC_TXT;
                 }
+
                 if (($numch[self::ENC_X12] + 1) < min($numch[self::ENC_ASCII], $numch[self::ENC_C40], $numch[self::ENC_TXT], $numch[self::ENC_EDF], $numch[self::ENC_BASE256])) {
                     return self::ENC_X12;
                 }
+
                 if (($numch[self::ENC_C40] + 1) < min($numch[self::ENC_ASCII], $numch[self::ENC_TXT], $numch[self::ENC_EDF], $numch[self::ENC_BASE256])) {
                     if ($numch[self::ENC_C40] < $numch[self::ENC_X12]) {
                         return self::ENC_C40;
                     }
+
                     if ($numch[self::ENC_C40] == $numch[self::ENC_X12]) {
                         $k = ($pos + $charscount + 1);
                         while ($k < $dataLength) {
@@ -744,6 +793,7 @@ final class datamatrix
                             } elseif (! ($this->isCharMode($tmpchr, self::ENC_X12) || $this->isCharMode($tmpchr, self::ENC_C40))) {
                                 break;
                             }
+
                             ++$k;
                         }
 
@@ -862,6 +912,7 @@ final class datamatrix
                             }
                         }
                     }
+
                     break;
                 case self::ENC_C40: // Upper-case alphanumeric
                 case self::ENC_TXT: // Lower-case alphanumeric
@@ -882,11 +933,13 @@ final class datamatrix
                             if ($enc == self::ENC_X12) {
                                 return false;
                             }
+
                             $chr = ($chr & 0x7f);
                             $tempCw[] = 1; // shift 2
                             $tempCw[] = 30; // upper shift
                             $p += 2;
                         }
+
                         if (isset($charset[$chr])) {
                             $tempCw[] = $charset[$chr];
                             ++$p;
@@ -906,9 +959,11 @@ final class datamatrix
                             } else {
                                 return false;
                             }
+
                             $tempCw[] = $shiftset[$chr];
                             $p += 2;
                         }
+
                         if ($p >= 3) {
                             $c1 = array_shift($tempCw);
                             $c2 = array_shift($tempCw);
@@ -929,6 +984,7 @@ final class datamatrix
                             }
                         }
                     } while (($p > 0) && ($epos < $dataLenght));
+
                     // process last data (if any)
                     if ($p > 0) {
                         // get remaining number of data symbols
@@ -962,6 +1018,7 @@ final class datamatrix
                             ++$cwNum;
                         }
                     }
+
                     break;
                 case self::ENC_EDF: // F. While in EDIFACT (EDF) encodation
                     // initialize temporary array with 0 lenght
@@ -985,6 +1042,7 @@ final class datamatrix
                                     $tempCw[] = 0;
                                 }
                             }
+
                             // encodes four data characters in three codewords
                             $cw[] = (($tempCw[0] & 0x3F) << 2) + (($tempCw[1] & 0x30) >> 4);
                             $cw[] = (($tempCw[1] & 0x0F) << 4) + (($tempCw[2] & 0x3C) >> 2);
@@ -994,6 +1052,7 @@ final class datamatrix
                             $pos = $epos;
                             $fieldLenght = 0;
                         }
+
                         // 1. If the EDIFACT encoding is at the point of starting a new triple symbol character and if the look-ahead test (starting at step J) indicates another mode, switch to that mode.
                         if ($fieldLenght == 0) {
                             // get remaining number of data symbols
@@ -1014,6 +1073,7 @@ final class datamatrix
                             }
                         }
                     }
+
                     break;
                 case self::ENC_BASE256: // G. While in Base 256 (B256) encodation
                     // initialize temporary array with 0 lenght
@@ -1035,6 +1095,7 @@ final class datamatrix
                             ++$fieldLenght;
                         }
                     }
+
                     // set field lenght
                     if ($fieldLenght <= 249) {
                         $cw[] = $fieldLenght;
@@ -1044,12 +1105,14 @@ final class datamatrix
                         $cw[] = ($fieldLenght % 250);
                         $cwNum += 2;
                     }
+
                     if (! empty($tempCw)) {
                         // add B256 field
                         foreach ($tempCw as $p => $cht) {
                             $cw[] = $this->get255StateCodeword($chr, ($cwNum + $p));
                         }
                     }
+
                     break;
             } // end of switch enc
         } // end of while
@@ -1078,10 +1141,12 @@ final class datamatrix
             $row += $nrow;
             $col += (4 - (($nrow + 4) % 8));
         }
+
         if ($col < 0) {
             $col += $ncol;
             $row += (4 - (($ncol + 4) % 8));
         }
+
         $marr[(($row * $ncol) + $col)] = ((10 * $chr) + $bit);
 
         return $marr;
@@ -1231,27 +1296,33 @@ final class datamatrix
                 $marr = $this->placeCornerA($marr, $nrow, $ncol, $chr);
                 ++$chr;
             }
+
             if (($row == ($nrow - 2)) && ($col == 0) && ($ncol % 4)) {
                 $marr = $this->placeCornerB($marr, $nrow, $ncol, $chr);
                 ++$chr;
             }
+
             if (($row == ($nrow - 2)) && ($col == 0) && (($ncol % 8) == 4)) {
                 $marr = $this->placeCornerC($marr, $nrow, $ncol, $chr);
                 ++$chr;
             }
+
             if (($row == ($nrow + 4)) && ($col == 2) && (! ($ncol % 8))) {
                 $marr = $this->placeCornerD($marr, $nrow, $ncol, $chr);
                 ++$chr;
             }
+
             // sweep upward diagonally, inserting successive characters,
             do {
                 if (($row < $nrow) && ($col >= 0) && (! $marr[(($row * $ncol) + $col)])) {
                     $marr = $this->placeUtah($marr, $nrow, $ncol, $row, $col, $chr);
                     ++$chr;
                 }
+
                 $row -= 2;
                 $col += 2;
             } while (($row >= 0) && ($col < $ncol));
+
             ++$row;
             $col += 3;
             // & then sweep downward diagonally, inserting successive characters,...
@@ -1260,13 +1331,16 @@ final class datamatrix
                     $marr = $this->placeUtah($marr, $nrow, $ncol, $row, $col, $chr);
                     ++$chr;
                 }
+
                 $row += 2;
                 $col -= 2;
             } while (($row < $nrow) && ($col >= 0));
+
             $row += 3;
             ++$col;
             // ... until the entire array is scanned
         } while (($row < $nrow) || ($col < $ncol));
+
         // lastly, if the lower righthand corner is untouched, fill in fixed pattern
         if (! $marr[(($nrow * $ncol) - 1)]) {
             $marr[(($nrow * $ncol) - 1)] = 1;
