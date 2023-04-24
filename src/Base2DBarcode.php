@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace TomasVotruba\BarcodeBundle;
 
 use TomasVotruba\BarcodeBundle\Plugins\datamatrix as Datamatrix;
