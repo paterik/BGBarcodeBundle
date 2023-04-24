@@ -68,7 +68,7 @@ final class qrcode
     /**
      * Mask data.
      */
-    private $data;
+    private ?array $data = null;
 
     // FrameFiller
 
@@ -95,19 +95,19 @@ final class qrcode
     /**
      * Direction.
      */
-    private $dir;
+    private ?int $dir = null;
 
     /**
      * Single bit value.
      */
-    private $bit;
+    private ?int $bit = null;
 
     // ---- QRrawcode ----
 
     /**
      * Data code.
      */
-    private $datacode = [];
+    private array $datacode = [];
 
     /**
      * Error correction code.
@@ -122,12 +122,12 @@ final class qrcode
     /**
      * Reed-Solomon blocks.
      */
-    private $rsblocks = []; //of RSblock
+    private array $rsblocks = []; //of RSblock
 
     /**
      * Counter.
      */
-    private $count;
+    private ?int $count = null;
 
     /**
      * @var int
@@ -169,17 +169,17 @@ final class qrcode
     /**
      * Reed-Solomon items.
      */
-    private $rsitems = [];
+    private array $rsitems = [];
 
     /**
      * Array of frames.
      */
-    private $frames = [];
+    private array $frames = [];
 
     /**
      * Alphabet-numeric convesion table.
      */
-    private $anTable = [
+    private array $anTable = [
         -1,
         -1,
         -1,
@@ -314,7 +314,7 @@ final class qrcode
      * Array Table of the capacity of symbols.
      * See Table 1 (pp.13) and Table 12-16 (pp.30-36), JIS X0510:2004.
      */
-    private $capacity = [
+    private array $capacity = [
         [0, 0, 0, [0, 0, 0, 0]], //
         [21, 26, 0, [7, 10, 13, 17]], //  1
         [25, 44, 7, [10, 16, 22, 28]], //
@@ -361,7 +361,7 @@ final class qrcode
     /**
      * Array Length indicator.
      */
-    private $lengthTableBits = [
+    private array $lengthTableBits = [
         [10, 12, 14],
         [9, 11, 13],
         [8, 16, 16],
@@ -372,7 +372,7 @@ final class qrcode
      * Array Table of the error correction code (Reed-Solomon block).
      * See Table 12-16 (pp.30-36), JIS X0510:2004.
      */
-    private $eccTable = [
+    private array $eccTable = [
         [[0, 0], [0, 0], [0, 0], [0, 0]], //
         [[1, 0], [1, 0], [1, 0], [1, 0]], //  1
         [[1, 0], [1, 0], [1, 0], [1, 0]], //
@@ -421,7 +421,7 @@ final class qrcode
      * This array includes only the second and the third position of the alignment patterns. Rest of them can be calculated from the distance between them.
      * See Table 1 in Appendix E (pp.71) of JIS X0510:2004.
      */
-    private $alignmentPattern = [
+    private array $alignmentPattern = [
         [0, 0],
         [0, 0],
         [18, 0],
@@ -470,7 +470,7 @@ final class qrcode
      * See Table 1 in Appendix D (pp.68) of JIS X0510:2004.
      * size: [QRSPEC_VERSION_MAX - 6]
      */
-    private $versionPattern = [
+    private array $versionPattern = [
         0x07c94,
         0x085bc,
         0x09a99,
@@ -510,7 +510,7 @@ final class qrcode
     /**
      * Array Format information
      */
-    private $formatInfo = [
+    private array $formatInfo = [
         [0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976], //
         [0x5412, 0x5125, 0x5e7c, 0x5b4b, 0x45f9, 0x40ce, 0x4f97, 0x4aa0], //
         [0x355f, 0x3068, 0x3f31, 0x3a06, 0x24b4, 0x2183, 0x2eda, 0x2bed], //
@@ -547,7 +547,7 @@ final class qrcode
             return;
         }
         $qrTab = $this->binarize($this->data);
-        $size = count($qrTab);
+        $size = is_countable($qrTab) ? count($qrTab) : 0;
         $barcodeArray['num_rows'] = $size;
         $barcodeArray['num_cols'] = $size;
         $barcodeArray['bcode'] = [];
@@ -1166,7 +1166,7 @@ final class qrcode
         if (self::QR_FIND_FROM_RANDOM !== false) {
             $howManuOut = 8 - (self::QR_FIND_FROM_RANDOM % 9);
             for ($i = 0; $i < $howManuOut; ++$i) {
-                $remPos = rand(0, count($checkedMasks) - 1);
+                $remPos = random_int(0, count($checkedMasks) - 1);
                 unset($checkedMasks[$remPos]);
                 $checkedMasks = array_values($checkedMasks);
             }
@@ -2064,7 +2064,7 @@ final class qrcode
         $total = 0;
         foreach ($items as $key => $item) {
             $items[$key] = $this->encodeBitStream($item, $this->version);
-            $bits = count($items[$key]['bstream']);
+            $bits = is_countable($items[$key]['bstream']) ? count($items[$key]['bstream']) : 0;
             $total += $bits;
         }
 

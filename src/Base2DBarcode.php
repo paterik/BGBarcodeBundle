@@ -433,7 +433,7 @@ final class Base2DBarcode
             if (! $overwrite) {
                 $baseName = pathinfo($path, PATHINFO_BASENAME);
 
-                return $this->checkfile(str_replace($baseName, rand(0, 9999) . $baseName, $path), $overwrite);
+                return $this->checkfile(str_replace($baseName, random_int(0, 9999) . $baseName, $path), $overwrite);
             } else {
                 unlink($path);
             }

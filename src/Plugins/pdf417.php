@@ -2991,7 +2991,7 @@ final class pdf417
     /**
      * Array of factors of the Reed-Solomon polynomial equations used for error correction; one sub array for each correction level (0-8).
      */
-    private $rsfactors = [
+    private array $rsfactors = [
         [ // ECL 0 (2 factors) -------------------------------------------------------------------------------
             0x01b,
             0x395,

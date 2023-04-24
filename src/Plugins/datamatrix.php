@@ -339,7 +339,7 @@ final class datamatrix
         // get data codewords
         $cw = $this->getHighLevelEncoding($code);
         // number of data codewords
-        $nd = count($cw);
+        $nd = is_countable($cw) ? count($cw) : 0;
         // check size
         if ($nd > 1558) {
             return;
@@ -424,7 +424,7 @@ final class datamatrix
                                 // codeword ID
                                 $cwId = (int) (floor($places[$i] / 10) - 1);
                                 // codeword BIT mask
-                                $cwBit = pow(2, (8 - ($places[$i] % 10)));
+                                $cwBit = 2 ** (8 - ($places[$i] % 10));
                                 $grid[$row][$col] = (($cw[$cwId] & $cwBit) == 0) ? 0 : 1;
                             }
                             ++$i;
@@ -479,6 +479,8 @@ final class datamatrix
      */
     private function getErrorCorrection($wd, $nb, $nd, $nc, $gf = 256, $pp = 301)
     {
+        $log = [];
+        $alog = [];
         // generate the log ($log) and antilog ($alog) tables
         $log[0] = 0;
         $alog[0] = 1;
