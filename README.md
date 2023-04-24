@@ -50,72 +50,46 @@ supports ImageMagick/GDLib based image rendering, svg and html table drawn outpu
 * QR, RAW2 : raw mode - array rows are surrounded by square parenthesis.
 
 
-Prerequisites
-============
-
-This version requires Symfony 2.1
-
-
 Installation
 ============
 
-  1 - Add the following lines in your composer.json:
-
-  _for latest symfony 3.n kernel / framework environment:_
-```
-    "require": {
-        "bitgrave/barcode-bundle": "^1.0"
-    }
-```
-  _legacy symfony 2.1.n kernel? user version prior 1.0.0:
-```
-    "require": {
-        "bitgrave/barcode-bundle": "0.0.9"
-    }
+```bash
+composer require tomasvotruba/barcode-bundle
 ```
 
-  2 - Run the composer to download the bundle
+Add this bundle to your application's kernel:
 
-```
-    $ php composer.phar update bitgrave/barcode-bundle
-```
-
-  3 - Add this bundle to your application's kernel:
-
-```
+```php
       // app/AppKernel.php
       public function registerBundles()
       {
-          return array(
+          return [
               // ...
-              new BG\BarcodeBundle\BarcodeBundle(),
-              // ...
-          );
+              new \TomasVotruba\BarcodeBundle\BarcodeBundle(),
+          ];
       }
 ```
 
 Usage
 =====
 
-  1 - Add the following lines in your controller if you want to use both code types (1d/2d) :
+1 - Add the following lines in your controller if you want to use both code types (1d/2d) :
 
-```
-use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
-use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
-```
+2 - set the cache path (for image based barcode rendering) call the image- or html renderer including your code and barcode type :
 
-  2 - set the cache path (for image based barcode rendering) call the image- or html renderer including your code and barcode type :
+```php
+use TomasVotruba\BarcodeBundle\Base1DBarcode;
 
-```
- $myBarcode = new barCode();
- $myBarcode->savePath = '/my/temp/media/path';
- $bcPathAbs = $myBarcode->getBarcodePNGPath('501234567890', 'EAN13', 1.75, 45);
- $bcHTMLRaw = $myBarcode->getBarcodeHTML('501234567890', 'EAN13', 1.75, 45);
+$myBarcode = new Base1DBarcode();
+$myBarcode->savePath = '/my/temp/media/path';
+
+$bcPathAbs = $myBarcode->getBarcodePNGPath('501234567890', 'EAN13', 1.75, 45);
+$bcHTMLRaw = $myBarcode->getBarcodeHTML('501234567890', 'EAN13', 1.75, 45);
 ```
 
- 3 - fetch image by parse $bcPathAbs (absolute path to rendered barcode image) or using this a simple helper method
+3 - fetch image by parse $bcPathAbs (absolute path to rendered barcode image) or using this a simple helper method
 
-```
+```php
  /**
   * simple cache path returning method (sample cache path: "upload/barcode/cache" )
   *
@@ -133,7 +107,7 @@ use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
 
  4 - send public path to your symfony view and put result into your image src path or just render out the alternative table based barcode html structure
 
-```
+```php
  $this->render('AcmeDemoBundle:Demo:barcode.html.twig', array(
      'barcodePathAndFile' => $this->getBarcodeCachePath($bcPathAbs),
      'barcodeHTML' => $bcHTMLRaw,
@@ -149,16 +123,3 @@ use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
  // ...
 
 ```
-
-
-How To Contribute
-=================
-
-To contribute changes, fixes, additions/features please open a pull request with your new code.
-please take not, that if you add new features or modify existing ones you have to doc this in
-projects README file (also update projects CHANGELOG file!)
-
-License
-=======
-
-See: resources/meta/LICENSE

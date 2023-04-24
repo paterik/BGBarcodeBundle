@@ -19,5 +19,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_74,
         \Rector\Set\ValueObject\SetList::CODING_STYLE,
+        \Rector\Set\ValueObject\SetList::CODE_QUALITY,
+        \Rector\Set\ValueObject\SetList::TYPE_DECLARATION,
     ]);
 };

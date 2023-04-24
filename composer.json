@@ -1,7 +1,7 @@
 {
     "name": "tomasvotruba/barcode-bundle",
     "type": "symfony-bundle",
-    "description": "provide barcode rendering service into your Symfony2 application.",
+    "description": "Barcode rendering for your Symfony project",
     "keywords": ["barcodes","barcode","qrcode","pdf417","datamatrix","ean"],
     "license": "MIT",
     "require": {

@@ -9,26 +9,50 @@ final class datamatrix
      */
     public const DATAMATRIXDEFS = true;
 
+    /**
+     * @var int
+     */
     public const ENC_ASCII = 0;
 
+    /**
+     * @var int
+     */
     public const // ASCII encoding: ASCII character 0 to 127 (1 byte per CW)
     ENC_C40 = 1;
 
+    /**
+     * @var int
+     */
     public const // C40 encoding: Upper-case alphanumeric (3/2 bytes per CW)
     ENC_TXT = 2;
 
+    /**
+     * @var int
+     */
     public const // TEXT encoding: Lower-case alphanumeric (3/2 bytes per CW)
     ENC_X12 = 3;
 
+    /**
+     * @var int
+     */
     public const // X12 encoding: ANSI X12 (3/2 byte per CW)
     ENC_EDF = 4;
 
+    /**
+     * @var int
+     */
     public const // EDIFACT encoding: ASCII character 32 to 94 (4/3 bytes per CW)
     ENC_BASE256 = 5;
 
+    /**
+     * @var int
+     */
     public const // BASE 256 encoding: ASCII character 0 to 255 (1 byte per CW)
     ENC_ASCII_EXT = 6;
 
+    /**
+     * @var int
+     */
     public const // ASCII extended encoding: ASCII character 128 to 255 (1/2 byte per CW)
     ENC_ASCII_NUM = 7; // ASCII number encoding: ASCII digits (2 bytes per CW)
 
@@ -420,11 +444,7 @@ final class datamatrix
                         // braw bits by case
                         if ($r == 0) {
                             // top finder pattern
-                            if ($c % 2) {
-                                $grid[$row][$col] = 0;
-                            } else {
-                                $grid[$row][$col] = 1;
-                            }
+                            $grid[$row][$col] = $c % 2 !== 0 ? 0 : 1;
                         } elseif ($r == $rdri) {
                             // bottom finder pattern
                             $grid[$row][$col] = 1;
@@ -433,11 +453,7 @@ final class datamatrix
                             $grid[$row][$col] = 1;
                         } elseif ($c == $rdci) {
                             // right finder pattern
-                            if ($r % 2) {
-                                $grid[$row][$col] = 1;
-                            } else {
-                                $grid[$row][$col] = 0;
-                            }
+                            $grid[$row][$col] = $r % 2 !== 0 ? 1 : 0;
                         } else {
                             if ($places[$i] < 2) {
                                 $grid[$row][$col] = $places[$i];
@@ -568,12 +584,9 @@ final class datamatrix
     /**
      * Return the 253-state codeword
      *
-     * @param int $cwpad
-     * @param int $cwpos
-     *
      * @return int
      */
-    private function get253StateCodeword($cwpad, $cwpos)
+    private function get253StateCodeword(int $cwpad, int $cwpos)
     {
         $pad = ($cwpad + (((149 * $cwpos) % 253) + 1));
         if ($pad > 254) {
@@ -586,12 +599,9 @@ final class datamatrix
     /**
      * Return the 255-state codeword
      *
-     * @param int $cwpad
-     * @param int $cwpos
-     *
      * @return int
      */
-    private function get255StateCodeword($cwpad, $cwpos)
+    private function get255StateCodeword(int $cwpad, int $cwpos)
     {
         $pad = ($cwpad + (((149 * $cwpos) % 255) + 1));
         if ($pad > 255) {
@@ -604,12 +614,9 @@ final class datamatrix
     /**
      * Returns true if the char belongs to the selected mode
      *
-     * @param int $chr
-     * @param int $mode
-     *
      * @return bool
      */
-    private function isCharMode($chr, $mode)
+    private function isCharMode(int $chr, int $mode)
     {
         $status = false;
         switch ($mode) {
@@ -652,13 +659,9 @@ final class datamatrix
     /**
      * The look-ahead test scans the data to be encoded to find the best mode (Annex P - steps from J to S).
      *
-     * @param string $data
-     * @param int    $pos
-     * @param int    $mode
-     *
      * @return int
      */
-    private function lookAheadTest($data, $pos, $mode)
+    private function lookAheadTest(string $data, int $pos, int $mode)
     {
         $dataLength = strlen($data);
         if ($pos >= $dataLength) {
@@ -784,13 +787,13 @@ final class datamatrix
                         return self::ENC_C40;
                     }
 
-                    if ($numch[self::ENC_C40] == $numch[self::ENC_X12]) {
+                    if ($numch[self::ENC_C40] === $numch[self::ENC_X12]) {
                         $k = ($pos + $charscount + 1);
                         while ($k < $dataLength) {
                             $tmpchr = ord($data[$k]);
                             if ($this->isCharMode($tmpchr, self::ENC_X12)) {
                                 return self::ENC_X12;
-                            } elseif (! ($this->isCharMode($tmpchr, self::ENC_X12) || $this->isCharMode($tmpchr, self::ENC_C40))) {
+                            } elseif (! $this->isCharMode($tmpchr, self::ENC_X12) && ! $this->isCharMode($tmpchr, self::ENC_C40)) {
                                 break;
                             }
 
@@ -849,11 +852,9 @@ final class datamatrix
     /**
      * Choose the minimum matrix size and return the max number of data codewords.
      *
-     * @param int $numcw
-     *
      * @return int
      */
-    private function getMaxDataCodewords($numcw)
+    private function getMaxDataCodewords(int $numcw)
     {
         foreach ($this->symbattr as $matrix) {
             if ($matrix[11] >= $numcw) {
@@ -867,11 +868,9 @@ final class datamatrix
     /**
      * Get high level encoding using the minimum symbol data characters for ECC 200
      *
-     * @param string $data
-     *
      * @return array|bool
      */
-    private function getHighLevelEncoding($data)
+    private function getHighLevelEncoding(string $data)
     {
         // STEP A. Start in ASCII encodation.
         $enc = self::ENC_ASCII; // current encoding mode
@@ -885,7 +884,7 @@ final class datamatrix
                 case self::ENC_ASCII: // STEP B. While in ASCII encodation
                     if (($dataLenght > 1) && ($pos < ($dataLenght - 1)) && ($this->isCharMode(ord($data[($pos)]), self::ENC_ASCII_NUM) && $this->isCharMode(ord($data[($pos + 1)]), self::ENC_ASCII_NUM))) {
                         // 1. If the next data sequence is at least 2 consecutive digits, encode the next two digits as a double digit in ASCII mode.
-                        $cw[] = (intval(substr($data, $pos, 2)) + 130);
+                        $cw[] = ((int) substr($data, $pos, 2) + 130);
                         ++$cwNum;
                         $pos += 2;
                     } else {
@@ -929,12 +928,12 @@ final class datamatrix
                         $chr = ord($data[($epos)]);
                         ++$epos;
                         // check for extended character
-                        if ($chr & 0x80) {
+                        if (($chr & 0x80) !== 0) {
                             if ($enc == self::ENC_X12) {
                                 return false;
                             }
 
-                            $chr = ($chr & 0x7f);
+                            $chr &= 0x7f;
                             $tempCw[] = 1; // shift 2
                             $tempCw[] = 30; // upper shift
                             $p += 2;
@@ -1031,7 +1030,7 @@ final class datamatrix
                         ++$epos;
                         $tempCw[] = $chr;
                         ++$fieldLenght;
-                        if (($fieldLenght == 4) || ($epos == $dataLenght)) {
+                        if (($fieldLenght == 4) || ($epos === $dataLenght)) {
                             if ($fieldLenght < 4) {
                                 // set unlatch character
                                 $tempCw[] = 0x1f;
@@ -1106,9 +1105,9 @@ final class datamatrix
                         $cwNum += 2;
                     }
 
-                    if (! empty($tempCw)) {
+                    if ($tempCw !== []) {
                         // add B256 field
-                        foreach ($tempCw as $p => $cht) {
+                        foreach (array_keys($tempCw) as $p) {
                             $cw[] = $this->get255StateCodeword($chr, ($cwNum + $p));
                         }
                     }
@@ -1130,12 +1129,10 @@ final class datamatrix
      * @param int   $ncol
      * @param int   $row
      * @param int   $col
-     * @param int   $chr
-     * @param int   $bit
      *
      * @return mixed
      */
-    private function placeModule($marr, $nrow, $ncol, $row, $col, $chr, $bit)
+    private function placeModule($marr, $nrow, $ncol, $row, $col, int $chr, int $bit)
     {
         if ($row < 0) {
             $row += $nrow;
@@ -1158,13 +1155,10 @@ final class datamatrix
      * @param array $marr
      * @param int   $nrow
      * @param int   $ncol
-     * @param int   $row
-     * @param int   $col
-     * @param int   $chr
      *
      * @return mixed
      */
-    private function placeUtah($marr, $nrow, $ncol, $row, $col, $chr)
+    private function placeUtah($marr, $nrow, $ncol, int $row, int $col, int $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $row - 2, $col - 2, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $row - 2, $col - 1, $chr, 2);
@@ -1173,22 +1167,19 @@ final class datamatrix
         $marr = $this->placeModule($marr, $nrow, $ncol, $row - 1, $col, $chr, 5);
         $marr = $this->placeModule($marr, $nrow, $ncol, $row, $col - 2, $chr, 6);
         $marr = $this->placeModule($marr, $nrow, $ncol, $row, $col - 1, $chr, 7);
-        $marr = $this->placeModule($marr, $nrow, $ncol, $row, $col, $chr, 8);
 
-        return $marr;
+        return $this->placeModule($marr, $nrow, $ncol, $row, $col, $chr, 8);
     }
 
     /**
      * Places the 8 bits of the first special corner case (Annex F - ECC 200 symbol character placement)
      *
      * @param array $marr
-     * @param int   $nrow
      * @param int   $ncol
-     * @param int   $chr
      *
      * @return mixed
      */
-    private function placeCornerA($marr, $nrow, $ncol, $chr)
+    private function placeCornerA($marr, int $nrow, $ncol, int $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 1, $chr, 2);
@@ -1197,9 +1188,8 @@ final class datamatrix
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 1, $chr, 5);
         $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 6);
         $marr = $this->placeModule($marr, $nrow, $ncol, 2, $ncol - 1, $chr, 7);
-        $marr = $this->placeModule($marr, $nrow, $ncol, 3, $ncol - 1, $chr, 8);
 
-        return $marr;
+        return $this->placeModule($marr, $nrow, $ncol, 3, $ncol - 1, $chr, 8);
     }
 
     /**
@@ -1208,11 +1198,10 @@ final class datamatrix
      * @param array $marr
      * @param int   $nrow
      * @param int   $ncol
-     * @param int   $chr
      *
      * @return mixed
      */
-    private function placeCornerB($marr, $nrow, $ncol, $chr)
+    private function placeCornerB($marr, $nrow, $ncol, int $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 3, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 2, 0, $chr, 2);
@@ -1221,9 +1210,8 @@ final class datamatrix
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 3, $chr, 5);
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 2, $chr, 6);
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 1, $chr, 7);
-        $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 8);
 
-        return $marr;
+        return $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 8);
     }
 
     /**
@@ -1232,11 +1220,10 @@ final class datamatrix
      * @param array $marr
      * @param int   $nrow
      * @param int   $ncol
-     * @param int   $chr
      *
      * @return mixed
      */
-    private function placeCornerC($marr, $nrow, $ncol, $chr)
+    private function placeCornerC($marr, $nrow, $ncol, int $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 3, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 2, 0, $chr, 2);
@@ -1245,9 +1232,8 @@ final class datamatrix
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 1, $chr, 5);
         $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 6);
         $marr = $this->placeModule($marr, $nrow, $ncol, 2, $ncol - 1, $chr, 7);
-        $marr = $this->placeModule($marr, $nrow, $ncol, 3, $ncol - 1, $chr, 8);
 
-        return $marr;
+        return $this->placeModule($marr, $nrow, $ncol, 3, $ncol - 1, $chr, 8);
     }
 
     /**
@@ -1256,11 +1242,10 @@ final class datamatrix
      * @param array $marr
      * @param int   $nrow
      * @param int   $ncol
-     * @param int   $chr
      *
      * @return mixed
      */
-    private function placeCornerD($marr, $nrow, $ncol, $chr)
+    private function placeCornerD($marr, $nrow, $ncol, int $chr)
     {
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, 0, $chr, 1);
         $marr = $this->placeModule($marr, $nrow, $ncol, $nrow - 1, $ncol - 1, $chr, 2);
@@ -1269,9 +1254,8 @@ final class datamatrix
         $marr = $this->placeModule($marr, $nrow, $ncol, 0, $ncol - 1, $chr, 5);
         $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 3, $chr, 6);
         $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 2, $chr, 7);
-        $marr = $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 8);
 
-        return $marr;
+        return $this->placeModule($marr, $nrow, $ncol, 1, $ncol - 1, $chr, 8);
     }
 
     /**

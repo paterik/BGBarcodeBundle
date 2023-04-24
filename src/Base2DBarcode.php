@@ -44,20 +44,11 @@ final class Base2DBarcode
                 mkdir($serverPath, 0770, true);
             }
         } catch (\Exception $exception) {
-            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath);
+            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath, $exception->getCode(), $exception);
         }
     }
 
-    /**
-     * get svg brcode (header stream)
-     *
-     * @param string $code
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
-     */
-    public function getBarcodeSVG($code, $type, $w = 3, $h = 3, $color = 'black')
+    public function getBarcodeSVG(string $code, string $type, int $w = 3, int $h = 3, string $color = 'black'): void
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -75,16 +66,8 @@ final class Base2DBarcode
 
     /**
      * Return a SVG string representation of barcode.
-     *
-     * @param string $code
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
-     *
-     * @return string
      */
-    public function getBarcodeSVGcode($code, $type, $w = 3, $h = 3, $color = 'black')
+    public function getBarcodeSVGcode(string $code, string $type, int $w = 3, int $h = 3, string $color = 'black'): string
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -119,23 +102,19 @@ final class Base2DBarcode
         }
 
         $svg .= "\t" . '</g>' . "\n";
-        $svg .= '</svg>' . "\n";
 
-        return $svg;
+        return $svg . ('</svg>' . "\n");
     }
 
     /**
      * Return an HTML representation of barcode.
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param string $color
-     *
-     * @return string
      */
-    public function getBarcodeHTML($code, $type, $w = 10, $h = 10, $color = 'black')
+    public function getBarcodeHTML(string $code, $type, $w = 10, $h = 10, $color = 'black'): string
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -158,23 +137,18 @@ final class Base2DBarcode
             $y += $h;
         }
 
-        $html .= '</div>' . "\n";
-
-        return $html;
+        return $html . ('</div>' . "\n");
     }
 
     /**
      * Return a PNG image representation of barcode (requires GD or Imagick library).
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param array  $color
-     *
-     * @return bool
      */
-    public function getBarcodePNG($code, $type, $w = 3, $h = 3, $color = [0, 0, 0])
+    public function getBarcodePNG(string $code, $type, $w = 3, $h = 3, $color = [0, 0, 0]): bool
     {
         //set barcode code and type
         $this->setBarcode($code, $type);
@@ -351,7 +325,7 @@ final class Base2DBarcode
      * Set the barcode.
      * @param string $type
      */
-    public function setBarcode(string $code, $type)
+    public function setBarcode(string $code, $type): void
     {
         $mode = explode(',', $type);
         $qrtype = strtoupper($mode[0]);
@@ -367,20 +341,20 @@ final class Base2DBarcode
                 if (! isset($mode[1]) || ($mode[1] === '')) {
                     $aspectratio = 2; // default aspect ratio (width / height)
                 } else {
-                    $aspectratio = floatval($mode[1]);
+                    $aspectratio = (float) $mode[1];
                 }
 
                 if (! isset($mode[2]) || ($mode[2] === '')) {
                     $ecl = -1; // default error correction level (auto)
                 } else {
-                    $ecl = intval($mode[2]);
+                    $ecl = (int) $mode[2];
                 }
 
                 // set macro block
                 $macro = [];
                 if (isset($mode[3]) && ($mode[3] !== '') && isset($mode[4]) && ($mode[4] !== '') && isset($mode[5]) && ($mode[5] !== '')) {
-                    $macro['segment_total'] = intval($mode[3]);
-                    $macro['segment_index'] = intval($mode[4]);
+                    $macro['segment_total'] = (int) $mode[3];
+                    $macro['segment_index'] = (int) $mode[4];
                     $macro['file_id'] = strtr($mode[5], "\xff", ',');
                     for ($i = 0; $i < 7; ++$i) {
                         $o = $i + 6;
