@@ -465,6 +465,7 @@ final class Base1DBarcode
      */
     private function barcode_code39(string $code, bool $extended = false, bool $checksum = false)
     {
+        $chr = [];
         $chr['0'] = '111331311';
         $chr['1'] = '311311113';
         $chr['2'] = '113311113';
@@ -752,6 +753,7 @@ final class Base1DBarcode
      */
     private function barcode_code93($code)
     {
+        $chr = [];
         $chr[48] = '131112'; // 0
         $chr[49] = '111213'; // 1
         $chr[50] = '111312'; // 2
@@ -1077,6 +1079,7 @@ final class Base1DBarcode
      */
     private function barcode_msi($code, $checksum = false)
     {
+        $chr = [];
         $chr['0'] = '100100100100';
         $chr['1'] = '100100100110';
         $chr['2'] = '100100110100';
@@ -1144,6 +1147,7 @@ final class Base1DBarcode
      */
     private function barcode_s25($code, $checksum = false)
     {
+        $chr = [];
         $chr['0'] = '10101110111010';
         $chr['1'] = '11101010101110';
         $chr['2'] = '10111010101110';
@@ -1231,6 +1235,7 @@ final class Base1DBarcode
      */
     private function barcode_i25($code, $checksum = false)
     {
+        $chr = [];
         $chr['0'] = '11221';
         $chr['1'] = '21112';
         $chr['2'] = '12112';
@@ -1548,7 +1553,7 @@ final class Base1DBarcode
                                 if (($charId >= 241) && ($charId <= 244)) {
                                     $codeData[] = $fncA[$charId];
                                 } else {
-                                    $codeData[] = strpos($keysA, $char);
+                                    $codeData[] = strpos($keysA, (string) $char);
                                 }
                             }
                             break;
@@ -1590,7 +1595,7 @@ final class Base1DBarcode
                                 if (($charId >= 241) && ($charId <= 244)) {
                                     $codeData[] = $fncB[$charId];
                                 } else {
-                                    $codeData[] = strpos($keysB, $char);
+                                    $codeData[] = strpos($keysB, (string) $char);
                                 }
                             }
                             break;
@@ -2676,8 +2681,8 @@ final class Base1DBarcode
             'bcode' => [],
         ];
         for ($i = 0; $i < 65; ++$i) {
-            $asc = (($characters[$ascChr[$i]] & pow(2, $ascPos[$i])) > 0);
-            $dsc = (($characters[$dscChr[$i]] & pow(2, $dscPos[$i])) > 0);
+            $asc = (($characters[$ascChr[$i]] & 2 ** $ascPos[$i]) > 0);
+            $dsc = (($characters[$dscChr[$i]] & 2 ** $dscPos[$i]) > 0);
             if ($asc && $dsc) {
                 // full bar (F)
                 $p = 0;
@@ -2874,7 +2879,7 @@ final class Base1DBarcode
             if (! $overwrite) {
                 $baseName = pathinfo($path, PATHINFO_BASENAME);
 
-                return $this->checkfile(str_replace($baseName, rand(0, 9999) . $baseName, $path), $overwrite);
+                return $this->checkfile(str_replace($baseName, random_int(0, 9999) . $baseName, $path), $overwrite);
             } else {
                 unlink($path);
             }
