@@ -43,7 +43,7 @@ final class Base2DBarcode
             if (! file_exists($serverPath)) {
                 mkdir($serverPath, 0770, true);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath);
         }
     }
@@ -111,10 +111,13 @@ final class Base2DBarcode
                     // draw a single barcode cell
                     $svg .= "\t\t" . '<rect x="' . $x . '" y="' . $y . '" width="' . $w . '" height="' . $h . '" />' . "\n";
                 }
+
                 $x += $w;
             }
+
             $y += $h;
         }
+
         $svg .= "\t" . '</g>' . "\n";
         $svg .= '</svg>' . "\n";
 
@@ -148,10 +151,13 @@ final class Base2DBarcode
                     // draw a single barcode cell
                     $html .= '<div style="background-color:' . $color . ';width:' . $w . 'px;height:' . $h . 'px;position:absolute;left:' . $x . 'px;top:' . $y . 'px;">&nbsp;</div>' . "\n";
                 }
+
                 $x += $w;
             }
+
             $y += $h;
         }
+
         $html .= '</div>' . "\n";
 
         return $html;
@@ -192,6 +198,7 @@ final class Base2DBarcode
         } else {
             return false;
         }
+
         // print barcode elements
         $y = 0;
         // for each row
@@ -209,10 +216,13 @@ final class Base2DBarcode
                         imagefilledrectangle($png, $x, $y, ($x + $w), ($y + $h), $fgcol);
                     }
                 }
+
                 $x += $w;
             }
+
             $y += $h;
         }
+
         // send headers
         header('Content-Type: image/png');
         header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
@@ -295,6 +305,7 @@ final class Base2DBarcode
         } else {
             return false;
         }
+
         // print barcode elements
         $y = 0;
         // for each row
@@ -312,8 +323,10 @@ final class Base2DBarcode
                         imagefilledrectangle($png, (int) $x, (int) $y, (int) ($x + $w - 1), (int) ($y + $h - 1), $fgcol);
                     }
                 }
+
                 $x += $w;
             }
+
             $y += $h;
         }
 
@@ -356,11 +369,13 @@ final class Base2DBarcode
                 } else {
                     $aspectratio = floatval($mode[1]);
                 }
+
                 if (! isset($mode[2]) || ($mode[2] === '')) {
                     $ecl = -1; // default error correction level (auto)
                 } else {
                     $ecl = intval($mode[2]);
                 }
+
                 // set macro block
                 $macro = [];
                 if (isset($mode[3]) && ($mode[3] !== '') && isset($mode[4]) && ($mode[4] !== '') && isset($mode[5]) && ($mode[5] !== '')) {
@@ -375,6 +390,7 @@ final class Base2DBarcode
                         }
                     }
                 }
+
                 $qrcode = new PDF417($code, $ecl, $aspectratio, $macro);
                 $this->barcodeArray = $qrcode->getBarcodeArray();
                 $this->barcodeArray['code'] = $code;
@@ -384,6 +400,7 @@ final class Base2DBarcode
                 if (! isset($mode[1]) || (! in_array($mode[1], ['L', 'M', 'Q', 'H']))) {
                     $mode[1] = 'L'; // Ddefault: Low error correction
                 }
+
                 $qrcode = new QRcode($code, strtoupper($mode[1]));
                 $this->barcodeArray = $qrcode->getBarcodeArray();
                 $this->barcodeArray['code'] = $code;
@@ -392,10 +409,11 @@ final class Base2DBarcode
             case 'RAW':
             case 'RAW2': // RAW MODE
                 // remove spaces
-                $code = preg_replace('/[\s]*/si', '', $code);
+                $code = preg_replace('#[\s]*#si', '', $code);
                 if (strlen($code) < 3) {
                     break;
                 }
+
                 if ($qrtype == 'RAW') {
                     // comma-separated rows
                     $rows = explode(',', $code);
@@ -404,12 +422,14 @@ final class Base2DBarcode
                     $code = substr($code, 1, -1);
                     $rows = explode('][', $code);
                 }
+
                 $this->barcodeArray['num_rows'] = count($rows);
                 $this->barcodeArray['num_cols'] = strlen($rows[0]);
                 $this->barcodeArray['bcode'] = [];
                 foreach ($rows as $r) {
                     $this->barcodeArray['bcode'][] = str_split($r, 1);
                 }
+
                 $this->barcodeArray['code'] = $code;
                 break;
 

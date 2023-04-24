@@ -4,12 +4,16 @@ namespace TomasVotruba\BarcodeBundle\Plugins;
 
 final class pdf417
 {
-    public const
+    /**
+     * @var bool
+     */
+    public const PDF417DEFS = true;
 
-        PDF417DEFS = true,
-    ROWHEIGHT = 4,
-    QUIETH = 2,
-    QUIETV = 4;
+    public const ROWHEIGHT = 4;
+
+    public const QUIETH = 2;
+
+    public const QUIETV = 4;
 
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
@@ -4053,6 +4057,7 @@ final class pdf417
         if ((is_null($code)) || ($code == '\0') || ($code == '')) {
             return;
         }
+
         // get the input sequence array
         $sequence = $this->getInputSequences($code);
         $codewords = []; // array of code-words
@@ -4060,16 +4065,19 @@ final class pdf417
             $cw = $this->getCompaction($seq[0], $seq[1], true);
             $codewords = array_merge($codewords, $cw);
         }
+
         if ($codewords[0] == 900) {
             // Text Alpha is the default mode, so remove the first code
             array_shift($codewords);
         }
+
         // count number of codewords
         $numcw = count($codewords);
         if ($numcw > 925) {
             // reached maximum data codeword capacity
             return;
         }
+
         // build macro control block codewords
         if (! empty($macro)) {
             // beginning of macro control block
@@ -4092,17 +4100,21 @@ final class pdf417
                     } elseif ($optsize[$k] == 4) {
                         $macro['option_' . $k] = sprintf('%010d', $macro['option_' . $k]);
                     }
+
                     $cw = $this->getCompaction($omode, $macro['option_' . $k], false);
                     $macrocw = array_merge($macrocw, $cw);
                 }
             }
+
             if ($macro['segment_index'] == ($macro['segment_total'] - 1)) {
                 // end of control block
                 $macrocw[] = 922;
             }
+
             // update total codewords
             $numcw += count($macrocw);
         }
+
         // set error correction level
         $ecl = $this->getErrorCorrectionLevel($ecl, $numcw);
         // number of codewords for error correction
@@ -4116,6 +4128,7 @@ final class pdf417
         } elseif ($cols > 30) {
             $cols = 30;
         }
+
         $rows = ceil($nce / $cols);
         $size = ($cols * $rows);
         // adjust rows
@@ -4125,9 +4138,11 @@ final class pdf417
             } elseif ($rows > 90) {
                 $rows = 90;
             }
+
             $cols = ceil($size / $rows);
             $size = ($cols * $rows);
         }
+
         if ($size > 928) {
             // set dimensions to get maximum capacity
             if (abs($aspectratio - (17 * 29 / 32)) < abs($aspectratio - (17 * 16 / 58))) {
@@ -4137,8 +4152,10 @@ final class pdf417
                 $cols = 16;
                 $rows = 58;
             }
+
             $size = 928;
         }
+
         // calculate padding
         $pad = ($size - $nce);
         if ($pad > 0) {
@@ -4150,10 +4167,12 @@ final class pdf417
                 $codewords = array_merge($codewords, array_fill(0, $pad, 900));
             }
         }
+
         if (! empty($macro)) {
             // add macro section
             $codewords = array_merge($codewords, $macrocw);
         }
+
         // Symbol Lenght Descriptor (number of data codewords including Symbol Lenght Descriptor and pad codewords)
         $sld = $size - $errsize;
         // add symbol length description
@@ -4176,6 +4195,7 @@ final class pdf417
                 $barcodeArray['bcode'][] = $emptyRow;
             }
         }
+
         $k = 0; // codeword index
         $cid = 0; // initial cluster
         // for each row
@@ -4217,6 +4237,7 @@ final class pdf417
                     $cL = ((30 * intval($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
                     break;
             }
+
             // right row indicator
             $row .= sprintf('%17b', $this->clusters[$cid][$cL]);
             // row stop code
@@ -4227,17 +4248,20 @@ final class pdf417
             for ($h = 0; $h < self::ROWHEIGHT; ++$h) {
                 $barcodeArray['bcode'][] = $arow;
             }
+
             ++$cid;
             if ($cid > 2) {
                 $cid = 0;
             }
         }
+
         if (self::QUIETV > 0) {
             for ($i = 0; $i < self::QUIETV; ++$i) {
                 // add vertical quiet rows
                 $barcodeArray['bcode'][] = $emptyRow;
             }
         }
+
         $this->barcodeArray = $barcodeArray;
     }
 
@@ -4267,8 +4291,10 @@ final class pdf417
             if ($maxerrsize >= $errsize) {
                 break;
             }
+
             --$maxecl;
         }
+
         // check for automatic levels
         if (($ecl < 0) || ($ecl > 8)) {
             if ($numcw < 41) {
@@ -4283,6 +4309,7 @@ final class pdf417
                 $ecl = $maxecl;
             }
         }
+
         if ($ecl > $maxecl) {
             $ecl = $maxecl;
         }
@@ -4316,15 +4343,18 @@ final class pdf417
                 $t3 = 929 - $t2;
                 $ecw[$j] = ($ecw[($j - 1)] + $t3) % 929;
             }
+
             $t2 = ($t1 * $ecc[0]) % 929;
             $t3 = 929 - $t2;
             $ecw[0] = $t3 % 929;
         }
+
         foreach ($ecw as $j => $e) {
             if ($e != 0) {
                 $ecw[$j] = 929 - $e;
             }
         }
+
         $ecw = array_reverse($ecw);
 
         return $ecw;
@@ -4342,7 +4372,7 @@ final class pdf417
         $sequenceArray = []; // array to be returned
         $numseq = [];
         // get numeric sequences
-        preg_match_all('/([0-9]{13,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
+        preg_match_all('#([0-9]{13,})#', $code, $numseq, PREG_OFFSET_CAPTURE);
         $numseq[1][] = ['', strlen($code)];
         $offset = 0;
         foreach ($numseq[1] as $seq) {
@@ -4352,7 +4382,7 @@ final class pdf417
                 $prevseq = substr($code, $offset, ($seq[1] - $offset));
                 $textseq = [];
                 // get text sequences
-                preg_match_all('/([\x09\x0a\x0d\x20-\x7e]{5,})/', $prevseq, $textseq, PREG_OFFSET_CAPTURE);
+                preg_match_all('#([\x09\x0a\x0d\x20-\x7e]{5,})#', $prevseq, $textseq, PREG_OFFSET_CAPTURE);
                 $textseq[1][] = ['', strlen($prevseq)];
                 $txtoffset = 0;
                 foreach ($textseq[1] as $txtseq) {
@@ -4362,7 +4392,7 @@ final class pdf417
                         $prevtxtseq = substr($prevseq, $txtoffset, ($txtseq[1] - $txtoffset));
                         if (strlen($prevtxtseq) > 0) {
                             // add BYTE sequence
-                            if ((strlen($prevtxtseq) == 1) && ((count($sequenceArray) > 0) && ($sequenceArray[(count($sequenceArray) - 1)][0] == 900))) {
+                            if ((strlen($prevtxtseq) == 1) && (($sequenceArray !== []) && ($sequenceArray[(count($sequenceArray) - 1)][0] == 900))) {
                                 $sequenceArray[] = [913, $prevtxtseq];
                             } elseif ((strlen($prevtxtseq) % 6) == 0) {
                                 $sequenceArray[] = [924, $prevtxtseq];
@@ -4371,17 +4401,21 @@ final class pdf417
                             }
                         }
                     }
+
                     if ($txtseqlen > 0) {
                         // add numeric sequence
                         $sequenceArray[] = [900, $txtseq[0]];
                     }
+
                     $txtoffset = $txtseq[1] + $txtseqlen;
                 }
             }
+
             if ($seqlen > 0) {
                 // add numeric sequence
                 $sequenceArray[] = [902, $seq[0]];
             }
+
             $offset = $seq[1] + $seqlen;
         }
 
@@ -4405,16 +4439,16 @@ final class pdf417
                 $codelen = strlen($code);
                 for ($i = 0; $i < $codelen; ++$i) {
                     $chval = ord($code[$i]);
-                    if (($k = array_search($chval, $this->textsubmodes[$submode])) !== false) {
+                    if (($k = array_search($chval, $this->textsubmodes[$submode], true)) !== false) {
                         // we are on the same sub-mode
                         $txtarr[] = $k;
                     } else {
                         // the sub-mode is changed
                         for ($s = 0; $s < 4; ++$s) {
                             // search new sub-mode
-                            if (($s != $submode) && (($k = array_search($chval, $this->textsubmodes[$s])) !== false)) {
+                            if (($s != $submode) && (($k = array_search($chval, $this->textsubmodes[$s], true)) !== false)) {
                                 // $s is the new submode
-                                if (((($i + 1) == $codelen) || ((($i + 1) < $codelen) && (array_search(ord($code[($i + 1)]), $this->textsubmodes[$submode]) !== false))) && (($s == 3) || (($s == 0) && ($submode == 1)))) {
+                                if (((($i + 1) == $codelen) || ((($i + 1) < $codelen) && (array_search(ord($code[($i + 1)]), $this->textsubmodes[$submode], true) !== false))) && (($s == 3) || (($s == 0) && ($submode == 1)))) {
                                     // shift (temporary change only for this char)
                                     if ($s == 3) {
                                         // shift to puntuaction
@@ -4429,6 +4463,7 @@ final class pdf417
                                     // set new submode
                                     $submode = $s;
                                 }
+
                                 // add characted code to array
                                 $txtarr[] = $k;
                                 break;
@@ -4436,16 +4471,19 @@ final class pdf417
                         }
                     }
                 }
+
                 $txtarrlen = count($txtarr);
                 if (($txtarrlen % 2) != 0) {
                     // add padding
                     $txtarr[] = 29;
                     ++$txtarrlen;
                 }
+
                 // calculate codewords
                 for ($i = 0; $i < $txtarrlen; $i += 2) {
                     $cw[] = (30 * $txtarr[$i]) + $txtarr[($i + 1)];
                 }
+
                 break;
             case 901:
             case 924: // Byte Compaction mode latch
@@ -4479,6 +4517,7 @@ final class pdf417
 
                     $code = $rest;
                 }
+
                 break;
 
             case 902: // Numeric Compaction mode latch
@@ -4489,14 +4528,17 @@ final class pdf417
                     } else {
                         $rest = '';
                     }
+
                     $t = '1' . $code;
                     do {
                         $d = bcmod($t, '900');
                         $t = bcdiv($t, '900');
                         array_unshift($cw, $d);
                     } while ($t != '0');
+
                     $code = $rest;
                 }
+
                 break;
 
             case 913: // Byte Compaction mode shift

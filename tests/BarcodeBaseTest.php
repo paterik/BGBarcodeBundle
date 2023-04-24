@@ -10,34 +10,79 @@ use TomasVotruba\BarcodeBundle\Base2DBarcode as matrixCode;
 
 final class BarcodeBaseTest extends TestCase
 {
+    /**
+     * @var string
+     */
     public const C_BC_DEFAULT = '1234567';
 
+    /**
+     * @var string
+     */
     public const C_BC_EAN2 = '05';
 
+    /**
+     * @var string
+     */
     public const C_BC_EAN5 = '12345';
 
+    /**
+     * @var string
+     */
     public const C_BC_EAN8 = '40123455';
 
+    /**
+     * @var string
+     */
     public const C_BC_EAN13 = '501234567890';
 
+    /**
+     * @var string
+     */
     public const C_BC_UPCA = '501234567890';
 
+    /**
+     * @var string
+     */
     public const C_BC_UPCE = '127890';
 
+    /**
+     * @var string
+     */
     public const C_BC_IS25 = '74380707240152655700';
 
+    /**
+     * @var string
+     */
     public const C_BC_C128C = '20140200000057';
 
+    /**
+     * @var string
+     */
     public const C_MC_DEFAULT = 'BGBarcodeBundle';
 
+    /**
+     * @var int
+     */
     public const C_BC_1D_HEIGHT = 45;
 
+    /**
+     * @var int
+     */
     public const C_BC_1D_WIDTH = 2;
 
+    /**
+     * @var int
+     */
     public const C_MC_2D_HEIGHT = 2;
 
+    /**
+     * @var int
+     */
     public const C_MC_2D_WIDTH = 2;
 
+    /**
+     * @var string
+     */
     public const C_TMP_PATH = '/tmp/';
 
     /**
