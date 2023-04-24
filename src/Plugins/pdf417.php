@@ -9,10 +9,19 @@ final class pdf417
      */
     public const PDF417DEFS = true;
 
+    /**
+     * @var int
+     */
     public const ROWHEIGHT = 4;
 
+    /**
+     * @var int
+     */
     public const QUIETH = 2;
 
+    /**
+     * @var int
+     */
     public const QUIETV = 4;
 
     /**
@@ -4204,15 +4213,15 @@ final class pdf417
             $row = $pstart;
             switch ($cid) {
                 case 0:
-                    $cL = ((30 * intval($r / 3)) + intval(($rows - 1) / 3));
+                    $cL = ((30 * (int) ($r / 3)) + (int) (($rows - 1) / 3));
                     break;
 
                 case 1:
-                    $cL = ((30 * intval($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
+                    $cL = ((30 * (int) ($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
                     break;
 
                 case 2:
-                    $cL = ((30 * intval($r / 3)) + ($cols - 1));
+                    $cL = ((30 * (int) ($r / 3)) + ($cols - 1));
                     break;
             }
 
@@ -4226,15 +4235,15 @@ final class pdf417
 
             switch ($cid) {
                 case 0:
-                    $cL = ((30 * intval($r / 3)) + ($cols - 1));
+                    $cL = ((30 * (int) ($r / 3)) + ($cols - 1));
                     break;
 
                 case 1:
-                    $cL = ((30 * intval($r / 3)) + intval(($rows - 1) / 3));
+                    $cL = ((30 * (int) ($r / 3)) + (int) (($rows - 1) / 3));
                     break;
 
                 case 2:
-                    $cL = ((30 * intval($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
+                    $cL = ((30 * (int) ($r / 3)) + ($ecl * 3) + (($rows - 1) % 3));
                     break;
             }
 
@@ -4277,11 +4286,10 @@ final class pdf417
      * Returns the error correction level (0-8) to be used
      *
      * @param int $ecl
-     * @param int $numcw
      *
      * @return int
      */
-    private function getErrorCorrectionLevel($ecl, $numcw)
+    private function getErrorCorrectionLevel($ecl, int $numcw)
     {
         // get maximum correction level
         $maxecl = 8; // starting error level
@@ -4320,12 +4328,9 @@ final class pdf417
     /**
      * Returns the error correction codewords
      *
-     * @param array $cw
      * @param int   $ecl
-     *
-     * @return      array
      */
-    private function getErrorCorrection($cw, $ecl)
+    private function getErrorCorrection(array $cw, $ecl): array
     {
         // get error correction coefficients
         $ecc = $this->rsfactors[$ecl];
@@ -4355,9 +4360,7 @@ final class pdf417
             }
         }
 
-        $ecw = array_reverse($ecw);
-
-        return $ecw;
+        return array_reverse($ecw);
     }
 
     /**
@@ -4365,14 +4368,14 @@ final class pdf417
      *
      * @param string $code
      *
-     * @return array
+     * @return array<int, array<string|int>>
      */
-    private function getInputSequences($code)
+    private function getInputSequences($code): array
     {
         $sequenceArray = []; // array to be returned
         $numseq = [];
         // get numeric sequences
-        preg_match_all('#([0-9]{13,})#', $code, $numseq, PREG_OFFSET_CAPTURE);
+        preg_match_all('#(\d{13,})#', $code, $numseq, PREG_OFFSET_CAPTURE);
         $numseq[1][] = ['', strlen($code)];
         $offset = 0;
         foreach ($numseq[1] as $seq) {
@@ -4425,11 +4428,10 @@ final class pdf417
     /**
      * @param int    $mode
      * @param string $code
-     * @param bool   $addmode
      *
-     * @return       array
+     * @return string[]|float[]|int[]
      */
-    private function getCompaction($mode, $code, $addmode = true)
+    private function getCompaction($mode, $code, bool $addmode = true): array
     {
         $cw = []; // array of codewords to return
         switch ($mode) {
@@ -4448,15 +4450,9 @@ final class pdf417
                             // search new sub-mode
                             if (($s != $submode) && (($k = array_search($chval, $this->textsubmodes[$s], true)) !== false)) {
                                 // $s is the new submode
-                                if (((($i + 1) == $codelen) || ((($i + 1) < $codelen) && (array_search(ord($code[($i + 1)]), $this->textsubmodes[$submode], true) !== false))) && (($s == 3) || (($s == 0) && ($submode == 1)))) {
+                                if ((($i + 1 === $codelen) || ((($i + 1) < $codelen) && (in_array(ord($code[($i + 1)]), $this->textsubmodes[$submode], true)))) && (($s == 3) || (($s == 0) && ($submode == 1)))) {
                                     // shift (temporary change only for this char)
-                                    if ($s == 3) {
-                                        // shift to puntuaction
-                                        $txtarr[] = 29;
-                                    } else {
-                                        // shift from lower to alpha
-                                        $txtarr[] = 27;
-                                    }
+                                    $txtarr[] = $s === 3 ? 29 : 27;
                                 } else {
                                     // latch
                                     $txtarr = array_merge($txtarr, $this->textlatch['' . $submode . $s]);
@@ -4473,7 +4469,7 @@ final class pdf417
                 }
 
                 $txtarrlen = count($txtarr);
-                if (($txtarrlen % 2) != 0) {
+                if ($txtarrlen % 2 != 0) {
                     // add padding
                     $txtarr[] = 29;
                     ++$txtarrlen;

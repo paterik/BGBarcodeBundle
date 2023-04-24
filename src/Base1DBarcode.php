@@ -30,25 +30,25 @@ final class Base1DBarcode
      */
     public function setTempPath($serverPath)
     {
+        $exception = null;
         try {
             if (! file_exists($serverPath)) {
                 mkdir($serverPath, 0770, true);
             }
         } catch (\Exception $exception) {
-            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath);
+            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath, $exception->getCode(), $exception);
         }
     }
 
     /**
      * Send barcode as SVG image object to the standard output.
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param string $color
      */
-    public function getBarcodeSVG($code, $type, $w = 2, $h = 30, $color = 'black')
+    public function getBarcodeSVG(string $code, $type, $w = 2, $h = 30, $color = 'black'): void
     {
         $this->setBarcode($code, $type);
         $code = $this->getBarcodeSVGcode($w, $h, $color);
@@ -65,15 +65,12 @@ final class Base1DBarcode
     /**
      * Return a SVG string representation of barcode.
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param string $color
-     *
-     * @return string
      */
-    public function getBarcodeSVGcode($code, $type, $w = 2, $h = 30, $color = 'black')
+    public function getBarcodeSVGcode(string $code, $type, $w = 2, $h = 30, $color = 'black'): string
     {
         $this->setBarcode($code, $type);
         // replace table for special characters
@@ -103,23 +100,19 @@ final class Base1DBarcode
         }
 
         $svg .= "\t" . '</g>' . "\n";
-        $svg .= '</svg>' . "\n";
 
-        return $svg;
+        return $svg . ('</svg>' . "\n");
     }
 
     /**
      * Return an HTML representation of barcode.
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param string $color
-     *
-     * @return string
      */
-    public function getBarcodeHTML($code, $type, $w = 2, $h = 30, $color = 'black')
+    public function getBarcodeHTML(string $code, $type, $w = 2, $h = 30, $color = 'black'): string
     {
         $this->setBarcode($code, $type);
         $html = '<div style="font-size:0;position:relative;width:' . ($this->barcodeArray['maxw'] * $w) . 'px;height:' . ($h) . 'px;">' . "\n";
@@ -137,23 +130,18 @@ final class Base1DBarcode
             $x += $bw;
         }
 
-        $html .= '</div>' . "\n";
-
-        return $html;
+        return $html . ('</div>' . "\n");
     }
 
     /**
      * Return a PNG image representation of barcode (requires GD or Imagick library).
      *
-     * @param string $code
      * @param string $type
      * @param int    $w
      * @param int    $h
      * @param array  $color
-     *
-     * @return bool
      */
-    public function getBarcodePNG($code, $type, $w = 2, $h = 30, $color = [0, 0, 0])
+    public function getBarcodePNG(string $code, $type, $w = 2, $h = 30, $color = [0, 0, 0]): bool
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -329,10 +317,9 @@ final class Base1DBarcode
     }
 
     /**
-     * @param string $code
      * @param string $type
      */
-    public function setBarcode($code, $type)
+    public function setBarcode(string $code, $type): void
     {
         switch (strtoupper(trim($type))) {
             case 'C39': // CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9.
@@ -583,11 +570,9 @@ final class Base1DBarcode
     /**
      * Encode a string to be used for CODE 39 Extended mode.
      *
-     * @param string $code
-     *
      * @return bool|string
      */
-    private function encode_code39_ext($code)
+    private function encode_code39_ext(string $code)
     {
         $encode = [
             chr(0) => '%U',
@@ -761,11 +746,9 @@ final class Base1DBarcode
     /**
      * CODE 93 - USS-93
      *
-     * @param string $code
-     *
      * @return array|bool
      */
-    private function barcode_code93($code)
+    private function barcode_code93(string $code)
     {
         $chr = [];
         $chr[48] = '131112'; // 0
@@ -1010,12 +993,8 @@ final class Base1DBarcode
 
     /**
      * Calculate CODE 93 checksum (modulo 47).
-     *
-     * @param string $code
-     *
-     * @return string
      */
-    private function checksum_code93($code)
+    private function checksum_code93(string $code): string
     {
         $chars = [
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -1065,11 +1044,9 @@ final class Base1DBarcode
     /**
      * Checksum for standard 2 of 5 barcodes.
      *
-     * @param string $code
-     *
      * @return int
      */
-    private function checksum_s25($code)
+    private function checksum_s25(string $code)
     {
         $len = strlen($code);
         $sum = 0;
@@ -1094,12 +1071,9 @@ final class Base1DBarcode
      * MSI - Variation of Plessey code, with similar applications
      * Contains digits (0 to 9) and encodes the data only in the width of bars.
      *
-     * @param string $code
-     * @param bool   $checksum
-     *
      * @return array|bool
      */
-    private function barcode_msi($code, $checksum = false)
+    private function barcode_msi(string $code, bool $checksum = false)
     {
         $chr = [];
         $chr['0'] = '100100100100';
@@ -1167,12 +1141,9 @@ final class Base1DBarcode
      * Used in airline ticket marking, photofinishing
      * Contains digits (0 to 9) and encodes the data only in the width of bars.
      *
-     * @param string $code
-     * @param bool   $checksum
-     *
      * @return array|bool
      */
-    private function barcode_s25($code, $checksum = false)
+    private function barcode_s25(string $code, bool $checksum = false)
     {
         $chr = [];
         $chr['0'] = '10101110111010';
@@ -1190,7 +1161,7 @@ final class Base1DBarcode
             $code .= $this->checksum_s25($code);
         }
 
-        if ((strlen($code) % 2) != 0) {
+        if (strlen($code) % 2 != 0) {
             // add leading zero if code-length is odd
             $code = '0' . $code;
         }
@@ -1221,19 +1192,16 @@ final class Base1DBarcode
     /**
      * Convert binary barcode sequence to DNS1DBarcode barcode array.
      *
-     * @param string $seq
-     * @param array  $bararray
-     *
      * @return mixed
      */
-    private function binseq_to_array($seq, $bararray)
+    private function binseq_to_array(string $seq, array $bararray)
     {
         $len = strlen($seq);
         $w = 0;
         $k = 0;
         for ($i = 0; $i < $len; ++$i) {
             ++$w;
-            if (($i == ($len - 1)) || (($i < ($len - 1)) && ($seq[$i] != $seq[($i + 1)]))) {
+            if (($i === $len - 1) || (($i < ($len - 1)) && ($seq[$i] !== $seq[($i + 1)]))) {
                 if ($seq[$i] == '1') {
                     $t = true; // bar
                 } else {
@@ -1260,12 +1228,9 @@ final class Base1DBarcode
      * Compact numeric code, widely used in industry, air cargo
      * Contains digits (0 to 9) and encodes the data in the width of both bars and spaces.
      *
-     * @param string $code
-     * @param bool   $checksum
-     *
      * @return array|bool
      */
-    private function barcode_i25($code, $checksum = false)
+    private function barcode_i25(string $code, bool $checksum = false)
     {
         $chr = [];
         $chr['0'] = '11221';
@@ -1285,7 +1250,7 @@ final class Base1DBarcode
             $code .= $this->checksum_s25($code);
         }
 
-        if ((strlen($code) % 2) != 0) {
+        if (strlen($code) % 2 != 0) {
             // add leading zero if code-length is odd
             $code = '0' . $code;
         }
@@ -1301,7 +1266,7 @@ final class Base1DBarcode
         ];
         $k = 0;
         $clen = strlen($code);
-        for ($i = 0; $i < $clen; $i = ($i + 2)) {
+        for ($i = 0; $i < $clen; $i += 2) {
             $charBar = $code[$i];
             $charSpace = $code[$i + 1];
             if ((! isset($chr[$charBar])) || (! isset($chr[$charSpace]))) {
@@ -1342,12 +1307,9 @@ final class Base1DBarcode
     /**
      * C128 barcodes - very capable code, excellent density, high reliability; in very wide use world-wide
      *
-     * @param string $code
-     * @param string $type
-     *
      * @return array|bool
      */
-    private function barcode_c128($code, $type = '')
+    private function barcode_c128(string $code, string $type = '')
     {
         $chr = [
             '212222', /* 00 */
@@ -1527,15 +1489,15 @@ final class Base1DBarcode
                     --$len;
                 }
 
-                if (($len % 2) != 0) {
+                if ($len % 2 != 0) {
                     // the length must be even
                     return false;
                 }
 
                 for ($i = 0; $i < $len; $i += 2) {
                     $chrnum = $code[$i] . $code[$i + 1];
-                    if (preg_match('#([0-9]{2})#', $chrnum) > 0) {
-                        $codeData[] = intval($chrnum);
+                    if (preg_match('#(\d{2})#', $chrnum) > 0) {
+                        $codeData[] = (int) $chrnum;
                     } else {
                         return false;
                     }
@@ -1548,19 +1510,19 @@ final class Base1DBarcode
                 $sequence = [];
                 // get numeric sequences (if any)
                 $numseq = [];
-                preg_match_all('#([0-9]{4,})#', $code, $numseq, PREG_OFFSET_CAPTURE);
+                preg_match_all('#(\d{4,})#', $code, $numseq, PREG_OFFSET_CAPTURE);
                 if (isset($numseq[1]) && ! empty($numseq[1])) {
                     $endOffset = 0;
                     foreach ($numseq[1] as $val) {
                         $offset = $val[1];
                         if ($offset > $endOffset) {
                             // non numeric sequence
-                            $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset, ($offset - $endOffset))));
+                            $sequence = [...$sequence, ...$this->get128ABsequence(substr($code, $endOffset, ($offset - $endOffset)))];
                         }
 
                         // numeric sequence
                         $slen = strlen($val[0]);
-                        if (($slen % 2) != 0) {
+                        if ($slen % 2 != 0) {
                             // the length must be even
                             --$slen;
                         }
@@ -1570,7 +1532,7 @@ final class Base1DBarcode
                     }
 
                     if ($endOffset < $len) {
-                        $sequence = array_merge($sequence, $this->get128ABsequence(substr($code, $endOffset)));
+                        $sequence = [...$sequence, ...$this->get128ABsequence(substr($code, $endOffset))];
                     }
                 } else {
                     // text code (non C mode)
@@ -1597,11 +1559,7 @@ final class Base1DBarcode
                             for ($i = 0; $i < $seq[2]; ++$i) {
                                 $char = $seq[1][$i];
                                 $charId = ord($char);
-                                if (($charId >= 241) && ($charId <= 244)) {
-                                    $codeData[] = $fncA[$charId];
-                                } else {
-                                    $codeData[] = strpos($keysA, (string) $char);
-                                }
+                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncA[$charId] : strpos($keysA, (string) $char);
                             }
 
                             break;
@@ -1638,11 +1596,7 @@ final class Base1DBarcode
                             for ($i = 0; $i < $seq[2]; ++$i) {
                                 $char = $seq[1][$i];
                                 $charId = ord($char);
-                                if (($charId >= 241) && ($charId <= 244)) {
-                                    $codeData[] = $fncB[$charId];
-                                } else {
-                                    $codeData[] = strpos($keysB, (string) $char);
-                                }
+                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncB[$charId] : strpos($keysB, (string) $char);
                             }
 
                             break;
@@ -1656,7 +1610,7 @@ final class Base1DBarcode
 
                             for ($i = 0; $i < $seq[2]; $i += 2) {
                                 $chrnum = $seq[1][$i] . $seq[1][$i + 1];
-                                $codeData[] = intval($chrnum);
+                                $codeData[] = (int) $chrnum;
                             }
 
                             break;
@@ -1710,11 +1664,9 @@ final class Base1DBarcode
     /**
      * Split text code in A/B sequence for 128 code
      *
-     * @param string $code
-     *
-     * @return array
+     * @return array<int, array<string|int>>
      */
-    private function get128ABsequence($code)
+    private function get128ABsequence(string $code): array
     {
         $len = strlen($code);
         $sequence = [];
@@ -1753,12 +1705,9 @@ final class Base1DBarcode
      * UPC-A: Universal product code seen on almost all retail products in the USA and Canada
      * UPC-E: Short version of UPC symbol
      *
-     * @param string $code
-     * @param int    $len
-     *
      * @return array|bool
      */
-    private function barcode_eanupc($code, $len = 13)
+    private function barcode_eanupc(string $code, int $len = 13)
     {
         $upce = false;
         $upceCode = null;
@@ -1799,7 +1748,7 @@ final class Base1DBarcode
         if ($codeLen == $dataLen) {
             // add check digit
             $code .= $r;
-        } elseif ($r !== intval($code[$dataLen])) {
+        } elseif ($r !== (int) $code[$dataLen]) {
             // wrong checkdigit
             return false;
         }
@@ -1823,13 +1772,7 @@ final class Base1DBarcode
                     $upceCode = substr($code, 2, 3) . substr($code, 10, 2) . '3';
                 } else {
                     $tmp = substr($code, 6, 1);
-                    if ($tmp == '0') {
-                        // manufacturer code ends in 0
-                        $upceCode = substr($code, 2, 4) . substr($code, 11, 1) . '4';
-                    } else {
-                        // manufacturer code does not end in zero
-                        $upceCode = substr($code, 2, 5) . substr($code, 11, 1);
-                    }
+                    $upceCode = $tmp == '0' ? substr($code, 2, 4) . substr($code, 11, 1) . '4' : substr($code, 2, 5) . substr($code, 11, 1);
                 }
             }
         }
@@ -1949,7 +1892,7 @@ final class Base1DBarcode
 
             $seq .= '01010'; // center guard bar
             for ($i = $halfLen; $i < $len; ++$i) {
-                $seq .= $codes['C'][$code[intval($i)]];
+                $seq .= $codes['C'][$code[(int) $i]];
             }
 
             $seq .= '101'; // right guard bar
@@ -1959,7 +1902,7 @@ final class Base1DBarcode
         $w = 0;
         for ($i = 0; $i < $clen; ++$i) {
             ++$w;
-            if (($i == ($clen - 1)) || (($i < ($clen - 1)) && ($seq[$i] != $seq[($i + 1)]))) {
+            if (($i === $clen - 1) || (($i < ($clen - 1)) && ($seq[$i] !== $seq[($i + 1)]))) {
                 if ($seq[$i] == '1') {
                     $t = true; // bar
                 } else {
@@ -2072,12 +2015,9 @@ final class Base1DBarcode
      * POSTNET and PLANET barcodes.
      * Used by U.S. Postal Service for automated mail sorting
      *
-     * @param string $code
-     * @param bool   $planet
-     *
-     * @return array
+     * @return array{code: string, maxw: int, maxh: int, bcode: array<int, array{t: int, w: int, h: mixed, p: int|float}>&mixed[]}
      */
-    private function barcode_postnet($code, $planet = false)
+    private function barcode_postnet(string $code, bool $planet = false): array
     {
         // bar length
         if ($planet) {
@@ -2122,7 +2062,7 @@ final class Base1DBarcode
         // calculate checksum
         $sum = 0;
         for ($i = 0; $i < $len; ++$i) {
-            $sum += intval($code[$i]);
+            $sum += (int) $code[$i];
         }
 
         $chkd = ($sum % 10);
@@ -2183,12 +2123,9 @@ final class Base1DBarcode
      * RMS4CC (Royal Mail 4-state Customer Code) - CBC (Customer Bar Code) - KIX (Klant index - Customer index)
      * RM4SCC is the name of the barcode symbology used by the Royal Mail for its Cleanmail service.
      *
-     * @param string $code
-     * @param bool   $kix
-     *
      * @return array
      */
-    private function barcode_rms4cc($code, $kix = false)
+    private function barcode_rms4cc(string $code, bool $kix = false)
     {
         $notkix = ! $kix;
         // bar mode
@@ -2375,11 +2312,9 @@ final class Base1DBarcode
      * CODABAR barcodes.
      * Older code often used in library systems, sometimes in blood banks
      *
-     * @param string $code
-     *
      * @return array|bool
      */
-    private function barcode_codabar($code)
+    private function barcode_codabar(string $code)
     {
         $chr = [
             '0' => '11111221',
@@ -2446,11 +2381,9 @@ final class Base1DBarcode
      * CODE11 barcodes.
      * Used primarily for labeling telecommunications equipment
      *
-     * @param string $code
-     *
      * @return array|bool
      */
-    private function barcode_code11($code)
+    private function barcode_code11(string $code)
     {
         $chr = [
             '0' => '111121',
@@ -2481,11 +2414,7 @@ final class Base1DBarcode
         $check = 0;
         for ($i = ($len - 1); $i >= 0; --$i) {
             $digit = $code[$i];
-            if ($digit == '-') {
-                $dval = 10;
-            } else {
-                $dval = intval($digit);
-            }
+            $dval = $digit == '-' ? 10 : (int) $digit;
 
             $check += ($dval * $p);
             ++$p;
@@ -2506,11 +2435,7 @@ final class Base1DBarcode
             $check = 0;
             for ($i = $len; $i >= 0; --$i) {
                 $digit = $code[$i];
-                if ($digit == '-') {
-                    $dval = 10;
-                } else {
-                    $dval = intval($digit);
-                }
+                $dval = $digit == '-' ? 10 : (int) $digit;
 
                 $check += ($dval * $p);
                 ++$p;
@@ -2558,14 +2483,12 @@ final class Base1DBarcode
      * Pharmacode
      * Contains digits (0 to 9)
      *
-     * @param string $code
-     *
      * @return mixed
      */
-    private function barcode_pharmacode($code)
+    private function barcode_pharmacode(string $code)
     {
         $seq = '';
-        $code = intval($code);
+        $code = (int) $code;
         while ($code > 0) {
             if (($code % 2) == 0) {
                 $seq .= '11100';
@@ -2594,14 +2517,12 @@ final class Base1DBarcode
     /**
      * Pharmacode two-track, contains digits (0 to 9)
      *
-     * @param string $code
-     *
-     * @return array
+     * @return array{code: float|int, maxw: int, maxh: int, bcode: array<int, array{t: int, w: int, h: int, p: int}>}
      */
-    private function barcode_pharmacode2t($code)
+    private function barcode_pharmacode2t(string $code): array
     {
         $seq = '';
-        $code = intval($code);
+        $code = (int) $code;
         do {
             switch ($code % 3) {
                 case 0:
@@ -2676,11 +2597,9 @@ final class Base1DBarcode
      * Intelligent Mail barcode is a 65-bar code for use on mail in the United States.
      * The fields are described as follows:<ul><li>The Barcode Identifier shall be assigned by USPS to encode the presort identification that is currently printed in human readable form on the optional endorsement line (OEL) as well as for future USPS use. This shall be two digits, with the second digit in the range of 0–4. The allowable encoding ranges shall be 00–04, 10–14, 20–24, 30–34, 40–44, 50–54, 60–64, 70–74, 80–84, and 90–94.</li><li>The Service Type Identifier shall be assigned by USPS for any combination of services requested on the mailpiece. The allowable encoding range shall be 000http://it2.php.net/manual/en/function.dechex.php–999. Each 3-digit value shall correspond to a particular mail class with a particular combination of service(s). Each service program, such as OneCode Confirm and OneCode ACS, shall provide the list of Service Type Identifier values.</li><li>The Mailer or Customer Identifier shall be assigned by USPS as a unique, 6 or 9 digit number that identifies a business entity. The allowable encoding range for the 6 digit Mailer ID shall be 000000- 899999, while the allowable encoding range for the 9 digit Mailer ID shall be 900000000-999999999.</li><li>The Serial or Sequence Number shall be assigned by the mailer for uniquely identifying and tracking mailpieces. The allowable encoding range shall be 000000000–999999999 when used with a 6 digit Mailer ID and 000000-999999 when used with a 9 digit Mailer ID. e. The Delivery Point ZIP Code shall be assigned by the mailer for routing the mailpiece. This shall replace POSTNET for routing the mailpiece to its final delivery point. The length may be 0, 5, 9, or 11 digits. The allowable encoding ranges shall be no ZIP Code, 00000–99999,  000000000–999999999, and 00000000000–99999999999.</li></ul>
      *
-     * @param string $code
-     *
      * @return array|bool
      */
-    private function barcode_imb($code)
+    private function barcode_imb(string $code)
     {
         $ascChr = [4, 0, 2, 6, 3, 5, 1, 9, 8, 7, 1, 2, 0, 6, 4, 8, 2, 9, 5, 3, 0, 1, 3, 7, 4, 6, 8, 9, 2, 0, 5, 1, 9, 4, 3, 8, 6, 7, 1, 2, 4, 3, 9, 5, 7, 8, 3, 0, 2, 1, 4, 0, 9, 1, 7, 0, 2, 4, 6, 3, 7, 1, 9, 5, 8];
         $dscChr = [7, 1, 9, 5, 8, 0, 2, 4, 6, 3, 5, 8, 9, 7, 3, 0, 6, 1, 7, 4, 6, 8, 9, 2, 5, 1, 7, 5, 4, 3, 8, 7, 6, 0, 2, 5, 4, 9, 3, 0, 1, 6, 8, 2, 0, 4, 5, 9, 6, 7, 5, 2, 6, 3, 8, 5, 1, 9, 8, 7, 4, 0, 2, 6, 3];
@@ -2688,11 +2607,7 @@ final class Base1DBarcode
         $dscPos = [2, 10, 12, 5, 9, 1, 5, 4, 3, 9, 11, 5, 10, 1, 6, 3, 4, 1, 10, 0, 2, 11, 8, 6, 1, 12, 3, 8, 6, 4, 4, 11, 0, 6, 1, 9, 11, 5, 3, 7, 3, 10, 7, 11, 8, 2, 10, 3, 5, 8, 0, 3, 12, 11, 8, 4, 5, 1, 3, 0, 7, 12, 9, 8, 10];
         $codeArr = explode('-', $code);
         $trackingNumber = $codeArr[0];
-        if (isset($codeArr[1])) {
-            $routingCode = $codeArr[1];
-        } else {
-            $routingCode = '';
-        }
+        $routingCode = $codeArr[1] ?? '';
 
         // Conversion of Routing Code
         switch (strlen($routingCode)) {
@@ -2757,11 +2672,7 @@ final class Base1DBarcode
         $characters = [];
         $bitmask = 512;
         foreach ($codewords as $val) {
-            if ($val <= 1286) {
-                $chrcode = $table5of13[$val];
-            } else {
-                $chrcode = $table2of13[($val - 1287)];
-            }
+            $chrcode = $val <= 1286 ? $table5of13[$val] : $table2of13[($val - 1287)];
 
             if (($fcs & $bitmask) > 0) {
                 // bitwise invert
@@ -2827,10 +2738,8 @@ final class Base1DBarcode
      * Convert large integer number to hexadecimal representation. (requires PHP bcmath extension)
      *
      * @param string $number
-     *
-     * @return string
      */
-    public function dec_to_hex($number)
+    public function dec_to_hex($number): string
     {
         $hex = [];
         if ($number == 0) {
@@ -2839,9 +2748,9 @@ final class Base1DBarcode
 
         while ($number > 0) {
             if ($number == 0) {
-                array_push($hex, '0');
+                $hex[] = '0';
             } else {
-                array_push($hex, strtoupper(dechex(bcmod($number, '16'))));
+                $hex[] = strtoupper(dechex(bcmod($number, '16')));
                 $number = bcdiv($number, '16', 0);
             }
         }
@@ -2874,22 +2783,18 @@ final class Base1DBarcode
     /**
      * Intelligent Mail Barcode calculation of Frame Check Sequence
      *
-     * @param string $codeArr
+     * @param string[] $codeArr
      *
      * @return int
      */
-    private function imb_crc11fcs($codeArr)
+    private function imb_crc11fcs(array $codeArr)
     {
         $genpoly = 0x0F35; // generator polynomial
         $fcs = 0x07FF; // Frame Check Sequence
         // do most significant byte skipping the 2 most significant bits
         $data = hexdec($codeArr[0]) << 5;
         for ($bit = 2; $bit < 8; ++$bit) {
-            if (($fcs ^ $data) & 0x400) {
-                $fcs = ($fcs << 1) ^ $genpoly;
-            } else {
-                $fcs = ($fcs << 1);
-            }
+            $fcs = (($fcs ^ $data) & 0x400) !== 0 ? ($fcs << 1) ^ $genpoly : $fcs << 1;
 
             $fcs &= 0x7FF;
             $data <<= 1;
@@ -2899,11 +2804,7 @@ final class Base1DBarcode
         for ($byte = 1; $byte < 13; ++$byte) {
             $data = hexdec($codeArr[$byte]) << 3;
             for ($bit = 0; $bit < 8; ++$bit) {
-                if (($fcs ^ $data) & 0x400) {
-                    $fcs = ($fcs << 1) ^ $genpoly;
-                } else {
-                    $fcs = ($fcs << 1);
-                }
+                $fcs = (($fcs ^ $data) & 0x400) !== 0 ? ($fcs << 1) ^ $genpoly : $fcs << 1;
 
                 $fcs &= 0x7FF;
                 $data <<= 1;
@@ -2916,11 +2817,9 @@ final class Base1DBarcode
     /**
      * Reverse unsigned short value
      *
-     * @param int $num
-     *
      * @return int
      */
-    private function imb_reverse_us($num)
+    private function imb_reverse_us(int $num)
     {
         $rev = 0;
         for ($i = 0; $i < 16; ++$i) {
@@ -2935,12 +2834,9 @@ final class Base1DBarcode
     /**
      * generate Nof13 tables used for Intelligent Mail Barcode
      *
-     * @param int $n
-     * @param int $size
-     *
-     * @return array
+     * @return int[]
      */
-    private function imb_tables($n, $size)
+    private function imb_tables(int $n, int $size): array
     {
         $table = [];
         $lli = 0; // LUT lower index
@@ -2948,7 +2844,7 @@ final class Base1DBarcode
         for ($count = 0; $count < 8192; ++$count) {
             $bitCount = 0;
             for ($bitIndex = 0; $bitIndex < 13; ++$bitIndex) {
-                $bitCount += intval(($count & (1 << $bitIndex)) != 0);
+                $bitCount += (int) (($count & (1 << $bitIndex)) != 0);
             }
 
             // if we don't have the right number of bits on, go on to the next value

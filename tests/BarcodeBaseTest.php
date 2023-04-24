@@ -88,7 +88,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * gdlib or imagemagic availability check
      */
-    public function testImageRenderer()
+    public function testImageRenderer(): void
     {
         $this->assertTrue(function_exists('imagecreate') || function_exists('imagick'));
     }
@@ -96,7 +96,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39 Barcode PNG rendering test
      */
-    public function testC39GetBarcodePNGPath()
+    public function testC39GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = self::C_TMP_PATH;
@@ -105,7 +105,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 140);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -116,7 +116,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39 Barcode HTML table rendering test
      */
-    public function testC39GetBarcodeHTMLRaw()
+    public function testC39GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -130,7 +130,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39E Barcode PNG rendering test
      */
-    public function testC39EGetBarcodePNGPath()
+    public function testC39EGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -140,7 +140,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 140);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -151,7 +151,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39E Barcode HTML table rendering test
      */
-    public function testC39EGetBarcodeHTMLRaw()
+    public function testC39EGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -165,7 +165,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode PNG rendering test
      */
-    public function testC39PlusGetBarcodePNGPath()
+    public function testC39PlusGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -175,7 +175,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 150);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -186,7 +186,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      */
-    public function testC39PlusGetBarcodeHTMLRaw()
+    public function testC39PlusGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -200,7 +200,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C93 Barcode PNG rendering test
      */
-    public function testC93PlusGetBarcodePNGPath()
+    public function testC93PlusGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -221,7 +221,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      */
-    public function testC93PlusGetBarcodeHTMLRaw()
+    public function testC93PlusGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -235,7 +235,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * S25 Barcode PNG rendering test
      */
-    public function testS25GetBarcodePNGPath()
+    public function testS25GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -256,7 +256,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C39+ Barcode HTML table rendering test
      */
-    public function testS25GetBarcodeHTMLRaw()
+    public function testS25GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -270,7 +270,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode PNG rendering test
      */
-    public function testI25GetBarcodePNGPath()
+    public function testI25GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -280,7 +280,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) >= 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -291,7 +291,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode HTML table rendering test
      */
-    public function testI25GetBarcodeHTMLRaw()
+    public function testI25GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -305,7 +305,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25+ Barcode PNG rendering test
      */
-    public function testI25PlusGetBarcodePNGPath()
+    public function testI25PlusGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -315,7 +315,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -326,7 +326,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * I25 Barcode HTML table rendering test
      */
-    public function testI25PlusGetBarcodeHTMLRaw()
+    public function testI25PlusGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -340,7 +340,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (native) Barcode PNG rendering test
      */
-    public function testC128GetBarcodePNGPath()
+    public function testC128GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -350,7 +350,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -361,7 +361,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (native) Barcode HTML table rendering test
      */
-    public function testC128GetBarcodeHTMLRaw()
+    public function testC128GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -375,7 +375,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (A) Barcode PNG rendering test
      */
-    public function testC128AGetBarcodePNGPath()
+    public function testC128AGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -396,7 +396,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (A) Barcode HTML table rendering test
      */
-    public function testC128AGetBarcodeHTMLRaw()
+    public function testC128AGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -410,7 +410,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (B) Barcode PNG rendering test
      */
-    public function testC128BGetBarcodePNGPath()
+    public function testC128BGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -431,7 +431,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (B) Barcode HTML table rendering test
      */
-    public function testC128BGetBarcodeHTMLRaw()
+    public function testC128BGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -445,7 +445,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (C) Barcode PNG rendering test
      */
-    public function testC128CGetBarcodePNGPath()
+    public function testC128CGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -455,7 +455,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -466,7 +466,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * C128 (C) Barcode HTML table rendering test
      */
-    public function testC128CGetBarcodeHTMLRaw()
+    public function testC128CGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -480,7 +480,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN2 Barcode PNG rendering test
      */
-    public function testEAN2GetBarcodePNGPath()
+    public function testEAN2GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -490,7 +490,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -501,7 +501,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN2 Barcode HTML table rendering test
      */
-    public function testEAN2GetBarcodeHTMLRaw()
+    public function testEAN2GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -515,7 +515,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN5 Barcode PNG rendering test
      */
-    public function testEAN5GetBarcodePNGPath()
+    public function testEAN5GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -525,7 +525,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -536,7 +536,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN5 Barcode HTML table rendering test
      */
-    public function testEAN5GetBarcodeHTMLRaw()
+    public function testEAN5GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -550,7 +550,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN13 Barcode PNG rendering test
      */
-    public function testEAN13GetBarcodePNGPath()
+    public function testEAN13GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -560,7 +560,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -571,7 +571,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN13 Barcode HTML table rendering test
      */
-    public function testEAN13GetBarcodeHTMLRaw()
+    public function testEAN13GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -585,7 +585,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN8 Barcode PNG rendering test
      */
-    public function testEAN8GetBarcodePNGPath()
+    public function testEAN8GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -595,7 +595,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -606,7 +606,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * EAN8 Barcode HTML table rendering test
      */
-    public function testEAN8GetBarcodeHTMLRaw()
+    public function testEAN8GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -620,7 +620,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCA Barcode PNG rendering test
      */
-    public function testUPCAGetBarcodePNGPath()
+    public function testUPCAGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -630,7 +630,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -641,7 +641,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCA Barcode HTML table rendering test
      */
-    public function testUPCAGetBarcodeHTMLRaw()
+    public function testUPCAGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -655,7 +655,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode PNG rendering test
      */
-    public function testUPCEGetBarcodePNGPath()
+    public function testUPCEGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -665,7 +665,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 100);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -676,7 +676,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode HTML table rendering test
      */
-    public function testUPCEGetBarcodeHTMLRaw()
+    public function testUPCEGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -690,7 +690,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI Barcode PNG rendering test
      */
-    public function testMSIGetBarcodePNGPath()
+    public function testMSIGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -711,7 +711,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * UPCE Barcode HTML table rendering test
      */
-    public function testMSIGetBarcodeHTMLRaw()
+    public function testMSIGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -725,7 +725,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI+ Barcode PNG rendering test
      */
-    public function testMSIPlusGetBarcodePNGPath()
+    public function testMSIPlusGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -746,7 +746,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * MSI+ Barcode HTML table rendering test
      */
-    public function testMSIPlusGetBarcodeHTMLRaw()
+    public function testMSIPlusGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -760,7 +760,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * POSTNET Barcode PNG rendering test
      */
-    public function testPOSTNETGetBarcodePNGPath()
+    public function testPOSTNETGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -781,7 +781,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * POSTNET Barcode HTML table rendering test
      */
-    public function testPOSTNETGetBarcodeHTMLRaw()
+    public function testPOSTNETGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -795,7 +795,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PLANET Barcode PNG rendering test
      */
-    public function testPLANETGetBarcodePNGPath()
+    public function testPLANETGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -816,7 +816,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PLANET Barcode HTML table rendering test
      */
-    public function testPLANETGetBarcodeHTMLRaw()
+    public function testPLANETGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -830,7 +830,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * RMS4CC Barcode PNG rendering test
      */
-    public function testRMS4CCGetBarcodePNGPath()
+    public function testRMS4CCGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -840,7 +840,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -851,7 +851,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * RMS4CC Barcode HTML table rendering test
      */
-    public function testRMS4CCGetBarcodeHTMLRaw()
+    public function testRMS4CCGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -865,7 +865,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * KIX Barcode PNG rendering test
      */
-    public function testKIXGetBarcodePNGPath()
+    public function testKIXGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -886,7 +886,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * KIX Barcode HTML table rendering test
      */
-    public function testKIXGetBarcodeHTMLRaw()
+    public function testKIXGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -900,7 +900,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * IMB Barcode PNG rendering test
      */
-    public function testIMBGetBarcodePNGPath()
+    public function testIMBGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -921,7 +921,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * IMB Barcode HTML table rendering test
      */
-    public function testIMBGetBarcodeHTMLRaw()
+    public function testIMBGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -935,7 +935,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODABAR Barcode PNG rendering test
      */
-    public function testCODABARGetBarcodePNGPath()
+    public function testCODABARGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -945,7 +945,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -956,7 +956,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODABAR Barcode HTML table rendering test
      */
-    public function testCODABARGetBarcodeHTMLRaw()
+    public function testCODABARGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -970,7 +970,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODE11 Barcode PNG rendering test
      */
-    public function testCODE11GetBarcodePNGPath()
+    public function testCODE11GetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -980,7 +980,7 @@ final class BarcodeBaseTest extends TestCase
         if (function_exists('imagecreate')) {
             $checkCondition = (file_exists($bcPathAbs)) && (filesize($bcPathAbs) > 120);
         } else {
-            $checkCondition = (file_exists($bcPathAbs)) ? true : false;
+            $checkCondition = file_exists($bcPathAbs);
         }
 
         unlink($bcPathAbs);
@@ -991,7 +991,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * CODE11 Barcode HTML table rendering test
      */
-    public function testCODE11GetBarcodeHTMLRaw()
+    public function testCODE11GetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -1005,7 +1005,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA Barcode PNG rendering test
      */
-    public function testPHARMAGetBarcodePNGPath()
+    public function testPHARMAGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -1026,7 +1026,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA Barcode HTML table rendering test
      */
-    public function testPHARMAGetBarcodeHTMLRaw()
+    public function testPHARMAGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -1040,7 +1040,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA2T Barcode PNG rendering test
      */
-    public function testPHARMA2TGetBarcodePNGPath()
+    public function testPHARMA2TGetBarcodePNGPath(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -1061,7 +1061,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * PHARMA2T Barcode HTML table rendering test
      */
-    public function testPHARMA2TGetBarcodeHTMLRaw()
+    public function testPHARMA2TGetBarcodeHTMLRaw(): void
     {
         $d1 = new barCode();
         $d1->savePath = '/tmp/';
@@ -1075,7 +1075,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * DATAMATRIX 2D Matrix-Code PNG rendering test
      */
-    public function testDATAMATRIXGetBarcodePNGPath()
+    public function testDATAMATRIXGetBarcodePNGPath(): void
     {
         $d2 = new matrixCode();
         $d2->savePath = '/tmp/';
@@ -1096,7 +1096,7 @@ final class BarcodeBaseTest extends TestCase
     /**
      * QRCode 2D Matrix-Code PNG rendering test
      */
-    public function testQRCODEGetBarcodePNGPath()
+    public function testQRCODEGetBarcodePNGPath(): void
     {
         $d2 = new matrixCode();
         $d2->savePath = '/tmp/';
