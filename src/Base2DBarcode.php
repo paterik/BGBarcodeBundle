@@ -294,7 +294,7 @@ final class Base2DBarcode
                         $bar->setfillcolor($fgcol);
                         $bar->rectangle($x, $y, ($x + $w - 1), ($y + $h - 1));
                     } else {
-                        imagefilledrectangle($png, (int) $x, (int) $y, (int) ($x + $w - 1), (int) ($y + $h - 1), $fgcol);
+                        imagefilledrectangle($png, $x, $y, $x + $w - 1, $y + $h - 1, $fgcol);
                     }
                 }
 
@@ -400,8 +400,8 @@ final class Base2DBarcode
                 $this->barcodeArray['num_rows'] = count($rows);
                 $this->barcodeArray['num_cols'] = strlen($rows[0]);
                 $this->barcodeArray['bcode'] = [];
-                foreach ($rows as $r) {
-                    $this->barcodeArray['bcode'][] = str_split($r, 1);
+                foreach ($rows as $row) {
+                    $this->barcodeArray['bcode'][] = str_split($row, 1);
                 }
 
                 $this->barcodeArray['code'] = $code;

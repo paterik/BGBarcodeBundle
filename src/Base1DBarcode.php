@@ -278,8 +278,6 @@ final class Base1DBarcode
             $x += ($bw);
         }
 
-        $nType = str_replace('+', 'PLUS', $type);
-
         $this->setTempPath($this->savePath);
         $saveFile = $this->checkfile($this->savePath . $filename . '.png', true);
 
@@ -1537,7 +1535,7 @@ final class Base1DBarcode
                             for ($i = 0; $i < $seq[2]; ++$i) {
                                 $char = $seq[1][$i];
                                 $charId = ord($char);
-                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncA[$charId] : strpos($keysA, (string) $char);
+                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncA[$charId] : strpos($keysA, $char);
                             }
 
                             break;
@@ -1545,12 +1543,12 @@ final class Base1DBarcode
                         case 'B':
                             if ($key == 0) {
                                 $tmpchr = ord($seq[1][0]);
-                                if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[($key + 1)]) && ($sequence[($key + 1)][0] != 'B')) {
-                                    if ($sequence[($key + 1)][0] == 'A') {
+                                if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[1]) && ($sequence[1][0] != 'B')) {
+                                    if ($sequence[1][0] == 'A') {
                                         $startid = 103;
                                         $sequence[$key][0] = 'A';
                                         $codeData[] = $fncA[$tmpchr];
-                                    } elseif ($sequence[($key + 1)][0] == 'C') {
+                                    } elseif ($sequence[1][0] == 'C') {
                                         $startid = 105;
                                         $sequence[$key][0] = 'C';
                                         $codeData[] = $fncA[$tmpchr];
@@ -1574,7 +1572,7 @@ final class Base1DBarcode
                             for ($i = 0; $i < $seq[2]; ++$i) {
                                 $char = $seq[1][$i];
                                 $charId = ord($char);
-                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncB[$charId] : strpos($keysB, (string) $char);
+                                $codeData[] = ($charId >= 241) && ($charId <= 244) ? $fncB[$charId] : strpos($keysB, $char);
                             }
 
                             break;
@@ -2607,7 +2605,6 @@ final class Base1DBarcode
 
             default:
                 return false;
-                break;
         }
 
         $binaryCode = bcmul((string) $binaryCode, (string) 10);
@@ -2649,8 +2646,8 @@ final class Base1DBarcode
         // convert codewords to characters
         $characters = [];
         $bitmask = 512;
-        foreach ($codewords as $val) {
-            $chrcode = $val <= 1286 ? $table5of13[$val] : $table2of13[($val - 1287)];
+        foreach ($codewords as $codeword) {
+            $chrcode = $codeword <= 1286 ? $table5of13[$codeword] : $table2of13[($codeword - 1287)];
 
             if (($fcs & $bitmask) > 0) {
                 // bitwise invert

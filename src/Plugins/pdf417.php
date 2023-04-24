@@ -4196,13 +4196,11 @@ final class pdf417
         $barcodeArray['num_rows'] = ($rows * self::ROWHEIGHT) + (2 * self::QUIETV);
         $barcodeArray['num_cols'] = (($cols + 2) * 17) + 35 + (2 * self::QUIETH);
         $barcodeArray['bcode'] = [];
+        $emptyRow = array_fill(0, $barcodeArray['num_cols'], 0);
         // build rows for vertical quiet zone
-        if (self::QUIETV > 0) {
-            $emptyRow = array_fill(0, $barcodeArray['num_cols'], 0);
-            for ($i = 0; $i < self::QUIETV; ++$i) {
-                // add vertical quiet rows
-                $barcodeArray['bcode'][] = $emptyRow;
-            }
+        for ($i = 0; $i < self::QUIETV; ++$i) {
+            // add vertical quiet rows
+            $barcodeArray['bcode'][] = $emptyRow;
         }
 
         $k = 0; // codeword index
@@ -4264,11 +4262,9 @@ final class pdf417
             }
         }
 
-        if (self::QUIETV > 0) {
-            for ($i = 0; $i < self::QUIETV; ++$i) {
-                // add vertical quiet rows
-                $barcodeArray['bcode'][] = $emptyRow;
-            }
+        for ($i = 0; $i < self::QUIETV; ++$i) {
+            // add vertical quiet rows
+            $barcodeArray['bcode'][] = $emptyRow;
         }
 
         $this->barcodeArray = $barcodeArray;

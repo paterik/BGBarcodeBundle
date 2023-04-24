@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class BarcodeBundle extends Bundle
 {
-    public function build(ContainerBuilder $container): void
+    public function build(ContainerBuilder $containerBuilder): void
     {
-        parent::build($container);
+        parent::build($containerBuilder);
     }
 }
